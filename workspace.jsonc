@@ -41,7 +41,9 @@
       "dependencies": {
         "@pnpm/error": "3.0.1",
         "@pnpm/prepare": "0.0.40",
-        "safe-execa": "0.1.1"
+        "@types/string.prototype.matchall": "4.0.1",
+        "safe-execa": "0.1.1",
+        "string.prototype.matchall": "4.0.7"
       },
       "peerDependencies": {}
     }
@@ -57,11 +59,28 @@
     /**
      * "*" is a special rule which applied on all components in the workspace.
      **/
-    "*": {
-      /**
-       * uncomment to apply the chosen environment on all components.
-       **/
-      // "teambit.react/react": { }
+    "os": {
+      "teambit.pkg/pkg": {
+        "packageManagerPublishArgs": [
+          "--access public"
+        ],
+        "packageJson": {
+          "name": "@pnpm/{scope}.{name}",
+          "private": false,
+          "license": "MIT",
+          "engines": {
+            "node": ">=14.19"
+          },
+          "repository": {
+            "type": "git",
+            "url": "https://github.com/pnpm/components"
+          },
+          "keywords": [],
+          "publishConfig": {
+            "registry": "https://registry.npmjs.org/"
+          }
+        }
+      }
     }
   }
 }

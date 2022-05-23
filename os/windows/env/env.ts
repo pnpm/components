@@ -1,4 +1,5 @@
 import PnpmError from '@pnpm/error'
+import matchAll from 'string.prototype.matchall'
 import { win32 as path } from 'path'
 import execa from 'safe-execa'
 
@@ -93,7 +94,7 @@ async function getRegistryOutput (): Promise<string> {
 
 async function getEnvValueFromRegistry (registryOutput: string, envVarName: string): Promise<string | undefined> {
   const regexp = new RegExp(`^ {4}(?<name>${envVarName}) {4}(?<type>\\w+) {4}(?<data>.*)$`, 'gim')
-  const match = Array.from(registryOutput.matchAll(regexp))[0] as IEnvironmentValueMatch
+  const match = Array.from(matchAll(registryOutput, regexp))[0] as IEnvironmentValueMatch
   return match?.groups.data
 }
 

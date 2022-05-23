@@ -10,17 +10,10 @@
 
 {
     "windows/env": {
-        "scope": "",
-        "version": "",
-        "defaultScope": "bit.os",
+        "scope": "pnpm.os",
+        "version": "0.0.1",
         "mainFile": "index.ts",
-        "rootDir": "os/windows/env",
-        "config": {
-            "teambit.harmony/node": {},
-            "teambit.envs/envs": {
-                "env": "teambit.harmony/node"
-            }
-        }
+        "rootDir": "os/windows/env"
     },
     "$schema-version": "14.9.0"
 }
