@@ -1,0 +1,1 @@
+export { setupWindowsEnvironmentPath } from './env';
