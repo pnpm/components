@@ -15,7 +15,13 @@ type IEnvironmentValueMatch = { groups: { name: string, type: string, data: stri
 
 const REG_KEY = 'HKEY_CURRENT_USER\\Environment'
 
-export async function setupWindowsEnvironmentPath (pnpmHomeDir: string, opts: { force: boolean } = { force: false }): Promise<string> {
+export interface SetupWindowsEnvironmentPathOpts {
+  envVarName?: string
+  prependedDir: string
+  force?: boolean
+}
+
+export async function setupWindowsEnvironmentPath (opts: SetupWindowsEnvironmentPathOpts): Promise<string> {
   // Use `chcp` to make `reg` use utf8 encoding for output.
   // Otherwise, the non-ascii characters in the environment variables will become garbled characters.
   const chcpResult = await execa('chcp')
@@ -26,17 +32,22 @@ export async function setupWindowsEnvironmentPath (pnpmHomeDir: string, opts: { 
   }
   await execa('chcp', ['65001'])
   try {
-    return await _setupWindowsEnvironmentPath(path.normalize(pnpmHomeDir), opts)
+    return await _setupWindowsEnvironmentPath(opts)
   } finally {
     await execa('chcp', [cpBak.toString()])
   }
 }
 
-async function _setupWindowsEnvironmentPath (pnpmHomeDir: string, opts: { force: boolean }): Promise<string> {
+async function _setupWindowsEnvironmentPath (opts: SetupWindowsEnvironmentPathOpts): Promise<string> {
+  const prependedDir = path.normalize(opts.prependedDir)
   const registryOutput = await getRegistryOutput()
   const logger: string[] = []
-  logger.push(logEnvUpdate(await updateEnvVariable(registryOutput, 'PNPM_HOME', pnpmHomeDir, opts), 'PNPM_HOME'))
-  logger.push(logEnvUpdate(await prependToPath(registryOutput, '%PNPM_HOME%'), 'Path'))
+  if (opts.envVarName) {
+    logger.push(logEnvUpdate(await updateEnvVariable(registryOutput, opts.envVarName, prependedDir, { force: opts.force }), opts.envVarName))
+    logger.push(logEnvUpdate(await prependToPath(registryOutput, `%${opts.envVarName}%`), 'Path'))
+  } else {
+    logger.push(logEnvUpdate(await prependToPath(registryOutput, prependedDir), 'Path'))
+  }
 
   return logger.join('\n')
 }
