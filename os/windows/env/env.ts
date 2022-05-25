@@ -15,10 +15,13 @@ type IEnvironmentValueMatch = { groups: { name: string, type: string, data: stri
 
 const REG_KEY = 'HKEY_CURRENT_USER\\Environment'
 
+export type AddingPosition = 'start' | 'end'
+
 export interface SetupWindowsEnvironmentPathOpts {
   envVarName?: string
-  prependedDir: string
-  force?: boolean
+  addedDir: string
+  overwrite?: boolean
+  position?: AddingPosition
 }
 
 export async function setupWindowsEnvironmentPath (opts: SetupWindowsEnvironmentPathOpts): Promise<string> {
@@ -39,14 +42,14 @@ export async function setupWindowsEnvironmentPath (opts: SetupWindowsEnvironment
 }
 
 async function _setupWindowsEnvironmentPath (opts: SetupWindowsEnvironmentPathOpts): Promise<string> {
-  const prependedDir = path.normalize(opts.prependedDir)
+  const addedDir = path.normalize(opts.addedDir)
   const registryOutput = await getRegistryOutput()
   const logger: string[] = []
   if (opts.envVarName) {
-    logger.push(logEnvUpdate(await updateEnvVariable(registryOutput, opts.envVarName, prependedDir, { force: opts.force }), opts.envVarName))
-    logger.push(logEnvUpdate(await prependToPath(registryOutput, `%${opts.envVarName}%`), 'Path'))
+    logger.push(logEnvUpdate(await updateEnvVariable(registryOutput, opts.envVarName, addedDir, { overwrite: opts.overwrite }), opts.envVarName))
+    logger.push(logEnvUpdate(await addToPath(registryOutput, `%${opts.envVarName}%`, opts.position), 'Path'))
   } else {
-    logger.push(logEnvUpdate(await prependToPath(registryOutput, prependedDir), 'Path'))
+    logger.push(logEnvUpdate(await addToPath(registryOutput, addedDir, opts.position), 'Path'))
   }
 
   return logger.join('\n')
@@ -60,9 +63,9 @@ function logEnvUpdate (envUpdateResult: 'skipped' | 'updated', envName: string):
   return ''
 }
 
-async function updateEnvVariable (registryOutput: string, name: string, value: string, opts: { force: boolean }) {
+async function updateEnvVariable (registryOutput: string, name: string, value: string, opts: { overwrite: boolean }) {
   const currentValue = await getEnvValueFromRegistry(registryOutput, name)
-  if (currentValue && !opts.force) {
+  if (currentValue && !opts.overwrite) {
     if (currentValue !== value) {
       throw new BadEnvVariableError({ envName: name, currentValue, wantedValue: value })
     }
@@ -73,14 +76,16 @@ async function updateEnvVariable (registryOutput: string, name: string, value: s
   }
 }
 
-async function prependToPath (registryOutput: string, prependDir: string) {
+async function addToPath (registryOutput: string, addedDir: string, position: AddingPosition = 'start') {
   const pathData = await getEnvValueFromRegistry(registryOutput, 'Path')
   if (pathData === undefined || pathData == null || pathData.trim() === '') {
     throw new PnpmError('NO_PATH', '"Path" environment variable is not found in the registry')
-  } else if (pathData.split(path.delimiter).includes(prependDir)) {
+  } else if (pathData.split(path.delimiter).includes(addedDir)) {
     return 'skipped'
   } else {
-    const newPathValue = `${prependDir}${path.delimiter}${pathData}`
+    const newPathValue = position === 'start'
+      ? `${addedDir}${path.delimiter}${pathData}`
+      : `${pathData}${path.delimiter}${addedDir}`
     await setEnvVarInRegistry('Path', newPathValue)
     return 'updated'
   }
