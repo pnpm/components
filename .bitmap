@@ -9,6 +9,19 @@
  */
 
 {
+    "posix/env": {
+        "scope": "",
+        "version": "",
+        "defaultScope": "pnpm.os",
+        "mainFile": "index.ts",
+        "rootDir": "os/posix/env",
+        "config": {
+            "teambit.harmony/node": {},
+            "teambit.envs/envs": {
+                "env": "teambit.harmony/node"
+            }
+        }
+    },
     "windows/env": {
         "scope": "pnpm.os",
         "version": "0.0.1",
