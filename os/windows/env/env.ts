@@ -4,10 +4,14 @@ import { win32 as path } from 'path'
 import execa from 'safe-execa'
 
 class BadEnvVariableError extends PnpmError {
+  public envName: string
+  public wantedValue: string
+  public currentValue: string
   constructor ({ envName, wantedValue, currentValue }: { envName: string, wantedValue: string, currentValue: string }) {
-    super('BAD_ENV_FOUND', `Currently '${envName}' is set to '${wantedValue}'`, {
-      hint: `If you want to override the existing ${envName} env variable, use the --force option`,
-    })
+    super('BAD_ENV_FOUND', `Currently '${envName}' is set to '${wantedValue}'`)
+    this.envName = envName
+    this.wantedValue = wantedValue
+    this.currentValue = currentValue
   }
 }
 
