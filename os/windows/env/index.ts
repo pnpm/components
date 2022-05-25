@@ -1,1 +1,1 @@
-export { setupWindowsEnvironmentPath } from './env';
+export { addDirToWindowsEnvPath } from './env';

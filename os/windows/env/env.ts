@@ -4,10 +4,14 @@ import { win32 as path } from 'path'
 import execa from 'safe-execa'
 
 class BadEnvVariableError extends PnpmError {
+  public envName: string
+  public wantedValue: string
+  public currentValue: string
   constructor ({ envName, wantedValue, currentValue }: { envName: string, wantedValue: string, currentValue: string }) {
-    super('BAD_ENV_FOUND', `Currently '${envName}' is set to '${wantedValue}'`, {
-      hint: `If you want to override the existing ${envName} env variable, use the --force option`,
-    })
+    super('BAD_ENV_FOUND', `Currently '${envName}' is set to '${wantedValue}'`)
+    this.envName = envName
+    this.wantedValue = wantedValue
+    this.currentValue = currentValue
   }
 }
 
@@ -15,7 +19,15 @@ type IEnvironmentValueMatch = { groups: { name: string, type: string, data: stri
 
 const REG_KEY = 'HKEY_CURRENT_USER\\Environment'
 
-export async function setupWindowsEnvironmentPath (pnpmHomeDir: string, opts: { force: boolean } = { force: false }): Promise<string> {
+export type AddingPosition = 'start' | 'end'
+
+export interface AddDirToWindowsEnvPathOpts {
+  proxyVarName?: string
+  overwriteProxyVar?: boolean
+  position?: AddingPosition
+}
+
+export async function addDirToWindowsEnvPath (dir: string, opts?: AddDirToWindowsEnvPathOpts): Promise<string> {
   // Use `chcp` to make `reg` use utf8 encoding for output.
   // Otherwise, the non-ascii characters in the environment variables will become garbled characters.
   const chcpResult = await execa('chcp')
@@ -26,17 +38,22 @@ export async function setupWindowsEnvironmentPath (pnpmHomeDir: string, opts: { 
   }
   await execa('chcp', ['65001'])
   try {
-    return await _setupWindowsEnvironmentPath(path.normalize(pnpmHomeDir), opts)
+    return await _addDirToWindowsEnvPath(dir, opts)
   } finally {
     await execa('chcp', [cpBak.toString()])
   }
 }
 
-async function _setupWindowsEnvironmentPath (pnpmHomeDir: string, opts: { force: boolean }): Promise<string> {
+async function _addDirToWindowsEnvPath (dir: string, opts: AddDirToWindowsEnvPathOpts = {}): Promise<string> {
+  const addedDir = path.normalize(dir)
   const registryOutput = await getRegistryOutput()
   const logger: string[] = []
-  logger.push(logEnvUpdate(await updateEnvVariable(registryOutput, 'PNPM_HOME', pnpmHomeDir, opts), 'PNPM_HOME'))
-  logger.push(logEnvUpdate(await prependToPath(registryOutput, '%PNPM_HOME%'), 'Path'))
+  if (opts.proxyVarName) {
+    logger.push(logEnvUpdate(await updateEnvVariable(registryOutput, opts.proxyVarName, addedDir, { overwrite: opts.overwriteProxyVar }), opts.proxyVarName))
+    logger.push(logEnvUpdate(await addToPath(registryOutput, `%${opts.proxyVarName}%`, opts.position), 'Path'))
+  } else {
+    logger.push(logEnvUpdate(await addToPath(registryOutput, addedDir, opts.position), 'Path'))
+  }
 
   return logger.join('\n')
 }
@@ -49,9 +66,9 @@ function logEnvUpdate (envUpdateResult: 'skipped' | 'updated', envName: string):
   return ''
 }
 
-async function updateEnvVariable (registryOutput: string, name: string, value: string, opts: { force: boolean }) {
+async function updateEnvVariable (registryOutput: string, name: string, value: string, opts: { overwrite: boolean }) {
   const currentValue = await getEnvValueFromRegistry(registryOutput, name)
-  if (currentValue && !opts.force) {
+  if (currentValue && !opts.overwrite) {
     if (currentValue !== value) {
       throw new BadEnvVariableError({ envName: name, currentValue, wantedValue: value })
     }
@@ -62,14 +79,16 @@ async function updateEnvVariable (registryOutput: string, name: string, value: s
   }
 }
 
-async function prependToPath (registryOutput: string, prependDir: string) {
+async function addToPath (registryOutput: string, addedDir: string, position: AddingPosition = 'start') {
   const pathData = await getEnvValueFromRegistry(registryOutput, 'Path')
   if (pathData === undefined || pathData == null || pathData.trim() === '') {
     throw new PnpmError('NO_PATH', '"Path" environment variable is not found in the registry')
-  } else if (pathData.split(path.delimiter).includes(prependDir)) {
+  } else if (pathData.split(path.delimiter).includes(addedDir)) {
     return 'skipped'
   } else {
-    const newPathValue = `${prependDir}${path.delimiter}${pathData}`
+    const newPathValue = position === 'start'
+      ? `${addedDir}${path.delimiter}${pathData}`
+      : `${pathData}${path.delimiter}${addedDir}`
     await setEnvVarInRegistry('Path', newPathValue)
     return 'updated'
   }
