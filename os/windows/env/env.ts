@@ -18,8 +18,8 @@ const REG_KEY = 'HKEY_CURRENT_USER\\Environment'
 export type AddingPosition = 'start' | 'end'
 
 export interface AddDirToWindowsEnvPathOpts {
-  envVarName?: string
-  overwrite?: boolean
+  proxyVarName?: string
+  overwriteProxyVar?: boolean
   position?: AddingPosition
 }
 
@@ -44,9 +44,9 @@ async function _addDirToWindowsEnvPath (dir: string, opts: AddDirToWindowsEnvPat
   const addedDir = path.normalize(dir)
   const registryOutput = await getRegistryOutput()
   const logger: string[] = []
-  if (opts.envVarName) {
-    logger.push(logEnvUpdate(await updateEnvVariable(registryOutput, opts.envVarName, addedDir, { overwrite: opts.overwrite }), opts.envVarName))
-    logger.push(logEnvUpdate(await addToPath(registryOutput, `%${opts.envVarName}%`, opts.position), 'Path'))
+  if (opts.proxyVarName) {
+    logger.push(logEnvUpdate(await updateEnvVariable(registryOutput, opts.proxyVarName, addedDir, { overwrite: opts.overwriteProxyVar }), opts.proxyVarName))
+    logger.push(logEnvUpdate(await addToPath(registryOutput, `%${opts.proxyVarName}%`, opts.position), 'Path'))
   } else {
     logger.push(logEnvUpdate(await addToPath(registryOutput, addedDir, opts.position), 'Path'))
   }

@@ -46,7 +46,7 @@ test('win32 registry environment values could not be retrieved', async () => {
     stdout: '',
   }).mockRejectedValue(createExecaError({ stderr: 'ERROR: Some error' }))
 
-  await expect(addDirToWindowsEnvPath(tempDir(false), { envVarName: 'PNPM_HOME' }))
+  await expect(addDirToWindowsEnvPath(tempDir(false), { proxyVarName: 'PNPM_HOME' }))
     .rejects.toThrow()
 })
 
@@ -63,7 +63,7 @@ test('environment Path is not configured correctly', async () => {
   })
 
   await expect(
-    addDirToWindowsEnvPath(tempDir(false), { envVarName: 'PNPM_HOME' })
+    addDirToWindowsEnvPath(tempDir(false), { proxyVarName: 'PNPM_HOME' })
   ).rejects.toThrow(/"Path" environment variable is not found/)
 
   expect(execa).toHaveBeenNthCalledWith(3, 'reg', ['query', regKey], { windowsHide: false })
@@ -88,7 +88,7 @@ HKEY_CURRENT_USER\\Environment
   })
 
   await expect(
-    addDirToWindowsEnvPath(tempDir(false), { envVarName: 'PNPM_HOME' })
+    addDirToWindowsEnvPath(tempDir(false), { proxyVarName: 'PNPM_HOME' })
   ).rejects.toThrow(/"Path" environment variable is not found/)
 
   expect(execa).toHaveBeenNthCalledWith(3, 'reg', ['query', regKey], { windowsHide: false })
@@ -125,7 +125,7 @@ HKEY_CURRENT_USER\\Environment
 
   const pnpmHomeDir = tempDir(false)
   const pnpmHomeDirNormalized = path.normalize(pnpmHomeDir)
-  const output = await addDirToWindowsEnvPath(pnpmHomeDir, { envVarName: 'PNPM_HOME' })
+  const output = await addDirToWindowsEnvPath(pnpmHomeDir, { proxyVarName: 'PNPM_HOME' })
 
   expect(execa).toHaveBeenNthCalledWith(3, 'reg', ['query', regKey], { windowsHide: false })
   expect(execa).toHaveBeenNthCalledWith(4, 'reg', ['add', regKey, '/v', 'PNPM_HOME', '/t', 'REG_EXPAND_SZ', '/d', pnpmHomeDirNormalized, '/f'], { windowsHide: false })
@@ -242,7 +242,7 @@ HKEY_CURRENT_USER\\Environment
     stderr: 'UNEXPECTED',
   })
 
-  const output = await addDirToWindowsEnvPath(pnpmHomeDir, { envVarName: 'PNPM_HOME' })
+  const output = await addDirToWindowsEnvPath(pnpmHomeDir, { proxyVarName: 'PNPM_HOME' })
 
   expect(execa).toHaveBeenNthCalledWith(3, 'reg', ['query', regKey], { windowsHide: false })
   expect(execa).toHaveBeenNthCalledWith(4, 'reg', ['add', regKey, '/v', 'Path', '/t', 'REG_EXPAND_SZ', '/d', `%PNPM_HOME%;${currentPathInRegistry}`, '/f'], { windowsHide: false })
@@ -272,7 +272,7 @@ HKEY_CURRENT_USER\\Environment
 
   const pnpmHomeDir = tempDir(false)
   await expect(
-    addDirToWindowsEnvPath(pnpmHomeDir, { envVarName: 'PNPM_HOME' })
+    addDirToWindowsEnvPath(pnpmHomeDir, { proxyVarName: 'PNPM_HOME' })
   ).rejects.toThrowError(/Currently 'PNPM_HOME' is set to/)
 })
 
@@ -312,8 +312,8 @@ HKEY_CURRENT_USER\\Environment
   const pnpmHomeDir = tempDir(false)
   const pnpmHomeDirNormalized = path.normalize(pnpmHomeDir)
   const output = await addDirToWindowsEnvPath(pnpmHomeDir, {
-    envVarName: 'PNPM_HOME',
-    overwrite: true,
+    proxyVarName: 'PNPM_HOME',
+    overwriteProxyVar: true,
   })
 
   expect(execa).toHaveBeenNthCalledWith(3, 'reg', ['query', regKey], { windowsHide: false })
