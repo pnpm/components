@@ -17,14 +17,13 @@ const REG_KEY = 'HKEY_CURRENT_USER\\Environment'
 
 export type AddingPosition = 'start' | 'end'
 
-export interface SetupWindowsEnvironmentPathOpts {
+export interface AddDirToWindowsEnvPathOpts {
   envVarName?: string
-  addedDir: string
   overwrite?: boolean
   position?: AddingPosition
 }
 
-export async function setupWindowsEnvironmentPath (opts: SetupWindowsEnvironmentPathOpts): Promise<string> {
+export async function addDirToWindowsEnvPath (dir: string, opts?: AddDirToWindowsEnvPathOpts): Promise<string> {
   // Use `chcp` to make `reg` use utf8 encoding for output.
   // Otherwise, the non-ascii characters in the environment variables will become garbled characters.
   const chcpResult = await execa('chcp')
@@ -35,14 +34,14 @@ export async function setupWindowsEnvironmentPath (opts: SetupWindowsEnvironment
   }
   await execa('chcp', ['65001'])
   try {
-    return await _setupWindowsEnvironmentPath(opts)
+    return await _addDirToWindowsEnvPath(dir, opts)
   } finally {
     await execa('chcp', [cpBak.toString()])
   }
 }
 
-async function _setupWindowsEnvironmentPath (opts: SetupWindowsEnvironmentPathOpts): Promise<string> {
-  const addedDir = path.normalize(opts.addedDir)
+async function _addDirToWindowsEnvPath (dir: string, opts: AddDirToWindowsEnvPathOpts = {}): Promise<string> {
+  const addedDir = path.normalize(dir)
   const registryOutput = await getRegistryOutput()
   const logger: string[] = []
   if (opts.envVarName) {
