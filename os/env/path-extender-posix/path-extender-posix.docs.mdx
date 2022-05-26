@@ -8,7 +8,7 @@ description: 'A module for adding environment variables on Linux and macOS'
 This adds a `PNPM_HOME` environment variable with the specified directory. And prepends the value of `PNPM_HOME` to the `PATH`:
 
 ```ts
-import { addDirToPosixEnvPath } from '@pnpm/os.posix.env'
+import { addDirToPosixEnvPath } from '@pnpm/os.env.path-extender-posix'
 
 await addDirToPosixEnvPath('/home/user/.local/share/pnpm', {
   // This is optional as 'start' is the default value.
@@ -27,7 +27,7 @@ await addDirToPosixEnvPath('/home/user/.local/share/pnpm', {
 This prepends `/home/user/.local/share/pnpm` to the `PATH` (no additional environment variable is created:
 
 ```ts
-import { addDirToPosixEnvPath } from '@pnpm/os.posix.env'
+import { addDirToPosixEnvPath } from '@pnpm/os.env.path-extender-posix'
 
 await addDirToPosixEnvPath('/home/user/.local/share/pnpm')
 //> Path=/home/user/.local/share/pnpm:/foo:/bar

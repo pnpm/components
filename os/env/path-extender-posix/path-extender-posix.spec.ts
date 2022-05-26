@@ -3,7 +3,7 @@ import path from 'path'
 
 import { homedir } from 'os'
 import { tempDir } from '@pnpm/prepare'
-import { addDirToPosixEnvPath } from './env'
+import { addDirToPosixEnvPath } from './path-extender-posix'
 
 jest.mock('os', () => {
   const os = jest.requireActual('os')
