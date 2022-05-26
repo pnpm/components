@@ -46,7 +46,9 @@
         "string.prototype.matchall": "4.0.7"
       },
       "peerDependencies": {}
-    }
+    },
+    "engineStrict": true,
+    "nodeVersion": "12.22.0"
   },
   /**
    * workspace variants allow to set different subsets of configuration for components in your
@@ -69,7 +71,7 @@
           "private": false,
           "license": "MIT",
           "engines": {
-            "node": ">=14.19"
+            "node": ">=12.22.0"
           },
           "repository": {
             "type": "git",
