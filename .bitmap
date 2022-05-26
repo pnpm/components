@@ -9,6 +9,19 @@
  */
 
 {
+    "env/path-extender": {
+        "scope": "",
+        "version": "",
+        "defaultScope": "pnpm.os",
+        "mainFile": "index.ts",
+        "rootDir": "os/env/path-extender",
+        "config": {
+            "teambit.harmony/node": {},
+            "teambit.envs/envs": {
+                "env": "teambit.harmony/node"
+            }
+        }
+    },
     "env/path-extender-posix": {
         "scope": "",
         "version": "",

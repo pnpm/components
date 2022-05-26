@@ -17,7 +17,7 @@ export type AddingPosition = 'start' | 'end'
 
 export interface AddDirToPosixEnvPathOpts {
   proxyVarName?: string
-  overwriteProxyVar?: boolean
+  overwrite?: boolean
   position?: AddingPosition
   configSectionName: string
 }
@@ -138,7 +138,7 @@ async function updateShellConfig (
     return 'added'
   }
   if (match[0] !== newContent) {
-    if (!opts.overwriteProxyVar) {
+    if (!opts.overwrite) {
       throw new BadShellSectionError({ current: match[1], wanted: newContent, configFile })
     }
     const newConfigContent = replaceSection(configContent, newContent, opts.configSectionName)

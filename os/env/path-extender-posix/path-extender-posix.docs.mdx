@@ -1,7 +1,9 @@
 ---
 labels: ['os', 'linux', 'macos', 'unix', 'posix', 'environment']
-description: 'A module for adding environment variables on Linux and macOS'
+description: 'A module for adding a new directory to the PATH environment variable on Linux and macOS'
 ---
+
+This module detects the active shell and updates its config file to extend the value of the PATH environment variable. Supported shells are: bash, zsh, and fish.
 
 ## Usage
 
@@ -18,10 +20,13 @@ await addDirToPosixEnvPath('/home/user/.local/share/pnpm', {
   // If not set, no additional env variable is used.
   proxyVarName: 'PNPM_HOME',
   // If PNPM_HOME already exist, overwrite it
-  overwriteProxyVar: true,
+  overwrite: true,
+  configSectionName: 'pnpm',
 })
-//> PNPM_HOME=/home/user/.local/share/pnpm
+//> # pnpm
+//  PNPM_HOME=/home/user/.local/share/pnpm
 //  Path=$PNPM_HOME:/foo:/bar
+//  # pnpm end
 ```
 
 This prepends `/home/user/.local/share/pnpm` to the `PATH` (no additional environment variable is created:
@@ -29,6 +34,10 @@ This prepends `/home/user/.local/share/pnpm` to the `PATH` (no additional enviro
 ```ts
 import { addDirToPosixEnvPath } from '@pnpm/os.env.path-extender-posix'
 
-await addDirToPosixEnvPath('/home/user/.local/share/pnpm')
-//> Path=/home/user/.local/share/pnpm:/foo:/bar
+await addDirToPosixEnvPath('/home/user/.local/share/pnpm', {
+  configSectionName: 'pnpm',
+})
+//> # pnpm
+//  Path=/home/user/.local/share/pnpm:/foo:/bar
+//  # pnpm end
 ```

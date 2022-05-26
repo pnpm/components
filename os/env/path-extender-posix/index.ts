@@ -1,1 +1,1 @@
-export { addDirToPosixEnvPath } from './path-extender-posix';
+export { addDirToPosixEnvPath, AddDirToPosixEnvPathOpts } from './path-extender-posix';

@@ -106,7 +106,7 @@ export PATH="$PNPM_HOME:$PATH"
 # pnpm end`, 'utf8')
     const output = await addDirToPosixEnvPath(pnpmHomeDir, {
       proxyVarName: 'PNPM_HOME',
-      overwriteProxyVar: true,
+      overwrite: true,
       configSectionName: 'pnpm',
     })
     expect(output).toMatch(/^Replaced /)
@@ -247,7 +247,7 @@ set -gx PATH "$PNPM_HOME" $PATH
 # pnpm end`, 'utf8')
     const output = await addDirToPosixEnvPath(pnpmHomeDir, {
       proxyVarName: 'PNPM_HOME',
-      overwriteProxyVar: true,
+      overwrite: true,
       configSectionName: 'pnpm',
     })
     expect(output).toMatch(/^Replaced /)
