@@ -11,70 +11,30 @@
 {
     "env/path-extender": {
         "scope": "",
-        "version": "",
+        "version": "0.1.0",
         "defaultScope": "pnpm.os",
         "mainFile": "index.ts",
-        "rootDir": "os/env/path-extender",
-        "config": {
-            "teambit.harmony/node": {},
-            "teambit.envs/envs": {
-                "env": "teambit.harmony/node"
-            }
-        }
+        "rootDir": "os/env/path-extender"
     },
     "env/path-extender-posix": {
         "scope": "",
-        "version": "",
+        "version": "0.1.0",
         "defaultScope": "pnpm.os",
         "mainFile": "index.ts",
-        "rootDir": "os/env/path-extender-posix",
-        "config": {
-            "teambit.harmony/node": {},
-            "teambit.envs/envs": {
-                "env": "teambit.harmony/node"
-            }
-        }
+        "rootDir": "os/env/path-extender-posix"
     },
     "env/path-extender-windows": {
         "scope": "",
-        "version": "",
+        "version": "0.1.0",
         "defaultScope": "pnpm.os",
         "mainFile": "index.ts",
-        "rootDir": "os/env/path-extender-windows",
-        "config": {
-            "teambit.envs/envs": {
-                "env": "teambit.harmony/node"
-            },
-            "teambit.harmony/node": {},
-            "teambit.compilation/compiler": {},
-            "teambit.component/dev-files": {},
-            "teambit.compositions/compositions": {},
-            "teambit.docs/docs": {},
-            "teambit.dependencies/dependency-resolver": {},
-            "teambit.pipelines/builder": {},
-            "teambit.component/renaming": {
-                "renamedFrom": {
-                    "scope": "pnpm.os",
-                    "name": "windows/env",
-                    "version": "0.0.1"
-                }
-            }
-        }
+        "rootDir": "os/env/path-extender-windows"
     },
     "windows/env": {
         "scope": "pnpm.os",
-        "version": "0.0.1",
+        "version": "0.1.0",
         "mainFile": "index.ts",
-        "rootDir": "os/windows/env",
-        "config": {
-            "teambit.component/deprecation": {
-                "deprecate": true,
-                "newId": {
-                    "name": "env/path-extender-windows",
-                    "scope": "pnpm.os"
-                }
-            }
-        }
+        "rootDir": "os/windows/env"
     },
     "$schema-version": "14.9.0"
 }
