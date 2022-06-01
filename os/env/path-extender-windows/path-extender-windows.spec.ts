@@ -125,9 +125,9 @@ HKEY_CURRENT_USER\\Environment
 
   const pnpmHomeDir = tempDir(false)
   const pnpmHomeDirNormalized = path.normalize(pnpmHomeDir)
-  const output = await addDirToWindowsEnvPath(pnpmHomeDir, { proxyVarName: 'PNPM_HOME' })
+  const report = await addDirToWindowsEnvPath(pnpmHomeDir, { proxyVarName: 'PNPM_HOME' })
 
-  expect(output).toStrictEqual([
+  expect(report).toStrictEqual([
     {
       action: 'updated',
       variable: 'PNPM_HOME',
@@ -175,9 +175,9 @@ HKEY_CURRENT_USER\\Environment
 
   const pnpmHomeDir = tempDir(false)
   const pnpmHomeDirNormalized = path.normalize(pnpmHomeDir)
-  const output = await addDirToWindowsEnvPath(pnpmHomeDir)
+  const report = await addDirToWindowsEnvPath(pnpmHomeDir)
 
-  expect(output).toStrictEqual([
+  expect(report).toStrictEqual([
     {
       action: 'updated',
       variable: 'Path',
@@ -219,9 +219,9 @@ HKEY_CURRENT_USER\\Environment
 
   const pnpmHomeDir = tempDir(false)
   const pnpmHomeDirNormalized = path.normalize(pnpmHomeDir)
-  const output = await addDirToWindowsEnvPath(pnpmHomeDir, { position: 'end' })
+  const report = await addDirToWindowsEnvPath(pnpmHomeDir, { position: 'end' })
 
-  expect(output).toStrictEqual([
+  expect(report).toStrictEqual([
     {
       action: 'updated',
       variable: 'Path',
@@ -260,9 +260,9 @@ HKEY_CURRENT_USER\\Environment
     stderr: 'UNEXPECTED',
   })
 
-  const output = await addDirToWindowsEnvPath(pnpmHomeDir, { proxyVarName: 'PNPM_HOME' })
+  const report = await addDirToWindowsEnvPath(pnpmHomeDir, { proxyVarName: 'PNPM_HOME' })
 
-  expect(output).toStrictEqual([
+  expect(report).toStrictEqual([
     {
       variable: 'PNPM_HOME',
       action: 'skipped',
@@ -337,12 +337,12 @@ HKEY_CURRENT_USER\\Environment
 
   const pnpmHomeDir = tempDir(false)
   const pnpmHomeDirNormalized = path.normalize(pnpmHomeDir)
-  const output = await addDirToWindowsEnvPath(pnpmHomeDir, {
+  const report = await addDirToWindowsEnvPath(pnpmHomeDir, {
     proxyVarName: 'PNPM_HOME',
     overwriteProxyVar: true,
   })
 
-  expect(output).toStrictEqual([
+  expect(report).toStrictEqual([
     {
       variable: 'PNPM_HOME',
       action: 'updated',

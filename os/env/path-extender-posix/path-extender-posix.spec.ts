@@ -32,11 +32,11 @@ describe('Bash', () => {
   })
   it('should append to empty shell script', async () => {
     fs.writeFileSync(configFile, '', 'utf8')
-    const result = await addDirToPosixEnvPath(pnpmHomeDir, {
+    const report = await addDirToPosixEnvPath(pnpmHomeDir, {
       proxyVarName: 'PNPM_HOME',
       configSectionName: 'pnpm',
     })
-    expect(result).toStrictEqual({
+    expect(report).toStrictEqual({
       action: 'added',
       configFile,
     })
@@ -49,12 +49,12 @@ export PATH="$PNPM_HOME:$PATH"
   })
   it('should put the new directory to the end of the PATH', async () => {
     fs.writeFileSync(configFile, '', 'utf8')
-    const result = await addDirToPosixEnvPath(pnpmHomeDir, {
+    const report = await addDirToPosixEnvPath(pnpmHomeDir, {
       proxyVarName: 'PNPM_HOME',
       configSectionName: 'pnpm',
       position: 'end',
     })
-    expect(result).toStrictEqual({
+    expect(report).toStrictEqual({
       action: 'added',
       configFile,
     })
@@ -66,11 +66,11 @@ export PATH="$PATH:$PNPM_HOME"
 # pnpm end`)
   })
   it('should create a shell script', async () => {
-    const result = await addDirToPosixEnvPath(pnpmHomeDir, {
+    const report = await addDirToPosixEnvPath(pnpmHomeDir, {
       proxyVarName: 'PNPM_HOME',
       configSectionName: 'pnpm',
     })
-    expect(result).toStrictEqual({
+    expect(report).toStrictEqual({
       action: 'created',
       configFile,
     })
@@ -86,11 +86,11 @@ export PATH="$PNPM_HOME:$PATH"
 export PNPM_HOME="${pnpmHomeDir}"
 export PATH="$PNPM_HOME:$PATH"
 # pnpm end`, 'utf8')
-    const result = await addDirToPosixEnvPath(pnpmHomeDir, {
+    const report = await addDirToPosixEnvPath(pnpmHomeDir, {
       proxyVarName: 'PNPM_HOME',
       configSectionName: 'pnpm',
     })
-    expect(result).toStrictEqual({
+    expect(report).toStrictEqual({
       action: 'skipped',
       configFile,
     })
@@ -120,12 +120,12 @@ export PATH="$PNPM_HOME:$PATH"
 export PNPM_HOME="pnpm_home"
 export PATH="$PNPM_HOME:$PATH"
 # pnpm end`, 'utf8')
-    const result = await addDirToPosixEnvPath(pnpmHomeDir, {
+    const report = await addDirToPosixEnvPath(pnpmHomeDir, {
       proxyVarName: 'PNPM_HOME',
       overwrite: true,
       configSectionName: 'pnpm',
     })
-    expect(result).toStrictEqual({
+    expect(report).toStrictEqual({
       action: 'updated',
       configFile,
     })
@@ -148,11 +148,11 @@ describe('Zsh', () => {
   })
   it('should append to empty shell script', async () => {
     fs.writeFileSync(configFile, '', 'utf8')
-    const result = await addDirToPosixEnvPath(pnpmHomeDir, {
+    const report = await addDirToPosixEnvPath(pnpmHomeDir, {
       proxyVarName: 'PNPM_HOME',
       configSectionName: 'pnpm',
     })
-    expect(result).toStrictEqual({
+    expect(report).toStrictEqual({
       action: 'added',
       configFile,
     })
@@ -169,11 +169,11 @@ export PATH="$PNPM_HOME:$PATH"
 export PNPM_HOME="${pnpmHomeDir}"
 export PATH="$PNPM_HOME:$PATH"
 # pnpm end`, 'utf8')
-    const result = await addDirToPosixEnvPath(pnpmHomeDir, {
+    const report = await addDirToPosixEnvPath(pnpmHomeDir, {
       proxyVarName: 'PNPM_HOME',
       configSectionName: 'pnpm',
     })
-    expect(result).toStrictEqual({
+    expect(report).toStrictEqual({
       action: 'skipped',
       configFile,
     })
@@ -197,11 +197,11 @@ describe('Fish', () => {
   it('should append to empty shell script', async () => {
     fs.mkdirSync('.config/fish', { recursive: true })
     fs.writeFileSync(configFile, '', 'utf8')
-    const result = await addDirToPosixEnvPath(pnpmHomeDir, {
+    const report = await addDirToPosixEnvPath(pnpmHomeDir, {
       proxyVarName: 'PNPM_HOME',
       configSectionName: 'pnpm',
     })
-    expect(result).toStrictEqual({
+    expect(report).toStrictEqual({
       action: 'added',
       configFile,
     })
@@ -215,12 +215,12 @@ set -gx PATH "$PNPM_HOME" $PATH
   it('should add the new dir to the end of PATH', async () => {
     fs.mkdirSync('.config/fish', { recursive: true })
     fs.writeFileSync(configFile, '', 'utf8')
-    const result = await addDirToPosixEnvPath(pnpmHomeDir, {
+    const report = await addDirToPosixEnvPath(pnpmHomeDir, {
       proxyVarName: 'PNPM_HOME',
       configSectionName: 'pnpm',
       position: 'end',
     })
-    expect(result).toStrictEqual({
+    expect(report).toStrictEqual({
       action: 'added',
       configFile,
     })
@@ -232,11 +232,11 @@ set -gx PATH $PATH "$PNPM_HOME"
 # pnpm end`)
   })
   it('should create a shell script', async () => {
-    const result = await addDirToPosixEnvPath(pnpmHomeDir, {
+    const report = await addDirToPosixEnvPath(pnpmHomeDir, {
       proxyVarName: 'PNPM_HOME',
       configSectionName: 'pnpm',
     })
-    expect(result).toStrictEqual({
+    expect(report).toStrictEqual({
       action: 'created',
       configFile,
     })
@@ -253,11 +253,11 @@ set -gx PATH "$PNPM_HOME" $PATH
 set -gx PNPM_HOME "${pnpmHomeDir}"
 set -gx PATH "$PNPM_HOME" $PATH
 # pnpm end`, 'utf8')
-    const result = await addDirToPosixEnvPath(pnpmHomeDir, {
+    const report = await addDirToPosixEnvPath(pnpmHomeDir, {
       proxyVarName: 'PNPM_HOME',
       configSectionName: 'pnpm',
     })
-    expect(result).toStrictEqual({
+    expect(report).toStrictEqual({
       action: 'skipped',
       configFile,
     })
@@ -289,12 +289,12 @@ set -gx PATH "$PNPM_HOME" $PATH
 set -gx PNPM_HOME "pnpm_home"
 set -gx PATH "$PNPM_HOME" $PATH
 # pnpm end`, 'utf8')
-    const result = await addDirToPosixEnvPath(pnpmHomeDir, {
+    const report = await addDirToPosixEnvPath(pnpmHomeDir, {
       proxyVarName: 'PNPM_HOME',
       overwrite: true,
       configSectionName: 'pnpm',
     })
-    expect(result).toStrictEqual({
+    expect(report).toStrictEqual({
       action: 'updated',
       configFile,
     })
