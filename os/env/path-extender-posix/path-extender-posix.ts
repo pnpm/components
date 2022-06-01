@@ -22,10 +22,20 @@ export interface AddDirToPosixEnvPathOpts {
   configSectionName: string
 }
 
+export type ShellType = 'zsh' | 'bash' | 'fish'
+
+export type ShellSetupAction = 'created' | 'added' | 'updated' | 'skipped'
+
+export interface PathExtenderPosixReport {
+  configFile: string
+  action: ShellSetupAction
+}
+
+
 export async function addDirToPosixEnvPath (
   dir: string,
   opts: AddDirToPosixEnvPathOpts
-) {
+): Promise<PathExtenderPosixReport> {
   const currentShell = detectCurrentShell()
   return await updateShell(currentShell, dir, opts)
 }
@@ -41,36 +51,21 @@ async function updateShell (
   currentShell: string | null,
   pnpmHomeDir: string,
   opts: AddDirToPosixEnvPathOpts
-): Promise<string> {
+): Promise<PathExtenderPosixReport> {
   switch (currentShell) {
   case 'bash':
   case 'zsh': {
-    return reportShellChange(await setupShell(currentShell, pnpmHomeDir, opts))
+    return setupShell(currentShell, pnpmHomeDir, opts)
   }
   case 'fish': {
-    return reportShellChange(await setupFishShell(pnpmHomeDir, opts))
+    return setupFishShell(pnpmHomeDir, opts)
   }
   }
-  return 'Could not infer shell type.'
+  if (currentShell == null) throw new PnpmError('UNKNOWN_SHELL', 'Could not infer shell type.')
+  throw new PnpmError('UNSUPPORTED_SHELL', `Can't setup configuration for "${currentShell}" shell. Supported shell languages are bash, zsh, and fish.`)
 }
 
-function reportShellChange ({ action, configFile }: ShellSetupResult): string {
-  switch (action) {
-  case 'created': return `Created ${configFile}`
-  case 'added': return `Appended new lines to ${configFile}`
-  case 'updated': return `Replaced configuration in ${configFile}`
-  case 'skipped': return `Configuration already up-to-date in ${configFile}`
-  }
-}
-
-type ShellSetupAction = 'created' | 'added' | 'updated' | 'skipped'
-
-interface ShellSetupResult {
-  configFile: string
-  action: ShellSetupAction
-}
-
-async function setupShell (shell: 'bash' | 'zsh', dir: string, opts: AddDirToPosixEnvPathOpts): Promise<ShellSetupResult> {
+async function setupShell (shell: 'bash' | 'zsh', dir: string, opts: AddDirToPosixEnvPathOpts): Promise<PathExtenderPosixReport> {
   const configFile = path.join(os.homedir(), `.${shell}rc`)
   let content!: string
   const _createPathValue = createPathValue.bind(null, opts.position ?? 'start')
@@ -96,7 +91,7 @@ function createPathValue (position: AddingPosition, dir: string) {
     : `$PATH:${dir}`
 }
 
-async function setupFishShell (dir: string, opts: AddDirToPosixEnvPathOpts): Promise<ShellSetupResult> {
+async function setupFishShell (dir: string, opts: AddDirToPosixEnvPathOpts): Promise<PathExtenderPosixReport> {
   const configFile = path.join(os.homedir(), '.config/fish/config.fish')
   let content!: string
   const _createPathValue = createFishPathValue.bind(null, opts.position ?? 'start')
@@ -128,6 +123,7 @@ async function updateShellConfig (
   opts: AddDirToPosixEnvPathOpts
 ): Promise<ShellSetupAction> {
   if (!fs.existsSync(configFile)) {
+    await fs.promises.mkdir(path.dirname(configFile), { recursive: true })
     await fs.promises.writeFile(configFile, newContent, 'utf8')
     return 'created'
   }

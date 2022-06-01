@@ -1,13 +1,22 @@
-import { addDirToPosixEnvPath,  AddDirToPosixEnvPathOpts } from '@pnpm/os.env.path-extender-posix'
-import { addDirToWindowsEnvPath } from '@pnpm/os.env.path-extender-windows'
+import { addDirToPosixEnvPath, AddDirToPosixEnvPathOpts, PathExtenderPosixReport } from '@pnpm/os.env.path-extender-posix'
+import { addDirToWindowsEnvPath, PathExtenderWindowsReport } from '@pnpm/os.env.path-extender-windows'
 
-export function addDirToEnvPath(dir: string, opts: AddDirToPosixEnvPathOpts) {
+export interface PathExtenderReport {
+  posixReport?: PathExtenderPosixReport
+  windowsReport?: PathExtenderWindowsReport
+}
+
+export async function addDirToEnvPath(dir: string, opts: AddDirToPosixEnvPathOpts): Promise<PathExtenderReport> {
   if (process.platform === 'win32') {
-    return addDirToWindowsEnvPath(dir, {
-      position: opts.position,
-      proxyVarName: opts.proxyVarName,
-      overwriteProxyVar: opts.overwrite,
-    })
+    return {
+      windowsReport: await addDirToWindowsEnvPath(dir, {
+        position: opts.position,
+        proxyVarName: opts.proxyVarName,
+        overwriteProxyVar: opts.overwrite,
+      }),
+    }
   }
-  return addDirToPosixEnvPath(dir, opts)
+  return {
+    posixReport: await addDirToPosixEnvPath(dir, opts),
+  }
 }

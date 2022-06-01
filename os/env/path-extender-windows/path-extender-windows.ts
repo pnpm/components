@@ -27,14 +27,21 @@ export interface AddDirToWindowsEnvPathOpts {
   position?: AddingPosition
 }
 
-export async function addDirToWindowsEnvPath (dir: string, opts?: AddDirToWindowsEnvPathOpts): Promise<string> {
+export interface EnvVariableChange {
+  variable: string,
+  action: EnvVariableChangeAction
+}
+
+export type PathExtenderWindowsReport = EnvVariableChange[]
+
+export async function addDirToWindowsEnvPath (dir: string, opts?: AddDirToWindowsEnvPathOpts): Promise<PathExtenderWindowsReport> {
   // Use `chcp` to make `reg` use utf8 encoding for output.
   // Otherwise, the non-ascii characters in the environment variables will become garbled characters.
   const chcpResult = await execa('chcp')
   const cpMatch = /\d+/.exec(chcpResult.stdout) ?? []
   const cpBak = parseInt(cpMatch[0])
   if (chcpResult.failed || !(cpBak > 0)) {
-    return `exec chcp failed: ${cpBak}, ${chcpResult.stderr}`
+    throw new PnpmError('CHCP', `exec chcp failed: ${cpBak}, ${chcpResult.stderr}`)
   }
   await execa('chcp', ['65001'])
   try {
@@ -44,18 +51,26 @@ export async function addDirToWindowsEnvPath (dir: string, opts?: AddDirToWindow
   }
 }
 
-async function _addDirToWindowsEnvPath (dir: string, opts: AddDirToWindowsEnvPathOpts = {}): Promise<string> {
+export type EnvVariableChangeAction = 'skipped' | 'updated'
+
+async function _addDirToWindowsEnvPath (dir: string, opts: AddDirToWindowsEnvPathOpts = {}): Promise<PathExtenderWindowsReport> {
   const addedDir = path.normalize(dir)
   const registryOutput = await getRegistryOutput()
-  const logger: string[] = []
+  const changes: PathExtenderWindowsReport = []
   if (opts.proxyVarName) {
-    logger.push(logEnvUpdate(await updateEnvVariable(registryOutput, opts.proxyVarName, addedDir, { overwrite: opts.overwriteProxyVar }), opts.proxyVarName))
-    logger.push(logEnvUpdate(await addToPath(registryOutput, `%${opts.proxyVarName}%`, opts.position), 'Path'))
+    changes.push(await updateEnvVariable(registryOutput, opts.proxyVarName, addedDir, { overwrite: opts.overwriteProxyVar }))
+    changes.push({
+      action: await addToPath(registryOutput, `%${opts.proxyVarName}%`, opts.position),
+      variable: 'Path',
+    })
   } else {
-    logger.push(logEnvUpdate(await addToPath(registryOutput, addedDir, opts.position), 'Path'))
+    changes.push({
+      action: await addToPath(registryOutput, addedDir, opts.position),
+      variable: 'Path',
+    })
   }
 
-  return logger.join('\n')
+  return changes
 }
 
 function logEnvUpdate (envUpdateResult: 'skipped' | 'updated', envName: string): string {
@@ -66,20 +81,20 @@ function logEnvUpdate (envUpdateResult: 'skipped' | 'updated', envName: string):
   return ''
 }
 
-async function updateEnvVariable (registryOutput: string, name: string, value: string, opts: { overwrite: boolean }) {
+async function updateEnvVariable (registryOutput: string, name: string, value: string, opts: { overwrite: boolean }): Promise<EnvVariableChange> {
   const currentValue = await getEnvValueFromRegistry(registryOutput, name)
   if (currentValue && !opts.overwrite) {
     if (currentValue !== value) {
       throw new BadEnvVariableError({ envName: name, currentValue, wantedValue: value })
     }
-    return 'skipped'
+    return { variable: name, action: 'skipped' }
   } else {
     await setEnvVarInRegistry(name, value)
-    return 'updated'
+    return { variable: name, action: 'updated' }
   }
 }
 
-async function addToPath (registryOutput: string, addedDir: string, position: AddingPosition = 'start') {
+async function addToPath (registryOutput: string, addedDir: string, position: AddingPosition = 'start'): Promise<EnvVariableChangeAction> {
   const pathData = await getEnvValueFromRegistry(registryOutput, 'Path')
   if (pathData === undefined || pathData == null || pathData.trim() === '') {
     throw new PnpmError('NO_PATH', '"Path" environment variable is not found in the registry')

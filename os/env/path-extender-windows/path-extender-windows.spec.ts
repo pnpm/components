@@ -127,13 +127,21 @@ HKEY_CURRENT_USER\\Environment
   const pnpmHomeDirNormalized = path.normalize(pnpmHomeDir)
   const output = await addDirToWindowsEnvPath(pnpmHomeDir, { proxyVarName: 'PNPM_HOME' })
 
+  expect(output).toStrictEqual([
+    {
+      action: 'updated',
+      variable: 'PNPM_HOME',
+    },
+    {
+      action: 'updated',
+      variable: 'Path',
+    },
+  ])
   expect(execa).toHaveBeenNthCalledWith(3, 'reg', ['query', regKey], { windowsHide: false })
   expect(execa).toHaveBeenNthCalledWith(4, 'reg', ['add', regKey, '/v', 'PNPM_HOME', '/t', 'REG_EXPAND_SZ', '/d', pnpmHomeDirNormalized, '/f'], { windowsHide: false })
   expect(execa).toHaveBeenNthCalledWith(5, 'setx', ['PNPM_HOME', pnpmHomeDirNormalized], { windowsHide: false })
   expect(execa).toHaveBeenNthCalledWith(6, 'reg', ['add', regKey, '/v', 'Path', '/t', 'REG_EXPAND_SZ', '/d', `%PNPM_HOME%;${currentPathInRegistry}`, '/f'], { windowsHide: false })
   expect(execa).toHaveBeenNthCalledWith(7, 'setx', ['Path', `%PNPM_HOME%;${currentPathInRegistry}`], { windowsHide: false })
-  expect(output).toContain('Path was updated')
-  expect(output).toContain('PNPM_HOME was updated')
 })
 
 test('successful first time installation when no additional env variable is used', async () => {
@@ -169,10 +177,15 @@ HKEY_CURRENT_USER\\Environment
   const pnpmHomeDirNormalized = path.normalize(pnpmHomeDir)
   const output = await addDirToWindowsEnvPath(pnpmHomeDir)
 
+  expect(output).toStrictEqual([
+    {
+      action: 'updated',
+      variable: 'Path',
+    },
+  ])
   expect(execa).toHaveBeenNthCalledWith(3, 'reg', ['query', regKey], { windowsHide: false })
   expect(execa).toHaveBeenNthCalledWith(4, 'reg', ['add', regKey, '/v', 'Path', '/t', 'REG_EXPAND_SZ', '/d', `${pnpmHomeDirNormalized};${currentPathInRegistry}`, '/f'], { windowsHide: false })
   expect(execa).toHaveBeenNthCalledWith(5, 'setx', ['Path', `${pnpmHomeDirNormalized};${currentPathInRegistry}`], { windowsHide: false })
-  expect(output).toContain('Path was updated')
 })
 
 test('adding the directory to the end of Path', async () => {
@@ -208,10 +221,15 @@ HKEY_CURRENT_USER\\Environment
   const pnpmHomeDirNormalized = path.normalize(pnpmHomeDir)
   const output = await addDirToWindowsEnvPath(pnpmHomeDir, { position: 'end' })
 
+  expect(output).toStrictEqual([
+    {
+      action: 'updated',
+      variable: 'Path',
+    },
+  ])
   expect(execa).toHaveBeenNthCalledWith(3, 'reg', ['query', regKey], { windowsHide: false })
   expect(execa).toHaveBeenNthCalledWith(4, 'reg', ['add', regKey, '/v', 'Path', '/t', 'REG_EXPAND_SZ', '/d', `${currentPathInRegistry};${pnpmHomeDirNormalized}`, '/f'], { windowsHide: false })
   expect(execa).toHaveBeenNthCalledWith(5, 'setx', ['Path', `${currentPathInRegistry};${pnpmHomeDirNormalized}`], { windowsHide: false })
-  expect(output).toContain('Path was updated')
 })
 
 test('PNPM_HOME is already set, but Path is updated', async () => {
@@ -244,11 +262,19 @@ HKEY_CURRENT_USER\\Environment
 
   const output = await addDirToWindowsEnvPath(pnpmHomeDir, { proxyVarName: 'PNPM_HOME' })
 
+  expect(output).toStrictEqual([
+    {
+      variable: 'PNPM_HOME',
+      action: 'skipped',
+    },
+    {
+      variable: 'Path',
+      action: 'updated',
+    },
+  ])
   expect(execa).toHaveBeenNthCalledWith(3, 'reg', ['query', regKey], { windowsHide: false })
   expect(execa).toHaveBeenNthCalledWith(4, 'reg', ['add', regKey, '/v', 'Path', '/t', 'REG_EXPAND_SZ', '/d', `%PNPM_HOME%;${currentPathInRegistry}`, '/f'], { windowsHide: false })
   expect(execa).toHaveBeenNthCalledWith(5, 'setx', ['Path', `%PNPM_HOME%;${currentPathInRegistry}`], { windowsHide: false })
-  expect(output).toContain('PNPM_HOME was already up-to-date')
-  expect(output).toContain('Path was updated')
 })
 
 test('setup throws an error if PNPM_HOME is already set to a different directory', async () => {
@@ -316,9 +342,18 @@ HKEY_CURRENT_USER\\Environment
     overwriteProxyVar: true,
   })
 
+  expect(output).toStrictEqual([
+    {
+      variable: 'PNPM_HOME',
+      action: 'updated',
+    },
+    {
+      variable: 'Path',
+      action: 'updated',
+    },
+  ])
   expect(execa).toHaveBeenNthCalledWith(3, 'reg', ['query', regKey], { windowsHide: false })
   expect(execa).toHaveBeenNthCalledWith(4, 'reg', ['add', regKey, '/v', 'PNPM_HOME', '/t', 'REG_EXPAND_SZ', '/d', pnpmHomeDirNormalized, '/f'], { windowsHide: false })
-  expect(output).toContain('PNPM_HOME was updated')
 })
 
 test('failure to install', async () => {
