@@ -23,7 +23,13 @@ importers:
       '@types/node': registry.npmjs.org/@types/node/12.20.4
       '@types/string.prototype.matchall': registry.npmjs.org/@types/string.prototype.matchall/4.0.1
 
-  os/windows/env:
+  os/env/path-extender:
+    specifiers: {}
+
+  os/env/path-extender-posix:
+    specifiers: {}
+
+  os/env/path-extender-windows:
     specifiers: {}
 
 packages:
@@ -693,6 +699,8 @@ packages:
       qs: registry.npmjs.org/qs/6.9.7
       raw-body: registry.npmjs.org/raw-body/2.4.3
       type-is: registry.npmjs.org/type-is/1.6.18
+    transitivePeerDependencies:
+      - supports-color
     dev: true
 
   registry.npmjs.org/body-parser/1.20.0:
@@ -713,6 +721,8 @@ packages:
       raw-body: registry.npmjs.org/raw-body/2.5.1
       type-is: registry.npmjs.org/type-is/1.6.18
       unpipe: registry.npmjs.org/unpipe/1.0.0
+    transitivePeerDependencies:
+      - supports-color
     dev: true
 
   registry.npmjs.org/brace-expansion/1.1.11:
@@ -902,6 +912,8 @@ packages:
       on-headers: registry.npmjs.org/on-headers/1.0.2
       safe-buffer: registry.npmjs.org/safe-buffer/5.1.2
       vary: registry.npmjs.org/vary/1.1.2
+    transitivePeerDependencies:
+      - supports-color
     dev: true
 
   registry.npmjs.org/concat-map/0.0.1:
@@ -1097,6 +1109,11 @@ packages:
     resolution: {integrity: sha512-bC7ElrdJaJnPbAP+1EotYvqZsb3ecl5wi6Bfi6BJTUcNowp6cvspg0jXznRTKDjm/E7AdgFBVeAPVMNcKGsHMA==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/debug/-/debug-2.6.9.tgz}
     name: debug
     version: 2.6.9
+    peerDependencies:
+      supports-color: '*'
+    peerDependenciesMeta:
+      supports-color:
+        optional: true
     dependencies:
       ms: registry.npmjs.org/ms/2.0.0
     dev: true
@@ -1105,6 +1122,11 @@ packages:
     resolution: {integrity: sha512-CFjzYYAi4ThfiQvizrFQevTTXHtnCqWfe7x1AhgEscTz6ZbLbfoLRLPugTQyBth6f8ZERVUSyWHFD/7Wu4t1XQ==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/debug/-/debug-3.2.7.tgz}
     name: debug
     version: 3.2.7
+    peerDependencies:
+      supports-color: '*'
+    peerDependenciesMeta:
+      supports-color:
+        optional: true
     dependencies:
       ms: registry.npmjs.org/ms/2.1.3
     dev: true
@@ -1412,6 +1434,8 @@ packages:
     dependencies:
       debug: registry.npmjs.org/debug/3.2.7
       resolve: registry.npmjs.org/resolve/1.22.0
+    transitivePeerDependencies:
+      - supports-color
     dev: true
 
   registry.npmjs.org/esprima/4.0.1:
@@ -1510,6 +1534,8 @@ packages:
       type-is: registry.npmjs.org/type-is/1.6.18
       utils-merge: registry.npmjs.org/utils-merge/1.0.1
       vary: registry.npmjs.org/vary/1.1.2
+    transitivePeerDependencies:
+      - supports-color
     dev: true
 
   registry.npmjs.org/express/4.18.1:
@@ -1549,6 +1575,8 @@ packages:
       type-is: registry.npmjs.org/type-is/1.6.18
       utils-merge: registry.npmjs.org/utils-merge/1.0.1
       vary: registry.npmjs.org/vary/1.1.2
+    transitivePeerDependencies:
+      - supports-color
     dev: true
 
   registry.npmjs.org/ext/1.6.0:
@@ -1646,6 +1674,8 @@ packages:
       parseurl: registry.npmjs.org/parseurl/1.3.3
       statuses: registry.npmjs.org/statuses/1.5.0
       unpipe: registry.npmjs.org/unpipe/1.0.0
+    transitivePeerDependencies:
+      - supports-color
     dev: true
 
   registry.npmjs.org/finalhandler/1.2.0:
@@ -1661,6 +1691,8 @@ packages:
       parseurl: registry.npmjs.org/parseurl/1.3.3
       statuses: registry.npmjs.org/statuses/2.0.1
       unpipe: registry.npmjs.org/unpipe/1.0.0
+    transitivePeerDependencies:
+      - supports-color
     dev: true
 
   registry.npmjs.org/flatstr/1.0.12:
@@ -2879,7 +2911,7 @@ packages:
       path-key: registry.npmjs.org/path-key/3.1.1
 
   registry.npmjs.org/npmlog/4.1.2:
-    resolution: {integrity: sha512-2uUqazuKlTaSI/dC8AzicUck7+IrEaOnN/e0jd3Xtt1KcGpwx30v50mL7oPyr/h9bL3E4aZccVwpwP+5W9Vjkg==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/npmlog/-/npmlog-4.1.2.tgz}
+    resolution: {integrity: sha512-2uUqazuKlTaSI/dC8AzicUck7+IrEaOnN/e0jd3Xtt1KcGpwx30v50mL7oPyr/h9bL3E4aZccVwpwP+5W9Vjkg==, registry: https://node.bit.cloud/, tarball: https://registry.npmjs.org/npmlog/-/npmlog-4.1.2.tgz}
     name: npmlog
     version: 4.1.2
     requiresBuild: true
@@ -3637,6 +3669,8 @@ packages:
       on-finished: registry.npmjs.org/on-finished/2.3.0
       range-parser: registry.npmjs.org/range-parser/1.2.1
       statuses: registry.npmjs.org/statuses/1.5.0
+    transitivePeerDependencies:
+      - supports-color
     dev: true
 
   registry.npmjs.org/send/0.18.0:
@@ -3658,6 +3692,8 @@ packages:
       on-finished: registry.npmjs.org/on-finished/2.4.1
       range-parser: registry.npmjs.org/range-parser/1.2.1
       statuses: registry.npmjs.org/statuses/2.0.1
+    transitivePeerDependencies:
+      - supports-color
     dev: true
 
   registry.npmjs.org/serve-static/1.14.2:
@@ -3670,6 +3706,8 @@ packages:
       escape-html: registry.npmjs.org/escape-html/1.0.3
       parseurl: registry.npmjs.org/parseurl/1.3.3
       send: registry.npmjs.org/send/0.17.2
+    transitivePeerDependencies:
+      - supports-color
     dev: true
 
   registry.npmjs.org/serve-static/1.15.0:
@@ -3682,6 +3720,8 @@ packages:
       escape-html: registry.npmjs.org/escape-html/1.0.3
       parseurl: registry.npmjs.org/parseurl/1.3.3
       send: registry.npmjs.org/send/0.18.0
+    transitivePeerDependencies:
+      - supports-color
     dev: true
 
   registry.npmjs.org/set-blocking/2.0.0:
@@ -4177,7 +4217,7 @@ packages:
     dev: true
 
   registry.npmjs.org/uglify-js/3.15.5:
-    resolution: {integrity: sha512-hNM5q5GbBRB5xB+PMqVRcgYe4c8jbyZ1pzZhS6jbq54/4F2gFK869ZheiE5A8/t+W5jtTNpWef/5Q9zk639FNQ==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/uglify-js/-/uglify-js-3.15.5.tgz}
+    resolution: {integrity: sha512-hNM5q5GbBRB5xB+PMqVRcgYe4c8jbyZ1pzZhS6jbq54/4F2gFK869ZheiE5A8/t+W5jtTNpWef/5Q9zk639FNQ==, registry: https://node.bit.cloud/, tarball: https://registry.npmjs.org/uglify-js/-/uglify-js-3.15.5.tgz}
     name: uglify-js
     version: 3.15.5
     engines: {node: '>=0.8.0'}

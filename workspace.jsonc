@@ -47,7 +47,6 @@
       },
       "peerDependencies": {}
     },
-    "engineStrict": true,
     "nodeVersion": "12.22.0"
   },
   /**
