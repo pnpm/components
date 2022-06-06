@@ -15,7 +15,7 @@ export async function addDirToEnvPath(dir: string, opts: AddDirToPosixEnvPathOpt
   return await addDirToPosixEnvPath(dir, opts)
 }
 
-function renderWindowsReport (changedEnvVariables: PathExtenderWindowsReport): PathExtenderReport {
+export function renderWindowsReport (changedEnvVariables: PathExtenderWindowsReport): PathExtenderReport {
   const oldSettings = []
   const newSettings = []
   for (const changedEnvVariable of changedEnvVariables) {
@@ -23,7 +23,7 @@ function renderWindowsReport (changedEnvVariables: PathExtenderWindowsReport): P
       oldSettings.push(`${changedEnvVariable.variable}=${changedEnvVariable.oldValue}`)
     }
     if (changedEnvVariable.newValue) {
-      oldSettings.push(`${changedEnvVariable.variable}=${changedEnvVariable.newValue}`)
+      newSettings.push(`${changedEnvVariable.variable}=${changedEnvVariable.newValue}`)
     }
   }
   return {
