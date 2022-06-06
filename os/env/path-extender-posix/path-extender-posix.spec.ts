@@ -37,8 +37,13 @@ describe('Bash', () => {
       configSectionName: 'pnpm',
     })
     expect(report).toStrictEqual({
-      action: 'added',
-      configFile,
+      configFile: {
+        path: configFile,
+        changeType: 'modified',
+      },
+      oldSettings: '',
+      newSettings: `export PNPM_HOME="${pnpmHomeDir}"
+export PATH="$PNPM_HOME:$PATH"`,
     })
     const configContent = fs.readFileSync(configFile, 'utf8')
     expect(configContent).toEqual(`
@@ -55,8 +60,13 @@ export PATH="$PNPM_HOME:$PATH"
       position: 'end',
     })
     expect(report).toStrictEqual({
-      action: 'added',
-      configFile,
+      configFile: {
+        path: configFile,
+        changeType: 'modified',
+      },
+      oldSettings: '',
+      newSettings: `export PNPM_HOME="${pnpmHomeDir}"
+export PATH="$PATH:$PNPM_HOME"`,
     })
     const configContent = fs.readFileSync(configFile, 'utf8')
     expect(configContent).toEqual(`
@@ -71,8 +81,13 @@ export PATH="$PATH:$PNPM_HOME"
       configSectionName: 'pnpm',
     })
     expect(report).toStrictEqual({
-      action: 'created',
-      configFile,
+      configFile: {
+        path: configFile,
+        changeType: 'created',
+      },
+      oldSettings: '',
+      newSettings: `export PNPM_HOME="${pnpmHomeDir}"
+export PATH="$PNPM_HOME:$PATH"`,
     })
     const configContent = fs.readFileSync(configFile, 'utf8')
     expect(configContent).toEqual(`# pnpm
@@ -91,8 +106,14 @@ export PATH="$PNPM_HOME:$PATH"
       configSectionName: 'pnpm',
     })
     expect(report).toStrictEqual({
-      action: 'skipped',
-      configFile,
+      configFile: {
+        path: configFile,
+        changeType: 'skipped',
+      },
+      oldSettings: `export PNPM_HOME="${pnpmHomeDir}"
+export PATH="$PNPM_HOME:$PATH"`,
+      newSettings: `export PNPM_HOME="${pnpmHomeDir}"
+export PATH="$PNPM_HOME:$PATH"`,
     })
     const configContent = fs.readFileSync(configFile, 'utf8')
     expect(configContent).toEqual(`
@@ -126,8 +147,14 @@ export PATH="$PNPM_HOME:$PATH"
       configSectionName: 'pnpm',
     })
     expect(report).toStrictEqual({
-      action: 'updated',
-      configFile,
+      configFile: {
+        path: configFile,
+        changeType: 'modified',
+      },
+      oldSettings: `export PNPM_HOME="pnpm_home"
+export PATH="$PNPM_HOME:$PATH"`,
+      newSettings: `export PNPM_HOME="${pnpmHomeDir}"
+export PATH="$PNPM_HOME:$PATH"`,
     })
     const configContent = fs.readFileSync(configFile, 'utf8')
     expect(configContent).toEqual(`
@@ -153,8 +180,13 @@ describe('Zsh', () => {
       configSectionName: 'pnpm',
     })
     expect(report).toStrictEqual({
-      action: 'added',
-      configFile,
+      configFile: {
+        path: configFile,
+        changeType: 'modified',
+      },
+      oldSettings: ``,
+      newSettings: `export PNPM_HOME="${pnpmHomeDir}"
+export PATH="$PNPM_HOME:$PATH"`,
     })
     const configContent = fs.readFileSync(configFile, 'utf8')
     expect(configContent).toEqual(`
@@ -174,8 +206,14 @@ export PATH="$PNPM_HOME:$PATH"
       configSectionName: 'pnpm',
     })
     expect(report).toStrictEqual({
-      action: 'skipped',
-      configFile,
+      configFile: {
+        path: configFile,
+        changeType: 'skipped',
+      },
+      oldSettings: `export PNPM_HOME="${pnpmHomeDir}"
+export PATH="$PNPM_HOME:$PATH"`,
+      newSettings: `export PNPM_HOME="${pnpmHomeDir}"
+export PATH="$PNPM_HOME:$PATH"`,
     })
     const configContent = fs.readFileSync(configFile, 'utf8')
     expect(configContent).toEqual(`
@@ -202,8 +240,13 @@ describe('Fish', () => {
       configSectionName: 'pnpm',
     })
     expect(report).toStrictEqual({
-      action: 'added',
-      configFile,
+      configFile: {
+        path: configFile,
+        changeType: 'modified',
+      },
+      oldSettings: ``,
+      newSettings: `set -gx PNPM_HOME "${pnpmHomeDir}"
+set -gx PATH "$PNPM_HOME" $PATH`,
     })
     const configContent = fs.readFileSync(configFile, 'utf8')
     expect(configContent).toEqual(`
@@ -221,8 +264,13 @@ set -gx PATH "$PNPM_HOME" $PATH
       position: 'end',
     })
     expect(report).toStrictEqual({
-      action: 'added',
-      configFile,
+      configFile: {
+        path: configFile,
+        changeType: 'modified',
+      },
+      oldSettings: ``,
+      newSettings: `set -gx PNPM_HOME "${pnpmHomeDir}"
+set -gx PATH $PATH "$PNPM_HOME"`,
     })
     const configContent = fs.readFileSync(configFile, 'utf8')
     expect(configContent).toEqual(`
@@ -237,8 +285,13 @@ set -gx PATH $PATH "$PNPM_HOME"
       configSectionName: 'pnpm',
     })
     expect(report).toStrictEqual({
-      action: 'created',
-      configFile,
+      configFile: {
+        path: configFile,
+        changeType: 'created',
+      },
+      oldSettings: ``,
+      newSettings: `set -gx PNPM_HOME "${pnpmHomeDir}"
+set -gx PATH "$PNPM_HOME" $PATH`
     })
     const configContent = fs.readFileSync(configFile, 'utf8')
     expect(configContent).toEqual(`# pnpm
@@ -258,8 +311,14 @@ set -gx PATH "$PNPM_HOME" $PATH
       configSectionName: 'pnpm',
     })
     expect(report).toStrictEqual({
-      action: 'skipped',
-      configFile,
+      configFile: {
+        path: configFile,
+        changeType: 'skipped',
+      },
+      oldSettings: `set -gx PNPM_HOME "${pnpmHomeDir}"
+set -gx PATH "$PNPM_HOME" $PATH`,
+      newSettings: `set -gx PNPM_HOME "${pnpmHomeDir}"
+set -gx PATH "$PNPM_HOME" $PATH`
     })
     const configContent = fs.readFileSync(configFile, 'utf8')
     expect(configContent).toEqual(`
@@ -295,8 +354,14 @@ set -gx PATH "$PNPM_HOME" $PATH
       configSectionName: 'pnpm',
     })
     expect(report).toStrictEqual({
-      action: 'updated',
-      configFile,
+      configFile: {
+        path: configFile,
+        changeType: 'modified',
+      },
+      oldSettings: `set -gx PNPM_HOME "pnpm_home"
+set -gx PATH "$PNPM_HOME" $PATH`,
+      newSettings: `set -gx PNPM_HOME "${pnpmHomeDir}"
+set -gx PATH "$PNPM_HOME" $PATH`
     })
     const configContent = fs.readFileSync(configFile, 'utf8')
     expect(configContent).toEqual(`
