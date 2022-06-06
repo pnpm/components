@@ -131,10 +131,14 @@ HKEY_CURRENT_USER\\Environment
     {
       action: 'updated',
       variable: 'PNPM_HOME',
+      oldValue: undefined,
+      newValue: pnpmHomeDirNormalized,
     },
     {
       action: 'updated',
       variable: 'Path',
+      oldValue: currentPathInRegistry,
+      newValue: `%PNPM_HOME%;${currentPathInRegistry}`,
     },
   ])
   expect(execa).toHaveBeenNthCalledWith(3, 'reg', ['query', regKey], { windowsHide: false })
@@ -181,6 +185,8 @@ HKEY_CURRENT_USER\\Environment
     {
       action: 'updated',
       variable: 'Path',
+      oldValue: currentPathInRegistry,
+      newValue: `${pnpmHomeDirNormalized};${currentPathInRegistry}`,
     },
   ])
   expect(execa).toHaveBeenNthCalledWith(3, 'reg', ['query', regKey], { windowsHide: false })
@@ -225,6 +231,8 @@ HKEY_CURRENT_USER\\Environment
     {
       action: 'updated',
       variable: 'Path',
+      oldValue: currentPathInRegistry,
+      newValue: `${currentPathInRegistry};${pnpmHomeDirNormalized}`,
     },
   ])
   expect(execa).toHaveBeenNthCalledWith(3, 'reg', ['query', regKey], { windowsHide: false })
@@ -266,10 +274,14 @@ HKEY_CURRENT_USER\\Environment
     {
       variable: 'PNPM_HOME',
       action: 'skipped',
+      oldValue: pnpmHomeDirNormalized,
+      newValue: pnpmHomeDirNormalized,
     },
     {
       variable: 'Path',
       action: 'updated',
+      oldValue: currentPathInRegistry,
+      newValue: `%PNPM_HOME%;${currentPathInRegistry}`,
     },
   ])
   expect(execa).toHaveBeenNthCalledWith(3, 'reg', ['query', regKey], { windowsHide: false })
@@ -346,10 +358,14 @@ HKEY_CURRENT_USER\\Environment
     {
       variable: 'PNPM_HOME',
       action: 'updated',
+      oldValue: '.pnpm\\home',
+      newValue: pnpmHomeDirNormalized,
     },
     {
       variable: 'Path',
       action: 'updated',
+      oldValue: '%USERPROFILE%\\AppData\\Local\\Microsoft\\WindowsApps;%USERPROFILE%\\.config\\etc;.pnpm\\home;C:\\Windows;',
+      newValue: '%PNPM_HOME%;%USERPROFILE%\\AppData\\Local\\Microsoft\\WindowsApps;%USERPROFILE%\\.config\\etc;.pnpm\\home;C:\\Windows;',
     },
   ])
   expect(execa).toHaveBeenNthCalledWith(3, 'reg', ['query', regKey], { windowsHide: false })

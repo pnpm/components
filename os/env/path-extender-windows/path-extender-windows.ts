@@ -30,6 +30,8 @@ export interface AddDirToWindowsEnvPathOpts {
 export interface EnvVariableChange {
   variable: string,
   action: EnvVariableChangeAction
+  oldValue: string,
+  newValue: string,
 }
 
 export type PathExtenderWindowsReport = EnvVariableChange[]
@@ -59,26 +61,12 @@ async function _addDirToWindowsEnvPath (dir: string, opts: AddDirToWindowsEnvPat
   const changes: PathExtenderWindowsReport = []
   if (opts.proxyVarName) {
     changes.push(await updateEnvVariable(registryOutput, opts.proxyVarName, addedDir, { overwrite: opts.overwriteProxyVar }))
-    changes.push({
-      action: await addToPath(registryOutput, `%${opts.proxyVarName}%`, opts.position),
-      variable: 'Path',
-    })
+    changes.push(await addToPath(registryOutput, `%${opts.proxyVarName}%`, opts.position))
   } else {
-    changes.push({
-      action: await addToPath(registryOutput, addedDir, opts.position),
-      variable: 'Path',
-    })
+    changes.push(await addToPath(registryOutput, addedDir, opts.position))
   }
 
   return changes
-}
-
-function logEnvUpdate (envUpdateResult: 'skipped' | 'updated', envName: string): string {
-  switch (envUpdateResult) {
-  case 'skipped': return `${envName} was already up-to-date`
-  case 'updated': return `${envName} was updated`
-  }
-  return ''
 }
 
 async function updateEnvVariable (registryOutput: string, name: string, value: string, opts: { overwrite: boolean }): Promise<EnvVariableChange> {
@@ -87,25 +75,26 @@ async function updateEnvVariable (registryOutput: string, name: string, value: s
     if (currentValue !== value) {
       throw new BadEnvVariableError({ envName: name, currentValue, wantedValue: value })
     }
-    return { variable: name, action: 'skipped' }
+    return { variable: name, action: 'skipped', oldValue: currentValue, newValue: value }
   } else {
     await setEnvVarInRegistry(name, value)
-    return { variable: name, action: 'updated' }
+    return { variable: name, action: 'updated', oldValue: currentValue, newValue: value }
   }
 }
 
-async function addToPath (registryOutput: string, addedDir: string, position: AddingPosition = 'start'): Promise<EnvVariableChangeAction> {
-  const pathData = await getEnvValueFromRegistry(registryOutput, 'Path')
+async function addToPath (registryOutput: string, addedDir: string, position: AddingPosition = 'start'): Promise<EnvVariableChange> {
+  const variable = 'Path'
+  const pathData = await getEnvValueFromRegistry(registryOutput, variable)
   if (pathData === undefined || pathData == null || pathData.trim() === '') {
     throw new PnpmError('NO_PATH', '"Path" environment variable is not found in the registry')
   } else if (pathData.split(path.delimiter).includes(addedDir)) {
-    return 'skipped'
+    return { action: 'skipped', variable, oldValue: pathData, newValue: pathData }
   } else {
     const newPathValue = position === 'start'
       ? `${addedDir}${path.delimiter}${pathData}`
       : `${pathData}${path.delimiter}${addedDir}`
     await setEnvVarInRegistry('Path', newPathValue)
-    return 'updated'
+    return { action: 'updated', variable, oldValue: pathData, newValue: newPathValue }
   }
 }
 
