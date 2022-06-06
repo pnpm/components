@@ -125,15 +125,27 @@ HKEY_CURRENT_USER\\Environment
 
   const pnpmHomeDir = tempDir(false)
   const pnpmHomeDirNormalized = path.normalize(pnpmHomeDir)
-  const output = await addDirToWindowsEnvPath(pnpmHomeDir, { proxyVarName: 'PNPM_HOME' })
+  const report = await addDirToWindowsEnvPath(pnpmHomeDir, { proxyVarName: 'PNPM_HOME' })
 
+  expect(report).toStrictEqual([
+    {
+      action: 'updated',
+      variable: 'PNPM_HOME',
+      oldValue: undefined,
+      newValue: pnpmHomeDirNormalized,
+    },
+    {
+      action: 'updated',
+      variable: 'Path',
+      oldValue: currentPathInRegistry,
+      newValue: `%PNPM_HOME%;${currentPathInRegistry}`,
+    },
+  ])
   expect(execa).toHaveBeenNthCalledWith(3, 'reg', ['query', regKey], { windowsHide: false })
   expect(execa).toHaveBeenNthCalledWith(4, 'reg', ['add', regKey, '/v', 'PNPM_HOME', '/t', 'REG_EXPAND_SZ', '/d', pnpmHomeDirNormalized, '/f'], { windowsHide: false })
   expect(execa).toHaveBeenNthCalledWith(5, 'setx', ['PNPM_HOME', pnpmHomeDirNormalized], { windowsHide: false })
   expect(execa).toHaveBeenNthCalledWith(6, 'reg', ['add', regKey, '/v', 'Path', '/t', 'REG_EXPAND_SZ', '/d', `%PNPM_HOME%;${currentPathInRegistry}`, '/f'], { windowsHide: false })
   expect(execa).toHaveBeenNthCalledWith(7, 'setx', ['Path', `%PNPM_HOME%;${currentPathInRegistry}`], { windowsHide: false })
-  expect(output).toContain('Path was updated')
-  expect(output).toContain('PNPM_HOME was updated')
 })
 
 test('successful first time installation when no additional env variable is used', async () => {
@@ -167,12 +179,19 @@ HKEY_CURRENT_USER\\Environment
 
   const pnpmHomeDir = tempDir(false)
   const pnpmHomeDirNormalized = path.normalize(pnpmHomeDir)
-  const output = await addDirToWindowsEnvPath(pnpmHomeDir)
+  const report = await addDirToWindowsEnvPath(pnpmHomeDir)
 
+  expect(report).toStrictEqual([
+    {
+      action: 'updated',
+      variable: 'Path',
+      oldValue: currentPathInRegistry,
+      newValue: `${pnpmHomeDirNormalized};${currentPathInRegistry}`,
+    },
+  ])
   expect(execa).toHaveBeenNthCalledWith(3, 'reg', ['query', regKey], { windowsHide: false })
   expect(execa).toHaveBeenNthCalledWith(4, 'reg', ['add', regKey, '/v', 'Path', '/t', 'REG_EXPAND_SZ', '/d', `${pnpmHomeDirNormalized};${currentPathInRegistry}`, '/f'], { windowsHide: false })
   expect(execa).toHaveBeenNthCalledWith(5, 'setx', ['Path', `${pnpmHomeDirNormalized};${currentPathInRegistry}`], { windowsHide: false })
-  expect(output).toContain('Path was updated')
 })
 
 test('adding the directory to the end of Path', async () => {
@@ -206,12 +225,19 @@ HKEY_CURRENT_USER\\Environment
 
   const pnpmHomeDir = tempDir(false)
   const pnpmHomeDirNormalized = path.normalize(pnpmHomeDir)
-  const output = await addDirToWindowsEnvPath(pnpmHomeDir, { position: 'end' })
+  const report = await addDirToWindowsEnvPath(pnpmHomeDir, { position: 'end' })
 
+  expect(report).toStrictEqual([
+    {
+      action: 'updated',
+      variable: 'Path',
+      oldValue: currentPathInRegistry,
+      newValue: `${currentPathInRegistry};${pnpmHomeDirNormalized}`,
+    },
+  ])
   expect(execa).toHaveBeenNthCalledWith(3, 'reg', ['query', regKey], { windowsHide: false })
   expect(execa).toHaveBeenNthCalledWith(4, 'reg', ['add', regKey, '/v', 'Path', '/t', 'REG_EXPAND_SZ', '/d', `${currentPathInRegistry};${pnpmHomeDirNormalized}`, '/f'], { windowsHide: false })
   expect(execa).toHaveBeenNthCalledWith(5, 'setx', ['Path', `${currentPathInRegistry};${pnpmHomeDirNormalized}`], { windowsHide: false })
-  expect(output).toContain('Path was updated')
 })
 
 test('PNPM_HOME is already set, but Path is updated', async () => {
@@ -242,13 +268,25 @@ HKEY_CURRENT_USER\\Environment
     stderr: 'UNEXPECTED',
   })
 
-  const output = await addDirToWindowsEnvPath(pnpmHomeDir, { proxyVarName: 'PNPM_HOME' })
+  const report = await addDirToWindowsEnvPath(pnpmHomeDir, { proxyVarName: 'PNPM_HOME' })
 
+  expect(report).toStrictEqual([
+    {
+      variable: 'PNPM_HOME',
+      action: 'skipped',
+      oldValue: pnpmHomeDirNormalized,
+      newValue: pnpmHomeDirNormalized,
+    },
+    {
+      variable: 'Path',
+      action: 'updated',
+      oldValue: currentPathInRegistry,
+      newValue: `%PNPM_HOME%;${currentPathInRegistry}`,
+    },
+  ])
   expect(execa).toHaveBeenNthCalledWith(3, 'reg', ['query', regKey], { windowsHide: false })
   expect(execa).toHaveBeenNthCalledWith(4, 'reg', ['add', regKey, '/v', 'Path', '/t', 'REG_EXPAND_SZ', '/d', `%PNPM_HOME%;${currentPathInRegistry}`, '/f'], { windowsHide: false })
   expect(execa).toHaveBeenNthCalledWith(5, 'setx', ['Path', `%PNPM_HOME%;${currentPathInRegistry}`], { windowsHide: false })
-  expect(output).toContain('PNPM_HOME was already up-to-date')
-  expect(output).toContain('Path was updated')
 })
 
 test('setup throws an error if PNPM_HOME is already set to a different directory', async () => {
@@ -311,14 +349,27 @@ HKEY_CURRENT_USER\\Environment
 
   const pnpmHomeDir = tempDir(false)
   const pnpmHomeDirNormalized = path.normalize(pnpmHomeDir)
-  const output = await addDirToWindowsEnvPath(pnpmHomeDir, {
+  const report = await addDirToWindowsEnvPath(pnpmHomeDir, {
     proxyVarName: 'PNPM_HOME',
     overwriteProxyVar: true,
   })
 
+  expect(report).toStrictEqual([
+    {
+      variable: 'PNPM_HOME',
+      action: 'updated',
+      oldValue: '.pnpm\\home',
+      newValue: pnpmHomeDirNormalized,
+    },
+    {
+      variable: 'Path',
+      action: 'updated',
+      oldValue: '%USERPROFILE%\\AppData\\Local\\Microsoft\\WindowsApps;%USERPROFILE%\\.config\\etc;.pnpm\\home;C:\\Windows;',
+      newValue: '%PNPM_HOME%;%USERPROFILE%\\AppData\\Local\\Microsoft\\WindowsApps;%USERPROFILE%\\.config\\etc;.pnpm\\home;C:\\Windows;',
+    },
+  ])
   expect(execa).toHaveBeenNthCalledWith(3, 'reg', ['query', regKey], { windowsHide: false })
   expect(execa).toHaveBeenNthCalledWith(4, 'reg', ['add', regKey, '/v', 'PNPM_HOME', '/t', 'REG_EXPAND_SZ', '/d', pnpmHomeDirNormalized, '/f'], { windowsHide: false })
-  expect(output).toContain('PNPM_HOME was updated')
 })
 
 test('failure to install', async () => {

@@ -1,1 +1,6 @@
-export { addDirToWindowsEnvPath } from './path-extender-windows';
+export {
+  addDirToWindowsEnvPath,
+  EnvVariableChange,
+  EnvVariableChangeAction,
+  PathExtenderWindowsReport,
+} from './path-extender-windows';

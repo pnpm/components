@@ -22,10 +22,26 @@ export interface AddDirToPosixEnvPathOpts {
   configSectionName: string
 }
 
+export type ShellType = 'zsh' | 'bash' | 'fish'
+
+export type ConfigFileChangeType = 'skipped' | 'modified' | 'created'
+
+export interface ConfigReport {
+  path: string
+  changeType: ConfigFileChangeType
+}
+
+export interface PathExtenderPosixReport {
+  configFile: ConfigReport
+  oldSettings: string
+  newSettings: string
+}
+
+
 export async function addDirToPosixEnvPath (
   dir: string,
   opts: AddDirToPosixEnvPathOpts
-) {
+): Promise<PathExtenderPosixReport> {
   const currentShell = detectCurrentShell()
   return await updateShell(currentShell, dir, opts)
 }
@@ -41,52 +57,39 @@ async function updateShell (
   currentShell: string | null,
   pnpmHomeDir: string,
   opts: AddDirToPosixEnvPathOpts
-): Promise<string> {
+): Promise<PathExtenderPosixReport> {
   switch (currentShell) {
   case 'bash':
   case 'zsh': {
-    return reportShellChange(await setupShell(currentShell, pnpmHomeDir, opts))
+    return setupShell(currentShell, pnpmHomeDir, opts)
   }
   case 'fish': {
-    return reportShellChange(await setupFishShell(pnpmHomeDir, opts))
+    return setupFishShell(pnpmHomeDir, opts)
   }
   }
-  return 'Could not infer shell type.'
+  if (currentShell == null) throw new PnpmError('UNKNOWN_SHELL', 'Could not infer shell type.')
+  throw new PnpmError('UNSUPPORTED_SHELL', `Can't setup configuration for "${currentShell}" shell. Supported shell languages are bash, zsh, and fish.`)
 }
 
-function reportShellChange ({ action, configFile }: ShellSetupResult): string {
-  switch (action) {
-  case 'created': return `Created ${configFile}`
-  case 'added': return `Appended new lines to ${configFile}`
-  case 'updated': return `Replaced configuration in ${configFile}`
-  case 'skipped': return `Configuration already up-to-date in ${configFile}`
-  }
-}
-
-type ShellSetupAction = 'created' | 'added' | 'updated' | 'skipped'
-
-interface ShellSetupResult {
-  configFile: string
-  action: ShellSetupAction
-}
-
-async function setupShell (shell: 'bash' | 'zsh', dir: string, opts: AddDirToPosixEnvPathOpts): Promise<ShellSetupResult> {
+async function setupShell (shell: 'bash' | 'zsh', dir: string, opts: AddDirToPosixEnvPathOpts): Promise<PathExtenderPosixReport> {
   const configFile = path.join(os.homedir(), `.${shell}rc`)
-  let content!: string
+  let newSettings!: string
   const _createPathValue = createPathValue.bind(null, opts.position ?? 'start')
   if (opts.proxyVarName) {
-    content = `# ${opts.configSectionName}
-export ${opts.proxyVarName}="${dir}"
-export PATH="${_createPathValue(`$${opts.proxyVarName}`)}"
-# ${opts.configSectionName} end`
+    newSettings = `export ${opts.proxyVarName}="${dir}"
+export PATH="${_createPathValue(`$${opts.proxyVarName}`)}"`
   } else {
-    content = `# ${opts.configSectionName}
-export PATH="${_createPathValue(dir)}"
-# ${opts.configSectionName} end`
+    newSettings = `export PATH="${_createPathValue(dir)}"`
   }
+  const content = wrapSettings(opts.configSectionName, newSettings)
+  const { changeType, oldSettings } = await updateShellConfig(configFile, content, opts)
   return {
-    action: await updateShellConfig(configFile, content, opts),
-    configFile,
+    configFile: {
+      path: configFile,
+      changeType,
+    },
+    oldSettings,
+    newSettings,
   }
 }
 
@@ -96,24 +99,32 @@ function createPathValue (position: AddingPosition, dir: string) {
     : `$PATH:${dir}`
 }
 
-async function setupFishShell (dir: string, opts: AddDirToPosixEnvPathOpts): Promise<ShellSetupResult> {
+async function setupFishShell (dir: string, opts: AddDirToPosixEnvPathOpts): Promise<PathExtenderPosixReport> {
   const configFile = path.join(os.homedir(), '.config/fish/config.fish')
-  let content!: string
+  let newSettings!: string
   const _createPathValue = createFishPathValue.bind(null, opts.position ?? 'start')
   if (opts.proxyVarName) {
-    content = `# ${opts.configSectionName}
-set -gx ${opts.proxyVarName} "${dir}"
-set -gx PATH ${_createPathValue(`$${opts.proxyVarName}`)}
-# ${opts.configSectionName} end`
+    newSettings = `set -gx ${opts.proxyVarName} "${dir}"
+set -gx PATH ${_createPathValue(`$${opts.proxyVarName}`)}`
   } else {
-    content = `# ${opts.configSectionName}
-set -gx PATH ${_createPathValue(dir)}
-# ${opts.configSectionName} end`
+    newSettings = `set -gx PATH ${_createPathValue(dir)}`
   }
+  const content = wrapSettings(opts.configSectionName, newSettings)
+  const { changeType, oldSettings } = await updateShellConfig(configFile, content, opts)
   return {
-    action: await updateShellConfig(configFile, content, opts),
-    configFile,
+    configFile: {
+      path: configFile,
+      changeType,
+    },
+    oldSettings,
+    newSettings,
   }
+}
+
+function wrapSettings (sectionName: string, settings: string): string {
+  return `# ${sectionName}
+${settings}
+# ${sectionName} end`
 }
 
 function createFishPathValue (position: AddingPosition, dir: string) {
@@ -122,30 +133,49 @@ function createFishPathValue (position: AddingPosition, dir: string) {
     : `$PATH "${dir}"`
 }
 
+interface UpdateShellResult {
+  changeType: ConfigFileChangeType
+  oldSettings: string
+}
+
 async function updateShellConfig (
   configFile: string,
   newContent: string,
   opts: AddDirToPosixEnvPathOpts
-): Promise<ShellSetupAction> {
+): Promise<UpdateShellResult> {
   if (!fs.existsSync(configFile)) {
+    await fs.promises.mkdir(path.dirname(configFile), { recursive: true })
     await fs.promises.writeFile(configFile, newContent, 'utf8')
-    return 'created'
+    return {
+      changeType: 'created',
+      oldSettings: '',
+    }
   }
   const configContent = await fs.promises.readFile(configFile, 'utf8')
-  const match = configContent.match(new RegExp(`# ${opts.configSectionName}[\\s\\S]*# ${opts.configSectionName} end`, 'g'))
+  const match = new RegExp(`# ${opts.configSectionName}\n([\\s\\S]*)\n# ${opts.configSectionName} end`, 'g').exec(configContent)
   if (!match) {
     await fs.promises.appendFile(configFile, `\n${newContent}`, 'utf8')
-    return 'added'
+    return {
+      changeType: 'modified',
+      oldSettings: '',
+    }
   }
+  const oldSettings = match[1]
   if (match[0] !== newContent) {
     if (!opts.overwrite) {
       throw new BadShellSectionError({ current: match[1], wanted: newContent, configFile })
     }
     const newConfigContent = replaceSection(configContent, newContent, opts.configSectionName)
     await fs.promises.writeFile(configFile, newConfigContent, 'utf8')
-    return 'updated'
+    return {
+      changeType: 'modified',
+      oldSettings,
+    }
   }
-  return 'skipped'
+  return {
+    changeType: 'skipped',
+    oldSettings,
+  }
 }
 
 function replaceSection (originalContent: string, newSection: string, sectionName: string): string {
