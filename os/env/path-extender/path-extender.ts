@@ -12,7 +12,7 @@ export async function addDirToEnvPath(dir: string, opts: AddDirToPosixEnvPathOpt
       })
     )
   }
-  return await addDirToPosixEnvPath(dir, opts)
+  return addDirToPosixEnvPath(dir, opts)
 }
 
 export function renderWindowsReport (changedEnvVariables: PathExtenderWindowsReport): PathExtenderReport {
