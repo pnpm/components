@@ -6,10 +6,10 @@ import PnpmError from '@pnpm/error'
 class BadShellSectionError extends PnpmError {
   public current: string
   public wanted: string
-  constructor ({ wanted, current, configFile }: { wanted: string, current: string, configFile: string }) {
-    super('BAD_SHELL_SECTION', `The config file at "${configFile} already contains a pnpm section but with other configuration`)
-    this.current = current
-    this.wanted = wanted
+  constructor (opts: { configSectionName: string, wanted: string, current: string, configFile: string }) {
+    super('BAD_SHELL_SECTION', `The config file at "${opts.configFile} already contains a ${opts.configSectionName} section but with other configuration`)
+    this.current = opts.current
+    this.wanted = opts.wanted
   }
 }
 
@@ -163,7 +163,12 @@ async function updateShellConfig (
   const oldSettings = match[1]
   if (match[0] !== newContent) {
     if (!opts.overwrite) {
-      throw new BadShellSectionError({ current: match[1], wanted: newContent, configFile })
+      throw new BadShellSectionError({
+        configSectionName: opts.configSectionName,
+        current: match[0],
+        wanted: newContent,
+        configFile,
+      })
     }
     const newConfigContent = replaceSection(configContent, newContent, opts.configSectionName)
     await fs.promises.writeFile(configFile, newConfigContent, 'utf8')
