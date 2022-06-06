@@ -1,1 +1,5 @@
-export { addDirToEnvPath } from './path-extender';
+export {
+  addDirToEnvPath,
+  AddDirToEnvPathOpts,
+  PathExtenderReport,
+} from './path-extender'

@@ -3,7 +3,9 @@ import { addDirToWindowsEnvPath, PathExtenderWindowsReport } from '@pnpm/os.env.
 
 export type PathExtenderReport = Pick<PathExtenderPosixReport, 'oldSettings' | 'newSettings'> & Partial<Pick<PathExtenderPosixReport, 'configFile'>>
 
-export async function addDirToEnvPath(dir: string, opts: AddDirToPosixEnvPathOpts): Promise<PathExtenderReport> {
+export type AddDirToEnvPathOpts = AddDirToPosixEnvPathOpts
+
+export async function addDirToEnvPath(dir: string, opts: AddDirToEnvPathOpts): Promise<PathExtenderReport> {
   if (process.platform === 'win32') {
     return renderWindowsReport(await addDirToWindowsEnvPath(dir, {
         position: opts.position,
