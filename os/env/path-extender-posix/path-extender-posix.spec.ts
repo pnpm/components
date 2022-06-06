@@ -39,7 +39,7 @@ describe('Bash', () => {
     expect(report).toStrictEqual({
       configFile: {
         path: configFile,
-        changeType: 'modified',
+        changeType: 'appended',
       },
       oldSettings: '',
       newSettings: `export PNPM_HOME="${pnpmHomeDir}"
@@ -62,7 +62,7 @@ export PATH="$PNPM_HOME:$PATH"
     expect(report).toStrictEqual({
       configFile: {
         path: configFile,
-        changeType: 'modified',
+        changeType: 'appended',
       },
       oldSettings: '',
       newSettings: `export PNPM_HOME="${pnpmHomeDir}"
@@ -182,7 +182,7 @@ describe('Zsh', () => {
     expect(report).toStrictEqual({
       configFile: {
         path: configFile,
-        changeType: 'modified',
+        changeType: 'appended',
       },
       oldSettings: ``,
       newSettings: `export PNPM_HOME="${pnpmHomeDir}"
@@ -242,7 +242,7 @@ describe('Fish', () => {
     expect(report).toStrictEqual({
       configFile: {
         path: configFile,
-        changeType: 'modified',
+        changeType: 'appended',
       },
       oldSettings: ``,
       newSettings: `set -gx PNPM_HOME "${pnpmHomeDir}"
@@ -266,7 +266,7 @@ set -gx PATH "$PNPM_HOME" $PATH
     expect(report).toStrictEqual({
       configFile: {
         path: configFile,
-        changeType: 'modified',
+        changeType: 'appended',
       },
       oldSettings: ``,
       newSettings: `set -gx PNPM_HOME "${pnpmHomeDir}"

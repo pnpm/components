@@ -24,7 +24,7 @@ export interface AddDirToPosixEnvPathOpts {
 
 export type ShellType = 'zsh' | 'bash' | 'fish'
 
-export type ConfigFileChangeType = 'skipped' | 'modified' | 'created'
+export type ConfigFileChangeType = 'skipped' | 'appended' | 'modified' | 'created'
 
 export interface ConfigReport {
   path: string
@@ -156,7 +156,7 @@ async function updateShellConfig (
   if (!match) {
     await fs.promises.appendFile(configFile, `\n${newContent}`, 'utf8')
     return {
-      changeType: 'modified',
+      changeType: 'appended',
       oldSettings: '',
     }
   }
