@@ -1,5 +1,13 @@
-import { addDirToPosixEnvPath, AddDirToPosixEnvPathOpts, PathExtenderPosixReport } from '@pnpm/os.env.path-extender-posix'
+import {
+  addDirToPosixEnvPath,
+  AddDirToPosixEnvPathOpts,
+  ConfigFileChangeType,
+  ConfigReport,
+  PathExtenderPosixReport,
+} from '@pnpm/os.env.path-extender-posix'
 import { addDirToWindowsEnvPath, PathExtenderWindowsReport } from '@pnpm/os.env.path-extender-windows'
+
+export { ConfigReport, ConfigFileChangeType }
 
 export type PathExtenderReport = Pick<PathExtenderPosixReport, 'oldSettings' | 'newSettings'> & Partial<Pick<PathExtenderPosixReport, 'configFile'>>
 
