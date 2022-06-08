@@ -9,6 +9,19 @@
  */
 
 {
+    "ca-file": {
+        "scope": "",
+        "version": "",
+        "defaultScope": "pnpm.network",
+        "mainFile": "index.ts",
+        "rootDir": "network/ca-file",
+        "config": {
+            "teambit.harmony/node": {},
+            "teambit.envs/envs": {
+                "env": "teambit.harmony/node"
+            }
+        }
+    },
     "env/path-extender": {
         "scope": "pnpm.os",
         "version": "0.2.3",

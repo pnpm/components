@@ -7,21 +7,28 @@ importers:
       '@babel/runtime': 7.12.18
       '@pnpm/error': 3.0.1
       '@pnpm/prepare': 0.0.40
+      '@types/graceful-fs': 4.1.5
       '@types/jest': 26.0.20
       '@types/node': 12.20.4
       '@types/string.prototype.matchall': 4.0.1
+      graceful-fs: 4.2.10
       safe-execa: 0.1.1
       string.prototype.matchall: 4.0.7
     dependencies:
       '@pnpm/error': registry.npmjs.org/@pnpm/error/3.0.1
+      graceful-fs: registry.npmjs.org/graceful-fs/4.2.10
       safe-execa: registry.npmjs.org/safe-execa/0.1.1
       string.prototype.matchall: registry.npmjs.org/string.prototype.matchall/4.0.7
     devDependencies:
       '@babel/runtime': registry.npmjs.org/@babel/runtime/7.12.18
       '@pnpm/prepare': registry.npmjs.org/@pnpm/prepare/0.0.40
+      '@types/graceful-fs': registry.npmjs.org/@types/graceful-fs/4.1.5
       '@types/jest': registry.npmjs.org/@types/jest/26.0.20
       '@types/node': registry.npmjs.org/@types/node/12.20.4
       '@types/string.prototype.matchall': registry.npmjs.org/@types/string.prototype.matchall/4.0.1
+
+  network/ca-file:
+    specifiers: {}
 
   os/env/path-extender:
     specifiers: {}
@@ -268,6 +275,14 @@ packages:
     name: '@pnpm/types'
     version: 8.0.1
     engines: {node: '>=14.19'}
+    dev: true
+
+  registry.npmjs.org/@types/graceful-fs/4.1.5:
+    resolution: {integrity: sha512-anKkLmZZ+xm4p8JWBf4hElkM4XR+EZeA2M9BAkkTldmcyDY4mbdIJnRghDJH3Ov5ooY7/UAoENtmdMSkaAd7Cw==, registry: https://node.bit.cloud/, tarball: https://registry.npmjs.org/@types/graceful-fs/-/graceful-fs-4.1.5.tgz}
+    name: '@types/graceful-fs'
+    version: 4.1.5
+    dependencies:
+      '@types/node': registry.npmjs.org/@types/node/12.20.4
     dev: true
 
   registry.npmjs.org/@types/istanbul-lib-coverage/2.0.4:
@@ -1865,10 +1880,9 @@ packages:
     dev: true
 
   registry.npmjs.org/graceful-fs/4.2.10:
-    resolution: {integrity: sha512-9ByhssR2fPVsNZj478qUUbKfmL0+t5BDVyjShtyZZLiK7ZDAArFFfopyOTj0M05wE2tJPisA4iTnnXl2YoPvOA==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/graceful-fs/-/graceful-fs-4.2.10.tgz}
+    resolution: {integrity: sha512-9ByhssR2fPVsNZj478qUUbKfmL0+t5BDVyjShtyZZLiK7ZDAArFFfopyOTj0M05wE2tJPisA4iTnnXl2YoPvOA==, registry: https://node.bit.cloud/, tarball: https://registry.npmjs.org/graceful-fs/-/graceful-fs-4.2.10.tgz}
     name: graceful-fs
     version: 4.2.10
-    dev: true
 
   registry.npmjs.org/gunzip-maybe/1.4.2:
     resolution: {integrity: sha512-4haO1M4mLO91PW57BMsDFf75UmwoRX0GkdD+Faw+Lr+r/OZrOCS0pIBwOL1xCKQqnQzbNFGgK2V2CpBUPeFNTw==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/gunzip-maybe/-/gunzip-maybe-1.4.2.tgz}
