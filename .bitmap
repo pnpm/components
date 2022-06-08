@@ -10,9 +10,8 @@
 
 {
     "ca-file": {
-        "scope": "",
-        "version": "1.0.0",
-        "defaultScope": "pnpm.network",
+        "scope": "pnpm.network",
+        "version": "1.0.1",
         "mainFile": "index.ts",
         "rootDir": "network/ca-file"
     },

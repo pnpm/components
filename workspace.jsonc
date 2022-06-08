@@ -59,10 +59,7 @@
    * see https://bit.dev/docs/workspace/variants for more info.
    **/
   "teambit.workspace/variants": {
-    /**
-     * "*" is a special rule which applied on all components in the workspace.
-     **/
-    "os": {
+    "*": {
       "teambit.pkg/pkg": {
         "packageManagerPublishArgs": [
           "--access public"
