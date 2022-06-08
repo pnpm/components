@@ -11,16 +11,10 @@
 {
     "ca-file": {
         "scope": "",
-        "version": "",
+        "version": "1.0.0",
         "defaultScope": "pnpm.network",
         "mainFile": "index.ts",
-        "rootDir": "network/ca-file",
-        "config": {
-            "teambit.harmony/node": {},
-            "teambit.envs/envs": {
-                "env": "teambit.harmony/node"
-            }
-        }
+        "rootDir": "network/ca-file"
     },
     "env/path-extender": {
         "scope": "pnpm.os",
