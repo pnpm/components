@@ -43,8 +43,13 @@
         "@pnpm/prepare": "0.0.40",
         "@types/graceful-fs": "4.1.5",
         "@types/string.prototype.matchall": "4.0.1",
+        "agentkeepalive": "4.2.1",
         "graceful-fs": "4.2.10",
+        "http-proxy-agent": "5.0.0",
+        "https-proxy-agent": "5.0.1",
+        "lru-cache": "7.10.1",
         "safe-execa": "0.1.1",
+        "socks-proxy-agent": "6.1.1",
         "string.prototype.matchall": "4.0.7"
       },
       "peerDependencies": {}

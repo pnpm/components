@@ -9,6 +9,19 @@
  */
 
 {
+    "agent": {
+        "scope": "",
+        "version": "",
+        "defaultScope": "pnpm.network",
+        "mainFile": "index.ts",
+        "rootDir": "network/agent",
+        "config": {
+            "teambit.harmony/node": {},
+            "teambit.envs/envs": {
+                "env": "teambit.harmony/node"
+            }
+        }
+    },
     "ca-file": {
         "scope": "pnpm.network",
         "version": "1.0.1",
