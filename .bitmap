@@ -11,7 +11,7 @@
 {
     "agent": {
         "scope": "pnpm.network",
-        "version": "0.0.1",
+        "version": "0.0.2",
         "mainFile": "index.ts",
         "rootDir": "network/agent"
     },
@@ -41,7 +41,7 @@
     },
     "proxy-agent": {
         "scope": "pnpm.network",
-        "version": "0.0.1",
+        "version": "0.0.2",
         "mainFile": "index.ts",
         "rootDir": "network/proxy-agent"
     },
