@@ -1,6 +1,6 @@
-import createHttpProxyAgent, { HttpProxyAgent } from 'http-proxy-agent'
-import createHttpsProxyAgent, { HttpsProxyAgent } from 'https-proxy-agent'
-import createSocksProxyAgent, { SocksProxyAgent } from 'socks-proxy-agent'
+import createHttpProxyAgent from 'http-proxy-agent'
+import createHttpsProxyAgent from 'https-proxy-agent'
+import createSocksProxyAgent from 'socks-proxy-agent'
 import LRU from 'lru-cache'
 
 const DEFAULT_MAX_SOCKETS = 50
@@ -20,9 +20,7 @@ export interface ProxyAgentOptions {
   timeout?: number
 }
 
-export type GetProxyAgentResult = HttpProxyAgent | HttpsProxyAgent | SocksProxyAgent | undefined
-
-export function getProxyAgent (uri: string, opts: ProxyAgentOptions): GetProxyAgentResult {
+export function getProxyAgent (uri: string, opts: ProxyAgentOptions) {
   const parsedUri = new URL(uri)
   const pxuri = getProxyUri(parsedUri, opts)
   if (!pxuri) return
@@ -94,7 +92,7 @@ function getProxy (
     strictSsl?: boolean
   },
   isHttps: boolean
-): GetProxyAgentResult {
+) {
   const popts = {
     auth: getAuth(proxyUrl),
     ca: opts.ca,
