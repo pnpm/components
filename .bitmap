@@ -46,5 +46,18 @@
         "mainFile": "index.ts",
         "rootDir": "os/env/path-extender-windows"
     },
+    "proxy-agent": {
+        "scope": "",
+        "version": "",
+        "defaultScope": "pnpm.network",
+        "mainFile": "index.ts",
+        "rootDir": "network/proxy-agent",
+        "config": {
+            "teambit.harmony/node": {},
+            "teambit.envs/envs": {
+                "env": "teambit.harmony/node"
+            }
+        }
+    },
     "$schema-version": "14.9.0"
 }

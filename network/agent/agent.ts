@@ -1,9 +1,7 @@
 import { URL } from 'url'
 import HttpAgent from 'agentkeepalive'
-import createHttpProxyAgent from 'http-proxy-agent'
-import createHttpsProxyAgent from 'https-proxy-agent'
 import LRU from 'lru-cache'
-import { SocksProxyAgent } from 'socks-proxy-agent'
+import { getProxyAgent, ProxyAgentOptions } from '@pnpm/network.proxy-agent'
 
 const HttpsAgent = HttpAgent.HttpsAgent
 
@@ -11,30 +9,25 @@ const DEFAULT_MAX_SOCKETS = 50
 
 const AGENT_CACHE = new LRU({ max: 50 })
 
-export interface AgentOptions {
-  ca?: string | string[]
-  cert?: string | string[]
-  httpProxy?: string
-  httpsProxy?: string
-  key?: string
-  localAddress?: string
-  maxSockets?: number
+export type AgentOptions = ProxyAgentOptions & {
   noProxy?: boolean | string
-  strictSsl?: boolean
-  timeout?: number
 }
 
 export function getAgent (uri: string, opts: AgentOptions) {
+  if ((opts.httpProxy || opts.httpsProxy) && !checkNoProxy(uri, opts)) {
+    const proxyAgent = getProxyAgent(uri, opts)
+    if (proxyAgent) return proxyAgent
+  }
+  return getNonProxyAgent(uri, opts)
+}
+
+function getNonProxyAgent (uri: string, opts: AgentOptions) {
   const parsedUri = new URL(uri)
   const isHttps = parsedUri.protocol === 'https:'
-  const pxuri = !checkNoProxy(uri, opts) ? getProxyUri(uri, opts) : undefined
 
   /* eslint-disable @typescript-eslint/prefer-nullish-coalescing */
   const key = [
     `https:${isHttps.toString()}`,
-    pxuri
-      ? `proxy:${pxuri.protocol}//${pxuri.username}:${pxuri.password}@${pxuri.host}:${pxuri.port}`
-      : '>no-proxy<',
     `local-address:${opts.localAddress ?? '>no-local-address<'}`,
     `strict-ssl:${isHttps ? Boolean(opts.strictSsl).toString() : '>no-strict-ssl<'}`,
     `ca:${(isHttps && opts.ca?.toString()) || '>no-ca<'}`,
@@ -45,12 +38,6 @@ export function getAgent (uri: string, opts: AgentOptions) {
 
   if (AGENT_CACHE.peek(key)) {
     return AGENT_CACHE.get(key)
-  }
-
-  if (pxuri) {
-    const proxy = getProxy(pxuri, opts, isHttps)
-    AGENT_CACHE.set(key, proxy)
-    return proxy
   }
 
   // If opts.timeout is zero, set the agentTimeout to zero as well. A timeout
@@ -103,89 +90,4 @@ function checkNoProxy (uri: string, opts: { noProxy?: boolean | string }) {
     })
   }
   return opts.noProxy
-}
-
-function getProxyUri (
-  uri: string,
-  opts: {
-    httpProxy?: string
-    httpsProxy?: string
-  }
-) {
-  const { protocol } = new URL(uri)
-
-  let proxy: string | undefined
-  switch (protocol) {
-  case 'http:': {
-    proxy = opts.httpProxy
-    break
-  }
-  case 'https:': {
-    proxy = opts.httpsProxy
-    break
-  }
-  }
-
-  if (!proxy) {
-    return null
-  }
-
-  if (!proxy.includes('://')) {
-    proxy = `${protocol}//${proxy}`
-  }
-
-  const parsedProxy = (typeof proxy === 'string') ? new URL(proxy) : proxy
-
-  return parsedProxy
-}
-
-function getProxy (
-  proxyUrl: URL,
-  opts: {
-    ca?: string | string[]
-    cert?: string | string[]
-    key?: string
-    timeout?: number
-    localAddress?: string
-    maxSockets?: number
-    strictSsl?: boolean
-  },
-  isHttps: boolean
-) {
-  const popts = {
-    auth: getAuth(proxyUrl),
-    ca: opts.ca,
-    cert: opts.cert,
-    host: proxyUrl.hostname,
-    key: opts.key,
-    localAddress: opts.localAddress,
-    maxSockets: opts.maxSockets ?? DEFAULT_MAX_SOCKETS,
-    path: proxyUrl.pathname,
-    port: proxyUrl.port,
-    protocol: proxyUrl.protocol,
-    rejectUnauthorized: opts.strictSsl,
-    timeout: typeof opts.timeout !== 'number' || opts.timeout === 0 ? 0 : opts.timeout + 1,
-  }
-
-  if (proxyUrl.protocol === 'http:' || proxyUrl.protocol === 'https:') {
-    if (!isHttps) {
-      return createHttpProxyAgent(popts)
-    } else {
-      return createHttpsProxyAgent(popts)
-    }
-  }
-  if (proxyUrl.protocol?.startsWith('socks')) {
-    return new SocksProxyAgent(popts)
-  }
-}
-
-function getAuth (user: { username?: string, password?: string }) {
-  if (!user.username) {
-    return undefined
-  }
-  let auth = user.username
-  if (user.password) {
-    auth += `:${user.password}`
-  }
-  return decodeURIComponent(auth)
 }
