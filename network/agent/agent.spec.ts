@@ -1,5 +1,4 @@
 import { getAgent } from './agent'
-import { SocksProxyAgent } from 'socks-proxy-agent'
 
 jest.mock('agentkeepalive', () => {
   const MockHttp = mockHttpAgent('http')
