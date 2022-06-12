@@ -3,7 +3,7 @@ import HttpAgent from 'agentkeepalive'
 import createHttpProxyAgent from 'http-proxy-agent'
 import createHttpsProxyAgent from 'https-proxy-agent'
 import LRU from 'lru-cache'
-import SocksProxyAgent from 'socks-proxy-agent'
+import { SocksProxyAgent } from 'socks-proxy-agent'
 
 const HttpsAgent = HttpAgent.HttpsAgent
 
