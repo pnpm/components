@@ -10,17 +10,10 @@
 
 {
     "agent": {
-        "scope": "",
-        "version": "",
-        "defaultScope": "pnpm.network",
+        "scope": "pnpm.network",
+        "version": "0.0.1",
         "mainFile": "index.ts",
-        "rootDir": "network/agent",
-        "config": {
-            "teambit.harmony/node": {},
-            "teambit.envs/envs": {
-                "env": "teambit.harmony/node"
-            }
-        }
+        "rootDir": "network/agent"
     },
     "ca-file": {
         "scope": "pnpm.network",
@@ -47,17 +40,10 @@
         "rootDir": "os/env/path-extender-windows"
     },
     "proxy-agent": {
-        "scope": "",
-        "version": "",
-        "defaultScope": "pnpm.network",
+        "scope": "pnpm.network",
+        "version": "0.0.1",
         "mainFile": "index.ts",
-        "rootDir": "network/proxy-agent",
-        "config": {
-            "teambit.harmony/node": {},
-            "teambit.envs/envs": {
-                "env": "teambit.harmony/node"
-            }
-        }
+        "rootDir": "network/proxy-agent"
     },
     "$schema-version": "14.9.0"
 }

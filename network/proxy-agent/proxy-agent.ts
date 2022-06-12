@@ -1,6 +1,6 @@
 import createHttpProxyAgent, { HttpProxyAgent } from 'http-proxy-agent'
 import createHttpsProxyAgent, { HttpsProxyAgent } from 'https-proxy-agent'
-import { SocksProxyAgent } from 'socks-proxy-agent'
+import createSocksProxyAgent, { SocksProxyAgent } from 'socks-proxy-agent'
 import LRU from 'lru-cache'
 
 const DEFAULT_MAX_SOCKETS = 50
@@ -118,7 +118,7 @@ function getProxy (
     }
   }
   if (proxyUrl.protocol?.startsWith('socks')) {
-    return new SocksProxyAgent(popts)
+    return createSocksProxyAgent(popts)
   }
   return undefined
 }
