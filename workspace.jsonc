@@ -39,8 +39,8 @@
     "packageManager": "teambit.dependencies/pnpm",
     "policy": {
       "dependencies": {
-        "@pnpm/error": "3.0.1",
-        "@pnpm/prepare": "0.0.40",
+        "@pnpm/error": "^2.1.0",
+        "@pnpm/prepare": "^0.1.2",
         "@types/graceful-fs": "4.1.5",
         "@types/string.prototype.matchall": "4.0.1",
         "agentkeepalive": "4.2.1",
@@ -54,6 +54,7 @@
       },
       "peerDependencies": {}
     },
+    "engineStrict": true,
     "nodeVersion": "12.22.0"
   },
   /**
