@@ -21,6 +21,8 @@ importers:
       string.prototype.matchall: 4.0.7
     dependencies:
       '@pnpm/error': registry.npmjs.org/@pnpm/error/3.0.1
+      '@types/graceful-fs': registry.npmjs.org/@types/graceful-fs/4.1.5
+      '@types/string.prototype.matchall': registry.npmjs.org/@types/string.prototype.matchall/4.0.1
       agentkeepalive: registry.npmjs.org/agentkeepalive/4.2.1
       graceful-fs: registry.npmjs.org/graceful-fs/4.2.10
       http-proxy-agent: registry.npmjs.org/http-proxy-agent/5.0.0
@@ -32,15 +34,16 @@ importers:
     devDependencies:
       '@babel/runtime': registry.npmjs.org/@babel/runtime/7.12.18
       '@pnpm/prepare': registry.npmjs.org/@pnpm/prepare/0.0.40
-      '@types/graceful-fs': registry.npmjs.org/@types/graceful-fs/4.1.5
       '@types/jest': registry.npmjs.org/@types/jest/26.0.20
       '@types/node': registry.npmjs.org/@types/node/12.20.4
-      '@types/string.prototype.matchall': registry.npmjs.org/@types/string.prototype.matchall/4.0.1
 
   network/agent:
     specifiers: {}
 
   network/ca-file:
+    specifiers: {}
+
+  network/proxy-agent:
     specifiers: {}
 
   os/env/path-extender:
@@ -303,7 +306,7 @@ packages:
     version: 4.1.5
     dependencies:
       '@types/node': registry.npmjs.org/@types/node/12.20.4
-    dev: true
+    dev: false
 
   registry.npmjs.org/@types/istanbul-lib-coverage/2.0.4:
     resolution: {integrity: sha512-z/QT1XN4K4KYuslS23k62yDIDLwLFkzxOuMplDtObz0+y7VqJCaO2o+SPwHCvLFZh7xazvvoor2tA/hPz9ee7g==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/@types/istanbul-lib-coverage/-/istanbul-lib-coverage-2.0.4.tgz}
@@ -340,7 +343,6 @@ packages:
     resolution: {integrity: sha512-xRCgeE0Q4pT5UZ189TJ3SpYuX/QGl6QIAOAIeDSbAVAd2gX1NxSZup4jNVK7cxIeP8KDSbJgcckun495isP1jQ==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/@types/node/-/node-12.20.4.tgz}
     name: '@types/node'
     version: 12.20.4
-    dev: true
 
   registry.npmjs.org/@types/ssri/7.1.1:
     resolution: {integrity: sha512-DPP/jkDaqGiyU75MyMURxLWyYLwKSjnAuGe9ZCsLp9QZOpXmDfuevk769F0BS86TmRuD5krnp06qw9nSoNO+0g==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/@types/ssri/-/ssri-7.1.1.tgz}
@@ -354,7 +356,7 @@ packages:
     resolution: {integrity: sha512-jVQQq9YbEcLwWejeHs4CMVZkereuGPgflaOH/BGqHOYT45f3LV0Ah2Cmc0Cby/DZ9qhIp2V3lqPTHnLXlK7VLQ==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/@types/string.prototype.matchall/-/string.prototype.matchall-4.0.1.tgz}
     name: '@types/string.prototype.matchall'
     version: 4.0.1
-    dev: true
+    dev: false
 
   registry.npmjs.org/@types/yargs-parser/21.0.0:
     resolution: {integrity: sha512-iO9ZQHkZxHn4mSakYV0vFHAVDyEOIJQrV2uZ06HxEPcx+mt8swXoZHIbaaJ2crJYFfErySgktuTZ3BeLz+XmFA==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/@types/yargs-parser/-/yargs-parser-21.0.0.tgz}
@@ -901,6 +903,9 @@ packages:
     resolution: {integrity: sha512-v025Hz+IDQ15FpOyK8p02h5bFznMu6rLFsJSyOPR+7WrbSnZ1Ek6pblPukV7K5tC/dsWfncQPIrJ4iUy2PXkbw==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/clipanion/-/clipanion-3.1.0.tgz}
     name: clipanion
     version: 3.1.0
+    peerDependenciesMeta:
+      typanion:
+        optional: true
     dependencies:
       typanion: registry.npmjs.org/typanion/3.9.0
     dev: true
@@ -2467,7 +2472,7 @@ packages:
     version: 15.2.1
     engines: {node: '>=8'}
     peerDependencies:
-      canvas: ^2.5.0
+      canvas: '*'
     peerDependenciesMeta:
       canvas:
         optional: true
@@ -2960,7 +2965,7 @@ packages:
     version: 2.6.7
     engines: {node: 4.x || >=6.0.0}
     peerDependencies:
-      encoding: ^0.1.0
+      encoding: '*'
     peerDependenciesMeta:
       encoding:
         optional: true
@@ -2999,7 +3004,7 @@ packages:
       path-key: registry.npmjs.org/path-key/3.1.1
 
   registry.npmjs.org/npmlog/4.1.2:
-    resolution: {integrity: sha512-2uUqazuKlTaSI/dC8AzicUck7+IrEaOnN/e0jd3Xtt1KcGpwx30v50mL7oPyr/h9bL3E4aZccVwpwP+5W9Vjkg==, registry: https://node.bit.cloud/, tarball: https://registry.npmjs.org/npmlog/-/npmlog-4.1.2.tgz}
+    resolution: {integrity: sha512-2uUqazuKlTaSI/dC8AzicUck7+IrEaOnN/e0jd3Xtt1KcGpwx30v50mL7oPyr/h9bL3E4aZccVwpwP+5W9Vjkg==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/npmlog/-/npmlog-4.1.2.tgz}
     name: npmlog
     version: 4.1.2
     requiresBuild: true
@@ -3543,7 +3548,10 @@ packages:
     version: 1.1.4
     engines: {node: '>=0.10.0'}
     peerDependencies:
-      request: ^2.34
+      request: '*'
+    peerDependenciesMeta:
+      request:
+        optional: true
     dependencies:
       lodash: registry.npmjs.org/lodash/4.17.21
       request: registry.npmjs.org/request/2.88.0
@@ -3557,7 +3565,10 @@ packages:
     engines: {node: '>=0.12.0'}
     deprecated: request-promise-native has been deprecated because it extends the now deprecated request package, see https://github.com/request/request/issues/3142
     peerDependencies:
-      request: ^2.34
+      request: '*'
+    peerDependenciesMeta:
+      request:
+        optional: true
     dependencies:
       request: registry.npmjs.org/request/2.88.0
       request-promise-core: registry.npmjs.org/request-promise-core/1.1.4_request@2.88.0
@@ -4335,7 +4346,7 @@ packages:
     dev: true
 
   registry.npmjs.org/uglify-js/3.15.5:
-    resolution: {integrity: sha512-hNM5q5GbBRB5xB+PMqVRcgYe4c8jbyZ1pzZhS6jbq54/4F2gFK869ZheiE5A8/t+W5jtTNpWef/5Q9zk639FNQ==, registry: https://node.bit.cloud/, tarball: https://registry.npmjs.org/uglify-js/-/uglify-js-3.15.5.tgz}
+    resolution: {integrity: sha512-hNM5q5GbBRB5xB+PMqVRcgYe4c8jbyZ1pzZhS6jbq54/4F2gFK869ZheiE5A8/t+W5jtTNpWef/5Q9zk639FNQ==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/uglify-js/-/uglify-js-3.15.5.tgz}
     name: uglify-js
     version: 3.15.5
     engines: {node: '>=0.8.0'}
@@ -4727,8 +4738,8 @@ packages:
     version: 7.5.7
     engines: {node: '>=8.3.0'}
     peerDependencies:
-      bufferutil: ^4.0.1
-      utf-8-validate: ^5.0.2
+      bufferutil: '*'
+      utf-8-validate: '*'
     peerDependenciesMeta:
       bufferutil:
         optional: true
