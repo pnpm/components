@@ -227,7 +227,6 @@ export PATH="$PNPM_HOME:$PATH"
     const customDir = path.join(homeDir, 'customDir')
     process.env.ZDOTDIR = customDir
     fs.mkdirSync(customDir)
-    console.log('customDir', customDir)
     const customConfigFile = path.join(process.env.ZDOTDIR, '.zshrc')
     fs.writeFileSync(configFile, '', 'utf8')
     fs.writeFileSync(customConfigFile, '', 'utf8')
