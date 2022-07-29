@@ -72,7 +72,7 @@ async function updateShell (
 }
 
 async function setupShell (shell: 'bash' | 'zsh', dir: string, opts: AddDirToPosixEnvPathOpts): Promise<PathExtenderPosixReport> {
-  const configFile = path.join(os.homedir(), `.${shell}rc`)
+  const configFile = getConfigFilePath(shell)
   let newSettings!: string
   const _createPathValue = createPathValue.bind(null, opts.position ?? 'start')
   if (opts.proxyVarName) {
@@ -91,6 +91,12 @@ export PATH="${_createPathValue(`$${opts.proxyVarName}`)}"`
     oldSettings,
     newSettings,
   }
+}
+
+function getConfigFilePath (shell: 'bash' | 'zsh'): string {
+  return shell === 'zsh'
+    ? path.join((process.env.ZDOTDIR || os.homedir()), `.${shell}rc`)
+    : path.join(os.homedir(), `.${shell}rc`)
 }
 
 function createPathValue (position: AddingPosition, dir: string) {
