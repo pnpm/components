@@ -169,6 +169,7 @@ describe('Zsh', () => {
   let configFile!: string
   beforeAll(() => {
     process.env.SHELL = '/bin/zsh'
+    process.env.ZDOTDIR = ''
   })
   beforeEach(() => {
     configFile = path.join(homeDir, '.zshrc')
@@ -221,6 +222,36 @@ export PATH="$PNPM_HOME:$PATH"`,
 export PNPM_HOME="${pnpmHomeDir}"
 export PATH="$PNPM_HOME:$PATH"
 # pnpm end`)
+  })
+  it('should target config file in custom directory when ZDOTDIR is present', async () => {
+    const customDir = path.join(homeDir, 'customDir')
+    process.env.ZDOTDIR = customDir
+    fs.mkdirSync(customDir)
+    const customConfigFile = path.join(process.env.ZDOTDIR, '.zshrc')
+    fs.writeFileSync(configFile, '', 'utf8')
+    fs.writeFileSync(customConfigFile, '', 'utf8')
+    const report = await addDirToPosixEnvPath(pnpmHomeDir, {
+      proxyVarName: 'PNPM_HOME',
+      configSectionName: 'pnpm',
+    })
+    expect(report).toStrictEqual({
+      configFile: {
+        path: customConfigFile,
+        changeType: 'appended',
+      },
+      oldSettings: ``,
+      newSettings: `export PNPM_HOME="${pnpmHomeDir}"
+export PATH="$PNPM_HOME:$PATH"`,
+    })
+    const configContent = fs.readFileSync(configFile, 'utf8')
+    const customConfigContent = fs.readFileSync(customConfigFile, 'utf8')
+    expect(configContent).toEqual(``)
+    expect(customConfigContent).toEqual(`
+# pnpm
+export PNPM_HOME="${pnpmHomeDir}"
+export PATH="$PNPM_HOME:$PATH"
+# pnpm end`)
+    process.env.ZDOTDIR = ''
   })
 })
 
