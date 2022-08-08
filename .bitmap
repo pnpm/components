@@ -23,7 +23,7 @@
     },
     "env/path-extender": {
         "scope": "pnpm.os",
-        "version": "0.2.5",
+        "version": "0.2.6",
         "mainFile": "index.ts",
         "rootDir": "os/env/path-extender"
     },
@@ -35,7 +35,7 @@
     },
     "env/path-extender-windows": {
         "scope": "pnpm.os",
-        "version": "0.2.1",
+        "version": "0.2.2",
         "mainFile": "index.ts",
         "rootDir": "os/env/path-extender-windows"
     },
@@ -45,5 +45,5 @@
         "mainFile": "index.ts",
         "rootDir": "network/proxy-agent"
     },
-    "$schema-version": "14.9.0"
+    "$schema-version": "15.0.0"
 }
