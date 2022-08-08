@@ -143,9 +143,9 @@ HKEY_CURRENT_USER\\Environment
   ])
   expect(execa).toHaveBeenNthCalledWith(3, 'reg', ['query', regKey], { windowsHide: false })
   expect(execa).toHaveBeenNthCalledWith(4, 'reg', ['add', regKey, '/v', 'PNPM_HOME', '/t', 'REG_EXPAND_SZ', '/d', pnpmHomeDirNormalized, '/f'], { windowsHide: false })
-  expect(execa).toHaveBeenNthCalledWith(5, 'setx', ['PNPM_HOME', pnpmHomeDirNormalized], { windowsHide: false })
-  expect(execa).toHaveBeenNthCalledWith(6, 'reg', ['add', regKey, '/v', 'Path', '/t', 'REG_EXPAND_SZ', '/d', `%PNPM_HOME%;${currentPathInRegistry}`, '/f'], { windowsHide: false })
-  expect(execa).toHaveBeenNthCalledWith(7, 'setx', ['Path', `%PNPM_HOME%;${currentPathInRegistry}`], { windowsHide: false })
+  expect(execa).toHaveBeenNthCalledWith(5, 'reg', ['add', regKey, '/v', 'Path', '/t', 'REG_EXPAND_SZ', '/d', `%PNPM_HOME%;${currentPathInRegistry}`, '/f'], { windowsHide: false })
+  expect(execa).toHaveBeenNthCalledWith(6, 'setx', ['REFRESH_ENV_VARS', '1'], { windowsHide: false })
+  expect(execa).toHaveBeenNthCalledWith(7, 'reg', ['delete' ,regKey, '/v', 'REFRESH_ENV_VARS', '/f'], { windowsHide: false })
 })
 
 test('successful first time installation when no additional env variable is used', async () => {
@@ -191,7 +191,8 @@ HKEY_CURRENT_USER\\Environment
   ])
   expect(execa).toHaveBeenNthCalledWith(3, 'reg', ['query', regKey], { windowsHide: false })
   expect(execa).toHaveBeenNthCalledWith(4, 'reg', ['add', regKey, '/v', 'Path', '/t', 'REG_EXPAND_SZ', '/d', `${pnpmHomeDirNormalized};${currentPathInRegistry}`, '/f'], { windowsHide: false })
-  expect(execa).toHaveBeenNthCalledWith(5, 'setx', ['Path', `${pnpmHomeDirNormalized};${currentPathInRegistry}`], { windowsHide: false })
+  expect(execa).toHaveBeenNthCalledWith(5, 'setx', ['REFRESH_ENV_VARS', '1'], { windowsHide: false })
+  expect(execa).toHaveBeenNthCalledWith(6, 'reg', ['delete' ,regKey, '/v', 'REFRESH_ENV_VARS', '/f'], { windowsHide: false })
 })
 
 test('adding the directory to the end of Path', async () => {
@@ -237,7 +238,8 @@ HKEY_CURRENT_USER\\Environment
   ])
   expect(execa).toHaveBeenNthCalledWith(3, 'reg', ['query', regKey], { windowsHide: false })
   expect(execa).toHaveBeenNthCalledWith(4, 'reg', ['add', regKey, '/v', 'Path', '/t', 'REG_EXPAND_SZ', '/d', `${currentPathInRegistry};${pnpmHomeDirNormalized}`, '/f'], { windowsHide: false })
-  expect(execa).toHaveBeenNthCalledWith(5, 'setx', ['Path', `${currentPathInRegistry};${pnpmHomeDirNormalized}`], { windowsHide: false })
+  expect(execa).toHaveBeenNthCalledWith(5, 'setx', ['REFRESH_ENV_VARS', '1'], { windowsHide: false })
+  expect(execa).toHaveBeenNthCalledWith(6, 'reg', ['delete' ,regKey, '/v', 'REFRESH_ENV_VARS', '/f'], { windowsHide: false })
 })
 
 test('PNPM_HOME is already set, but Path is updated', async () => {
@@ -286,7 +288,8 @@ HKEY_CURRENT_USER\\Environment
   ])
   expect(execa).toHaveBeenNthCalledWith(3, 'reg', ['query', regKey], { windowsHide: false })
   expect(execa).toHaveBeenNthCalledWith(4, 'reg', ['add', regKey, '/v', 'Path', '/t', 'REG_EXPAND_SZ', '/d', `%PNPM_HOME%;${currentPathInRegistry}`, '/f'], { windowsHide: false })
-  expect(execa).toHaveBeenNthCalledWith(5, 'setx', ['Path', `%PNPM_HOME%;${currentPathInRegistry}`], { windowsHide: false })
+  expect(execa).toHaveBeenNthCalledWith(5, 'setx', ['REFRESH_ENV_VARS', '1'], { windowsHide: false })
+  expect(execa).toHaveBeenNthCalledWith(6, 'reg', ['delete' ,regKey, '/v', 'REFRESH_ENV_VARS', '/f'], { windowsHide: false })
 })
 
 test('setup throws an error if PNPM_HOME is already set to a different directory', async () => {
