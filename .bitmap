@@ -23,19 +23,19 @@
     },
     "env/path-extender": {
         "scope": "pnpm.os",
-        "version": "0.2.6",
+        "version": "0.2.7",
         "mainFile": "index.ts",
         "rootDir": "os/env/path-extender"
     },
     "env/path-extender-posix": {
         "scope": "pnpm.os",
-        "version": "0.2.4",
+        "version": "0.2.5",
         "mainFile": "index.ts",
         "rootDir": "os/env/path-extender-posix"
     },
     "env/path-extender-windows": {
         "scope": "pnpm.os",
-        "version": "0.2.2",
+        "version": "0.2.3",
         "mainFile": "index.ts",
         "rootDir": "os/env/path-extender-windows"
     },
