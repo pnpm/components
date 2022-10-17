@@ -1,4 +1,4 @@
-import PnpmError from '@pnpm/error'
+import { PnpmError } from '@pnpm/error'
 import matchAll from 'string.prototype.matchall'
 import { win32 as path } from 'path'
 import execa from 'safe-execa'
