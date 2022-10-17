@@ -1,11 +1,11 @@
-lockfileVersion: 5.3
+lockfileVersion: 5.4
 
 importers:
 
   .:
     specifiers:
       '@babel/runtime': 7.12.18
-      '@pnpm/error': 3.0.1
+      '@pnpm/error': 4.0.0
       '@pnpm/prepare': 0.0.40
       '@types/graceful-fs': 4.1.5
       '@types/jest': 26.0.20
@@ -20,9 +20,7 @@ importers:
       socks-proxy-agent: 6.1.1
       string.prototype.matchall: 4.0.7
     dependencies:
-      '@pnpm/error': registry.npmjs.org/@pnpm/error/3.0.1
-      '@types/graceful-fs': registry.npmjs.org/@types/graceful-fs/4.1.5
-      '@types/string.prototype.matchall': registry.npmjs.org/@types/string.prototype.matchall/4.0.1
+      '@pnpm/error': registry.npmjs.org/@pnpm/error/4.0.0
       agentkeepalive: registry.npmjs.org/agentkeepalive/4.2.1
       graceful-fs: registry.npmjs.org/graceful-fs/4.2.10
       http-proxy-agent: registry.npmjs.org/http-proxy-agent/5.0.0
@@ -34,8 +32,10 @@ importers:
     devDependencies:
       '@babel/runtime': registry.npmjs.org/@babel/runtime/7.12.18
       '@pnpm/prepare': registry.npmjs.org/@pnpm/prepare/0.0.40
+      '@types/graceful-fs': registry.npmjs.org/@types/graceful-fs/4.1.5
       '@types/jest': registry.npmjs.org/@types/jest/26.0.20
       '@types/node': registry.npmjs.org/@types/node/12.20.4
+      '@types/string.prototype.matchall': registry.npmjs.org/@types/string.prototype.matchall/4.0.1
 
   network/agent:
     specifiers: {}
@@ -174,11 +174,11 @@ packages:
     version: 6.1.0
     engines: {node: '>=14.19'}
 
-  registry.npmjs.org/@pnpm/error/3.0.1:
-    resolution: {integrity: sha512-hMlbWbFcfcfolNfSjKjpeaZFow71kNg438LZ8rAd01swiVIYRUf/sRv8gGySru6AijYfz5UqslpIJRDbYBkgQA==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/@pnpm/error/-/error-3.0.1.tgz}
+  registry.npmjs.org/@pnpm/error/4.0.0:
+    resolution: {integrity: sha512-NI4DFCMF6xb1SA0bZiiV5KrMCaJM2QmPJFC6p78FXujn7FpiRSWhT9r032wpuQumsl7DEmN4s3wl/P8TA+bL8w==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/@pnpm/error/-/error-4.0.0.tgz}
     name: '@pnpm/error'
-    version: 3.0.1
-    engines: {node: '>=14.19'}
+    version: 4.0.0
+    engines: {node: '>=14.6'}
     dependencies:
       '@pnpm/constants': registry.npmjs.org/@pnpm/constants/6.1.0
     dev: false
@@ -306,7 +306,7 @@ packages:
     version: 4.1.5
     dependencies:
       '@types/node': registry.npmjs.org/@types/node/12.20.4
-    dev: false
+    dev: true
 
   registry.npmjs.org/@types/istanbul-lib-coverage/2.0.4:
     resolution: {integrity: sha512-z/QT1XN4K4KYuslS23k62yDIDLwLFkzxOuMplDtObz0+y7VqJCaO2o+SPwHCvLFZh7xazvvoor2tA/hPz9ee7g==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/@types/istanbul-lib-coverage/-/istanbul-lib-coverage-2.0.4.tgz}
@@ -343,6 +343,7 @@ packages:
     resolution: {integrity: sha512-xRCgeE0Q4pT5UZ189TJ3SpYuX/QGl6QIAOAIeDSbAVAd2gX1NxSZup4jNVK7cxIeP8KDSbJgcckun495isP1jQ==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/@types/node/-/node-12.20.4.tgz}
     name: '@types/node'
     version: 12.20.4
+    dev: true
 
   registry.npmjs.org/@types/ssri/7.1.1:
     resolution: {integrity: sha512-DPP/jkDaqGiyU75MyMURxLWyYLwKSjnAuGe9ZCsLp9QZOpXmDfuevk769F0BS86TmRuD5krnp06qw9nSoNO+0g==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/@types/ssri/-/ssri-7.1.1.tgz}
@@ -356,7 +357,7 @@ packages:
     resolution: {integrity: sha512-jVQQq9YbEcLwWejeHs4CMVZkereuGPgflaOH/BGqHOYT45f3LV0Ah2Cmc0Cby/DZ9qhIp2V3lqPTHnLXlK7VLQ==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/@types/string.prototype.matchall/-/string.prototype.matchall-4.0.1.tgz}
     name: '@types/string.prototype.matchall'
     version: 4.0.1
-    dev: false
+    dev: true
 
   registry.npmjs.org/@types/yargs-parser/21.0.0:
     resolution: {integrity: sha512-iO9ZQHkZxHn4mSakYV0vFHAVDyEOIJQrV2uZ06HxEPcx+mt8swXoZHIbaaJ2crJYFfErySgktuTZ3BeLz+XmFA==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/@types/yargs-parser/-/yargs-parser-21.0.0.tgz}
@@ -4497,6 +4498,7 @@ packages:
       '@verdaccio/readme': registry.npmjs.org/@verdaccio/readme/10.3.3
       '@verdaccio/streams': registry.npmjs.org/@verdaccio/streams/10.2.0
       '@verdaccio/ui-theme': registry.npmjs.org/@verdaccio/ui-theme/6.0.0-6-next.24
+      JSONStream: registry.npmjs.org/JSONStream/1.3.5
       async: registry.npmjs.org/async/3.2.3
       body-parser: registry.npmjs.org/body-parser/1.20.0
       clipanion: registry.npmjs.org/clipanion/3.1.0
@@ -4513,7 +4515,6 @@ packages:
       handlebars: registry.npmjs.org/handlebars/4.7.7
       http-errors: registry.npmjs.org/http-errors/2.0.0
       js-yaml: registry.npmjs.org/js-yaml/4.1.0
-      JSONStream: registry.npmjs.org/JSONStream/1.3.5
       jsonwebtoken: registry.npmjs.org/jsonwebtoken/8.5.1
       kleur: registry.npmjs.org/kleur/4.1.4
       lodash: registry.npmjs.org/lodash/4.17.21
