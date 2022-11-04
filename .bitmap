@@ -39,6 +39,19 @@
         "mainFile": "index.ts",
         "rootDir": "os/env/path-extender-windows"
     },
+    "lex-comparator": {
+        "scope": "",
+        "version": "",
+        "defaultScope": "pnpm.util",
+        "mainFile": "index.ts",
+        "rootDir": "util/lex-comparator",
+        "config": {
+            "teambit.harmony/node": {},
+            "teambit.envs/envs": {
+                "env": "teambit.harmony/node"
+            }
+        }
+    },
     "proxy-agent": {
         "scope": "pnpm.network",
         "version": "0.0.3",
