@@ -22,17 +22,10 @@
         "rootDir": "network/ca-file"
     },
     "env-replace": {
-        "scope": "",
-        "version": "",
-        "defaultScope": "pnpm.config",
+        "scope": "pnpm.config",
+        "version": "1.0.0",
         "mainFile": "index.ts",
-        "rootDir": "config/env-replace",
-        "config": {
-            "teambit.harmony/node": {},
-            "teambit.envs/envs": {
-                "env": "teambit.harmony/node"
-            }
-        }
+        "rootDir": "config/env-replace"
     },
     "env/path-extender": {
         "scope": "pnpm.os",
