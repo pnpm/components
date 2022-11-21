@@ -62,7 +62,10 @@ async function _addDirToWindowsEnvPath (dir: string, opts: AddDirToWindowsEnvPat
   const registryOutput = await getRegistryOutput()
   const changes: PathExtenderWindowsReport = []
   if (opts.proxyVarName) {
-    changes.push(await updateEnvVariable(registryOutput, opts.proxyVarName, addedDir, { overwrite: opts.overwriteProxyVar }))
+    changes.push(await updateEnvVariable(registryOutput, opts.proxyVarName, addedDir, {
+      expandableString: false,
+      overwrite: opts.overwriteProxyVar,
+    }))
     changes.push(await addToPath(registryOutput, `%${opts.proxyVarName}%`, opts.position))
   } else {
     changes.push(await addToPath(registryOutput, addedDir, opts.position))
@@ -71,7 +74,15 @@ async function _addDirToWindowsEnvPath (dir: string, opts: AddDirToWindowsEnvPat
   return changes
 }
 
-async function updateEnvVariable (registryOutput: string, name: string, value: string, opts: { overwrite: boolean }): Promise<EnvVariableChange> {
+async function updateEnvVariable (
+  registryOutput: string,
+  name: string,
+  value: string,
+  opts: {
+    expandableString: boolean
+    overwrite: boolean
+  }
+): Promise<EnvVariableChange> {
   const currentValue = await getEnvValueFromRegistry(registryOutput, name)
   if (currentValue && !opts.overwrite) {
     if (currentValue !== value) {
@@ -79,7 +90,7 @@ async function updateEnvVariable (registryOutput: string, name: string, value: s
     }
     return { variable: name, action: 'skipped', oldValue: currentValue, newValue: value }
   } else {
-    await setEnvVarInRegistry(name, value)
+    await setEnvVarInRegistry(name, value, { expandableString: opts.expandableString })
     return { variable: name, action: 'updated', oldValue: currentValue, newValue: value }
   }
 }
@@ -95,7 +106,7 @@ async function addToPath (registryOutput: string, addedDir: string, position: Ad
     const newPathValue = position === 'start'
       ? `${addedDir}${path.delimiter}${pathData}`
       : `${pathData}${path.delimiter}${addedDir}`
-    await setEnvVarInRegistry('Path', newPathValue)
+    await setEnvVarInRegistry('Path', newPathValue, { expandableString: true })
     return { action: 'updated', variable, oldValue: pathData, newValue: newPathValue }
   }
 }
@@ -123,9 +134,16 @@ async function getEnvValueFromRegistry (registryOutput: string, envVarName: stri
   return match?.groups.data
 }
 
-async function setEnvVarInRegistry (envVarName: string, envVarValue: string) {
+async function setEnvVarInRegistry (
+  envVarName: string,
+  envVarValue: string,
+  opts: {
+    expandableString: boolean
+  }
+) {
+  const regType = opts.expandableString ? 'REG_EXPAND_SZ' : 'REG_SZ'
   try {
-    await execa('reg', ['add', REG_KEY, '/v', envVarName, '/t', 'REG_EXPAND_SZ', '/d', envVarValue, '/f'], EXEC_OPTS)
+    await execa('reg', ['add', REG_KEY, '/v', envVarName, '/t', regType, '/d', envVarValue, '/f'], EXEC_OPTS)
   } catch (err: any) { // eslint-disable-line
     throw new PnpmError('FAILED_SET_ENV', `Failed to set "${envVarName}" to "${envVarValue}": ${err.stderr as string}`)
   }

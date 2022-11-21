@@ -142,7 +142,7 @@ HKEY_CURRENT_USER\\Environment
     },
   ])
   expect(execa).toHaveBeenNthCalledWith(3, 'reg', ['query', regKey], { windowsHide: false })
-  expect(execa).toHaveBeenNthCalledWith(4, 'reg', ['add', regKey, '/v', 'PNPM_HOME', '/t', 'REG_EXPAND_SZ', '/d', pnpmHomeDirNormalized, '/f'], { windowsHide: false })
+  expect(execa).toHaveBeenNthCalledWith(4, 'reg', ['add', regKey, '/v', 'PNPM_HOME', '/t', 'REG_SZ', '/d', pnpmHomeDirNormalized, '/f'], { windowsHide: false })
   expect(execa).toHaveBeenNthCalledWith(5, 'reg', ['add', regKey, '/v', 'Path', '/t', 'REG_EXPAND_SZ', '/d', `%PNPM_HOME%;${currentPathInRegistry}`, '/f'], { windowsHide: false })
   expect(execa).toHaveBeenNthCalledWith(6, 'setx', ['REFRESH_ENV_VARS', '1'], { windowsHide: false })
   expect(execa).toHaveBeenNthCalledWith(7, 'reg', ['delete' ,regKey, '/v', 'REFRESH_ENV_VARS', '/f'], { windowsHide: false })
@@ -372,7 +372,7 @@ HKEY_CURRENT_USER\\Environment
     },
   ])
   expect(execa).toHaveBeenNthCalledWith(3, 'reg', ['query', regKey], { windowsHide: false })
-  expect(execa).toHaveBeenNthCalledWith(4, 'reg', ['add', regKey, '/v', 'PNPM_HOME', '/t', 'REG_EXPAND_SZ', '/d', pnpmHomeDirNormalized, '/f'], { windowsHide: false })
+  expect(execa).toHaveBeenNthCalledWith(4, 'reg', ['add', regKey, '/v', 'PNPM_HOME', '/t', 'REG_SZ', '/d', pnpmHomeDirNormalized, '/f'], { windowsHide: false })
 })
 
 test('failure to install', async () => {
