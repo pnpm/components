@@ -22,7 +22,7 @@ export interface AddDirToPosixEnvPathOpts {
   configSectionName: string
 }
 
-export type ShellType = 'zsh' | 'bash' | 'fish'
+export type ShellType = 'zsh' | 'bash' | 'fish' | 'ksh'
 
 export type ConfigFileChangeType = 'skipped' | 'appended' | 'modified' | 'created'
 
@@ -60,7 +60,8 @@ async function updateShell (
 ): Promise<PathExtenderPosixReport> {
   switch (currentShell) {
   case 'bash':
-  case 'zsh': {
+  case 'zsh':
+  case 'ksh': {
     return setupShell(currentShell, pnpmHomeDir, opts)
   }
   case 'fish': {
@@ -71,7 +72,7 @@ async function updateShell (
   throw new PnpmError('UNSUPPORTED_SHELL', `Can't setup configuration for "${currentShell}" shell. Supported shell languages are bash, zsh, and fish.`)
 }
 
-async function setupShell (shell: 'bash' | 'zsh', dir: string, opts: AddDirToPosixEnvPathOpts): Promise<PathExtenderPosixReport> {
+async function setupShell (shell: 'bash' | 'zsh' | 'ksh', dir: string, opts: AddDirToPosixEnvPathOpts): Promise<PathExtenderPosixReport> {
   const configFile = getConfigFilePath(shell)
   let newSettings!: string
   const _createPathValue = createPathValue.bind(null, opts.position ?? 'start')
@@ -93,7 +94,7 @@ export PATH="${_createPathValue(`$${opts.proxyVarName}`)}"`
   }
 }
 
-function getConfigFilePath (shell: 'bash' | 'zsh'): string {
+function getConfigFilePath (shell: 'bash' | 'zsh' | 'ksh'): string {
   return shell === 'zsh'
     ? path.join((process.env.ZDOTDIR || os.homedir()), `.${shell}rc`)
     : path.join(os.homedir(), `.${shell}rc`)
