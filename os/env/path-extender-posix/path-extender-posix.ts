@@ -100,7 +100,7 @@ export PATH="${_createPathValue(`$${opts.proxyVarName}`)}"`
   }
 }
 
-function getConfigFilePath (shell: 'bash' | 'zsh' | 'ksh'): string {
+function getConfigFilePath (shell: 'bash' | 'zsh' | 'ksh' | 'dash' | 'sh'): string {
   switch (shell) {
   case 'zsh': return path.join((process.env.ZDOTDIR || os.homedir()), `.${shell}rc`)
   case 'dash':
