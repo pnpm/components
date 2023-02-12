@@ -67,12 +67,12 @@ test('a socks proxy', () => {
 
 test('proxy credentials are decoded', () => {
   const opts = {
-    httpsProxy: 'https://use%21r:pas%2As@my.proxy:1234/foo',
+    httpsProxy: `https://${encodeURIComponent('use@!r')}:${encodeURIComponent('p#as*s')}@my.proxy:1234/foo`,
     ...OPTS,
   }
   expect(getProxyAgent('https://foo.com/bar', opts)).toEqual({
     __type: 'https-proxy',
-    auth: 'use!r:pas*s',
+    auth: 'use@!r:p#as*s',
     ca: 'ca',
     cert: 'cert',
     host: 'my.proxy',
@@ -85,4 +85,12 @@ test('proxy credentials are decoded', () => {
     rejectUnauthorized: true,
     timeout: 6,
   })
+})
+
+test('proxy credentials are decoded', () => {
+  const opts = {
+    httpsProxy: 'https://use@!r:p#as*s@my.proxy:1234/foo',
+    ...OPTS,
+  }
+  expect(() => getProxyAgent('https://foo.com/bar', opts)).toThrow("Couldn't parse proxy URL")
 })

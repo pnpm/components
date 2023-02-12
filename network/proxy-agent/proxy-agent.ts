@@ -1,3 +1,4 @@
+import { PnpmError } from '@pnpm/error'
 import createHttpProxyAgent from 'http-proxy-agent'
 import createHttpsProxyAgent from 'https-proxy-agent'
 import createSocksProxyAgent from 'socks-proxy-agent'
@@ -68,16 +69,24 @@ function getProxyUri (
   }
 
   if (!proxy) {
-    return null
+    return undefined
   }
 
   if (!proxy.includes('://')) {
     proxy = `${protocol}//${proxy}`
   }
 
-  const parsedProxy = (typeof proxy === 'string') ? new URL(proxy) : proxy
+  if (typeof proxy !== 'string') {
+    return proxy
+  }
 
-  return parsedProxy
+  try {
+    return new URL(proxy)
+  } catch (err) {
+    throw new PnpmError('INVALID_PROXY', "Couldn't parse proxy URL", {
+      hint: `If your proxy URL contains a username and password, make sure to URL-encode them (you may use the encodeURIComponent function). For instance, https-proxy=https://use%21r:pas%2As@my.proxy:1234/foo. Do not encode the colon (:) between the username and password.`,
+    })
+  }
 }
 
 function getProxy (
