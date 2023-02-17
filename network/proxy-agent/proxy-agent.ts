@@ -1,6 +1,5 @@
 import { PnpmError } from '@pnpm/error'
-import createHttpProxyAgent from 'http-proxy-agent'
-import createHttpsProxyAgent from 'https-proxy-agent'
+import { HttpProxyAgent, HttpsProxyAgent } from 'hpagent'
 import createSocksProxyAgent from 'socks-proxy-agent'
 import LRU from 'lru-cache'
 
@@ -103,29 +102,32 @@ function getProxy (
   isHttps: boolean
 ) {
   const popts = {
-    auth: getAuth(proxyUrl),
+    proxy: proxyUrl,
     ca: opts.ca,
     cert: opts.cert,
-    host: proxyUrl.hostname,
     key: opts.key,
     localAddress: opts.localAddress,
     maxSockets: opts.maxSockets ?? DEFAULT_MAX_SOCKETS,
-    path: proxyUrl.pathname,
-    port: proxyUrl.port,
-    protocol: proxyUrl.protocol,
     rejectUnauthorized: opts.strictSsl,
     timeout: typeof opts.timeout !== 'number' || opts.timeout === 0 ? 0 : opts.timeout + 1,
   }
 
   if (proxyUrl.protocol === 'http:' || proxyUrl.protocol === 'https:') {
     if (!isHttps) {
-      return createHttpProxyAgent(popts)
+      return new HttpProxyAgent(popts)
     } else {
-      return createHttpsProxyAgent(popts)
+      return new HttpsProxyAgent(popts)
     }
   }
   if (proxyUrl.protocol?.startsWith('socks')) {
-    return createSocksProxyAgent(popts)
+    return createSocksProxyAgent({
+      auth: getAuth(proxyUrl),
+      host: proxyUrl.hostname,
+      path: proxyUrl.pathname,
+      port: proxyUrl.port,
+      protocol: proxyUrl.protocol,
+      timeout: typeof opts.timeout !== 'number' || opts.timeout === 0 ? 0 : opts.timeout + 1,
+    })
   }
   return undefined
 }

@@ -45,9 +45,10 @@
         "@types/string.prototype.matchall": "4.0.1",
         "agentkeepalive": "4.2.1",
         "graceful-fs": "4.2.10",
-        "http-proxy-agent": "5.0.0",
-        "https-proxy-agent": "5.0.1",
+        "hpagent": "1.2.0",
         "lru-cache": "7.10.1",
+        "node-fetch": "3.0.0-beta.9",
+        "proxy": "1.0.2",
         "safe-execa": "0.1.1",
         "socks-proxy-agent": "6.1.1",
         "string.prototype.matchall": "4.0.7"
