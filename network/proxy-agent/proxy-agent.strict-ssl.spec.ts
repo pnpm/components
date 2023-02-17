@@ -29,4 +29,14 @@ describe('untrusted certificate', () => {
       agent,
     })
   })
+  it('should throw an error if strictSsl is not set', async () => {
+    const url = 'https://self-signed.badssl.com'
+    const agent = getProxyAgent(url, {
+      httpsProxy: `http://127.0.0.1:${proxyPort}`,
+      strictSsl: true,
+    })
+    await expect(fetch(url, {
+      agent,
+    })).rejects.toThrow(/self signed certificate/)
+  })
 })

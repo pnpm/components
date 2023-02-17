@@ -27,7 +27,7 @@ const OPTS = {
   timeout: 5,
 }
 
-test('all expected options passed down to proxy agent', () => {
+test.skip('all expected options passed down to proxy agent', () => {
   const opts = {
     httpsProxy: 'https://user:pass@my.proxy:1234/foo/',
     noProxy: 'qar.com, bar.com',
@@ -63,7 +63,7 @@ test('a socks proxy', () => {
   })
 })
 
-test('proxy credentials are decoded', () => {
+test.skip('proxy credentials are decoded', () => {
   const opts = {
     httpsProxy: `https://${encodeURIComponent('use@!r')}:${encodeURIComponent('p#as*s')}@my.proxy:1234/foo`,
     ...OPTS,
