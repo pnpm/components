@@ -57,5 +57,11 @@
         "mainFile": "index.ts",
         "rootDir": "network/proxy-agent"
     },
+    "test-bit-tag-publish": {
+        "scope": "",
+        "version": "0.0.2",
+        "mainFile": "index.ts",
+        "rootDir": "os/test-bit-tag-publish"
+    },
     "$schema-version": "15.0.0"
 }
