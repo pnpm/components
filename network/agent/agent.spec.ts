@@ -55,7 +55,7 @@ test('all expected options passed down to proxy agent', () => {
     noProxy: 'qar.com, bar.com',
     ...OPTS,
   }
-  expect(getAgent('https://foo.com/bar', opts).proxy).toEqual({
+  expect((getAgent('https://foo.com/bar', opts) as any).proxy).toEqual({
     ALPNProtocols: ['http 1.1'],
     auth: 'user:pass',
     ca: 'ca',

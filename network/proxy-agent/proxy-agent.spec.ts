@@ -33,7 +33,7 @@ test('all expected options passed down to proxy agent', () => {
     noProxy: 'qar.com, bar.com',
     ...OPTS,
   }
-  expect(getProxyAgent('https://foo.com/bar', opts).proxy).toEqual({
+  expect((getProxyAgent('https://foo.com/bar', opts) as any).proxy).toEqual({
     ALPNProtocols: ['http 1.1'],
     auth: 'user:pass',
     ca: 'ca',
@@ -68,7 +68,7 @@ test('proxy credentials are decoded', () => {
     httpsProxy: `https://${encodeURIComponent('use@!r')}:${encodeURIComponent('p#as*s')}@my.proxy:1234/foo`,
     ...OPTS,
   }
-  expect(getProxyAgent('https://foo.com/bar', opts).proxy).toEqual({
+  expect((getProxyAgent('https://foo.com/bar', opts) as any).proxy).toEqual({
     ALPNProtocols: ['http 1.1'],
     auth: 'use@!r:p#as*s',
     ca: 'ca',
