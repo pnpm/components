@@ -1,6 +1,6 @@
 import { PnpmError } from '@pnpm/error'
+import HttpsProxyAgent from 'https-proxy-agent/dist/agent'
 import createHttpProxyAgent from 'http-proxy-agent'
-import createHttpsProxyAgent from 'https-proxy-agent'
 import createSocksProxyAgent from 'socks-proxy-agent'
 import LRU from 'lru-cache'
 
@@ -121,7 +121,7 @@ function getProxy (
     if (!isHttps) {
       return createHttpProxyAgent(popts)
     } else {
-      return createHttpsProxyAgent(popts)
+      return new PatchedHttpsProxyAgent(popts)
     }
   }
   if (proxyUrl.protocol?.startsWith('socks')) {
@@ -139,4 +139,19 @@ function getAuth (user: { username?: string, password?: string }) {
     auth += `:${user.password}`
   }
   return decodeURIComponent(auth)
+}
+
+const extraOpts = Symbol('extra agent opts')
+
+// This is a workaround for this issue: https://github.com/TooTallNate/node-https-proxy-agent/issues/89
+class PatchedHttpsProxyAgent extends HttpsProxyAgent {
+  constructor (opts: any) {
+    super(opts)
+
+    this[extraOpts] = opts
+  }
+
+  callback (req: any, opts: any) {
+    return super.callback(req, { ...this[extraOpts], ...opts })
+  }
 }

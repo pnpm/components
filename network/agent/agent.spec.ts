@@ -55,8 +55,8 @@ test('all expected options passed down to proxy agent', () => {
     noProxy: 'qar.com, bar.com',
     ...OPTS,
   }
-  expect(getAgent('https://foo.com/bar', opts)).toEqual({
-    __type: 'https-proxy',
+  expect(getAgent('https://foo.com/bar', opts).proxy).toEqual({
+    ALPNProtocols: ['http 1.1'],
     auth: 'user:pass',
     ca: 'ca',
     cert: 'cert',
@@ -64,8 +64,7 @@ test('all expected options passed down to proxy agent', () => {
     key: 'key',
     localAddress: 'localAddress',
     maxSockets: 5,
-    path: '/foo',
-    port: '1234',
+    port: 1234,
     protocol: 'https:',
     rejectUnauthorized: true,
     timeout: 6,
