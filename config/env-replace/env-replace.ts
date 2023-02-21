@@ -8,7 +8,21 @@ function replaceEnvMatch (env: NodeJS.ProcessEnv, orig: string, escape: string, 
   if (escape.length % 2) {
     return orig.slice((escape.length + 1) / 2)
   }
-  const envValue = env[name]
+
+  
+  const matched = name.match(/([^:-]+)(:?)-(.+)/)
+  let envValue;
+  if (matched) {
+    const [, variableName, colon, fallback] = matched
+    if (Object.prototype.hasOwnProperty.call(env, variableName)) {
+      envValue = !env[variableName] && colon ? fallback : env[variableName]
+    } else {
+      envValue = fallback
+    }
+  } else {
+    envValue = env[name]
+  }
+
   if (envValue === undefined) {
     throw new Error(`Failed to replace env in config: ${orig}`)
   }
