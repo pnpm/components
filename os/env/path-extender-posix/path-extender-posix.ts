@@ -84,9 +84,9 @@ async function setupShell (
   const _createPathValue = createPathValue.bind(null, opts.position ?? 'start')
   if (opts.proxyVarName) {
     newSettings = `export ${opts.proxyVarName}="${dir}"
-export PATH="${_createPathValue(`$${opts.proxyVarName}`)}"`
+[[ ":$PATH:" == *":$${opts.proxyVarName}:"* ]] || export PATH="${_createPathValue(`$${opts.proxyVarName}`)}"`
   } else {
-    newSettings = `export PATH="${_createPathValue(dir)}"`
+    newSettings = `[[ ":$PATH:" == *":${dir}:"* ]] || export PATH="${_createPathValue(dir)}"`
   }
   const content = wrapSettings(opts.configSectionName, newSettings)
   const { changeType, oldSettings } = await updateShellConfig(configFile, content, opts)
