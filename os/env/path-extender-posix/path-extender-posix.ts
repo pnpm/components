@@ -90,7 +90,7 @@ case ":$PATH:" in
 esac`
   } else {
     newSettings = `case ":$PATH:" in
-  *":$${dir}:"*) ;;
+  *":${dir}:"*) ;;
   *) export PATH="${_createPathValue(dir)}" ;;
 esac`
   }
@@ -136,7 +136,7 @@ if not string match -q -- $${opts.proxyVarName} $PATH
   set -gx PATH ${_createPathValue(`$${opts.proxyVarName}`)}
 end`
   } else {
-    newSettings = `if not string match -q -- $${dir} $PATH
+    newSettings = `if not string match -q -- "${dir}" $PATH
   set -gx PATH ${_createPathValue(dir)}
 end`
   }
