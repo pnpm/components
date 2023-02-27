@@ -132,11 +132,11 @@ async function setupFishShell (dir: string, opts: AddDirToPosixEnvPathOpts): Pro
   const _createPathValue = createFishPathValue.bind(null, opts.position ?? 'start')
   if (opts.proxyVarName) {
     newSettings = `set -gx ${opts.proxyVarName} "${dir}"
-if not string match -q --substring -- $${opts.proxyVarName} $PATH
+if not string match -q -- $${opts.proxyVarName} $PATH
   set -gx PATH ${_createPathValue(`$${opts.proxyVarName}`)}
 end`
   } else {
-    newSettings = `if not string match -q --substring -- $${dir} $PATH
+    newSettings = `if not string match -q -- $${dir} $PATH
   set -gx PATH ${_createPathValue(dir)}
 end`
   }
