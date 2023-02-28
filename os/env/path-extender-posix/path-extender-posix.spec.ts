@@ -58,6 +58,31 @@ case ":$PATH:" in
 esac
 # pnpm end`)
   })
+  it('should append to empty shell script without using a proxy variable', async () => {
+    fs.writeFileSync(configFile, '', 'utf8')
+    const report = await addDirToPosixEnvPath(pnpmHomeDir, {
+      configSectionName: 'pnpm',
+    })
+    expect(report).toStrictEqual({
+      configFile: {
+        path: configFile,
+        changeType: 'appended',
+      },
+      oldSettings: '',
+      newSettings: `case ":$PATH:" in
+  *":${pnpmHomeDir}:"*) ;;
+  *) export PATH="${pnpmHomeDir}:$PATH" ;;
+esac`,
+    })
+    const configContent = fs.readFileSync(configFile, 'utf8')
+    expect(configContent).toEqual(`
+# pnpm
+case ":$PATH:" in
+  *":${pnpmHomeDir}:"*) ;;
+  *) export PATH="${pnpmHomeDir}:$PATH" ;;
+esac
+# pnpm end`)
+  })
   it('should put the new directory to the end of the PATH', async () => {
     fs.writeFileSync(configFile, '', 'utf8')
     const report = await addDirToPosixEnvPath(pnpmHomeDir, {
@@ -936,6 +961,30 @@ end`,
 set -gx PNPM_HOME "${pnpmHomeDir}"
 if not string match -q -- $PNPM_HOME $PATH
   set -gx PATH "$PNPM_HOME" $PATH
+end
+# pnpm end`)
+  })
+  it('should append to empty shell script without using a proxy varialbe', async () => {
+    fs.mkdirSync('.config/fish', { recursive: true })
+    fs.writeFileSync(configFile, '', 'utf8')
+    const report = await addDirToPosixEnvPath(pnpmHomeDir, {
+      configSectionName: 'pnpm',
+    })
+    expect(report).toStrictEqual({
+      configFile: {
+        path: configFile,
+        changeType: 'appended',
+      },
+      oldSettings: ``,
+      newSettings: `if not string match -q -- "${pnpmHomeDir}" $PATH
+  set -gx PATH "${pnpmHomeDir}" $PATH
+end`,
+    })
+    const configContent = fs.readFileSync(configFile, 'utf8')
+    expect(configContent).toEqual(`
+# pnpm
+if not string match -q -- "${pnpmHomeDir}" $PATH
+  set -gx PATH "${pnpmHomeDir}" $PATH
 end
 # pnpm end`)
   })
