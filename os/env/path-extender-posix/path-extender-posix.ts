@@ -84,9 +84,15 @@ async function setupShell (
   const _createPathValue = createPathValue.bind(null, opts.position ?? 'start')
   if (opts.proxyVarName) {
     newSettings = `export ${opts.proxyVarName}="${dir}"
-export PATH="${_createPathValue(`$${opts.proxyVarName}`)}"`
+case ":$PATH:" in
+  *":$${opts.proxyVarName}:"*) ;;
+  *) export PATH="${_createPathValue(`$${opts.proxyVarName}`)}" ;;
+esac`
   } else {
-    newSettings = `export PATH="${_createPathValue(dir)}"`
+    newSettings = `case ":$PATH:" in
+  *":${dir}:"*) ;;
+  *) export PATH="${_createPathValue(dir)}" ;;
+esac`
   }
   const content = wrapSettings(opts.configSectionName, newSettings)
   const { changeType, oldSettings } = await updateShellConfig(configFile, content, opts)
@@ -126,9 +132,13 @@ async function setupFishShell (dir: string, opts: AddDirToPosixEnvPathOpts): Pro
   const _createPathValue = createFishPathValue.bind(null, opts.position ?? 'start')
   if (opts.proxyVarName) {
     newSettings = `set -gx ${opts.proxyVarName} "${dir}"
-set -gx PATH ${_createPathValue(`$${opts.proxyVarName}`)}`
+if not string match -q -- $${opts.proxyVarName} $PATH
+  set -gx PATH ${_createPathValue(`$${opts.proxyVarName}`)}
+end`
   } else {
-    newSettings = `set -gx PATH ${_createPathValue(dir)}`
+    newSettings = `if not string match -q -- "${dir}" $PATH
+  set -gx PATH ${_createPathValue(dir)}
+end`
   }
   const content = wrapSettings(opts.configSectionName, newSettings)
   const { changeType, oldSettings } = await updateShellConfig(configFile, content, opts)
