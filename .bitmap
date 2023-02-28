@@ -29,13 +29,13 @@
     },
     "env/path-extender": {
         "scope": "pnpm.os",
-        "version": "0.2.9",
+        "version": "0.2.10",
         "mainFile": "index.ts",
         "rootDir": "os/env/path-extender"
     },
     "env/path-extender-posix": {
         "scope": "pnpm.os",
-        "version": "0.2.7",
+        "version": "0.2.8",
         "mainFile": "index.ts",
         "rootDir": "os/env/path-extender-posix"
     },
