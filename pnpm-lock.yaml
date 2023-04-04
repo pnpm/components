@@ -1,5 +1,8 @@
 lockfileVersion: 5.4
 
+neverBuiltDependencies:
+  - core-js
+
 importers:
 
   .:
@@ -222,6 +225,17 @@ packages:
       - domexception
     dev: true
 
+  /npmlog/4.1.2:
+    resolution: {integrity: sha512-2uUqazuKlTaSI/dC8AzicUck7+IrEaOnN/e0jd3Xtt1KcGpwx30v50mL7oPyr/h9bL3E4aZccVwpwP+5W9Vjkg==}
+    requiresBuild: true
+    dependencies:
+      are-we-there-yet: registry.npmjs.org/are-we-there-yet/1.1.7
+      console-control-strings: registry.npmjs.org/console-control-strings/1.1.0
+      gauge: registry.npmjs.org/gauge/2.7.4
+      set-blocking: registry.npmjs.org/set-blocking/2.0.0
+    dev: true
+    optional: true
+
   /proxy/1.0.2:
     resolution: {integrity: sha512-KNac2ueWRpjbUh77OAFPZuNdfEqNynm9DD4xHT14CccGpW8wKZwEkN0yjlb7X9G9Z9F55N0Q+1z+WfgAhwYdzQ==}
     hasBin: true
@@ -237,12 +251,27 @@ packages:
     resolution: {integrity: sha512-kY1AZVr2Ra+t+piVaJ4gxaFaReZVH40AKNo7UCX6W+dEwBo/2oZJzqfuN1qLq1oL45o56cPaTXELwrTh8Fpggg==}
     dev: true
 
+  /source-map/0.6.1:
+    resolution: {integrity: sha512-UjgapumWlbMhkBgzT7Ykc5YXUT46F0iKu8SGXq0bcwP5dz/h0Plj6enJqjz1Zbq2l5WaqYnrVbwWOWMyF3F47g==}
+    engines: {node: '>=0.10.0'}
+    requiresBuild: true
+    dev: true
+    optional: true
+
   /supports-color/5.5.0:
     resolution: {integrity: sha512-QjVjwdXIt408MIiAqCX4oUKsgU2EqAGzs2Ppkm4aQYbjm+ZEWEcW4SfFNTr4uMNZma0ey4f5lgLrkB0aX0QMow==}
     engines: {node: '>=4'}
     dependencies:
       has-flag: 3.0.0
     dev: true
+
+  /uglify-js/3.15.5:
+    resolution: {integrity: sha512-hNM5q5GbBRB5xB+PMqVRcgYe4c8jbyZ1pzZhS6jbq54/4F2gFK869ZheiE5A8/t+W5jtTNpWef/5Q9zk639FNQ==}
+    engines: {node: '>=0.8.0'}
+    hasBin: true
+    requiresBuild: true
+    dev: true
+    optional: true
 
   registry.npmjs.org/@jest/types/26.6.2:
     resolution: {integrity: sha512-fC6QCp7Sc5sX6g8Tvbmj4XUTbyrik0akgRy03yjXbQaBWWNWGE7SGtJk98m0N8nzegD/7SggrUlivxo5ax4KWQ==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/@jest/types/-/types-26.6.2.tgz}
@@ -754,7 +783,7 @@ packages:
       slide: registry.npmjs.org/slide/1.1.6
       ssri: registry.npmjs.org/ssri/8.0.1
     optionalDependencies:
-      npmlog: registry.npmjs.org/npmlog/4.1.2
+      npmlog: 4.1.2
     dev: true
 
   registry.npmjs.org/ansi-regex/2.1.1:
@@ -1628,7 +1657,7 @@ packages:
       esutils: registry.npmjs.org/esutils/2.0.3
       optionator: registry.npmjs.org/optionator/0.8.3
     optionalDependencies:
-      source-map: registry.npmjs.org/source-map/0.6.1
+      source-map: 0.6.1
     dev: true
 
   registry.npmjs.org/eslint-import-resolver-node/0.3.6:
@@ -2099,7 +2128,7 @@ packages:
       source-map: registry.npmjs.org/source-map/0.6.1
       wordwrap: registry.npmjs.org/wordwrap/1.0.0
     optionalDependencies:
-      uglify-js: registry.npmjs.org/uglify-js/3.15.5
+      uglify-js: 3.15.5
     dev: true
 
   registry.npmjs.org/har-schema/2.0.0:
@@ -3137,19 +3166,6 @@ packages:
     engines: {node: '>=8'}
     dependencies:
       path-key: registry.npmjs.org/path-key/3.1.1
-
-  registry.npmjs.org/npmlog/4.1.2:
-    resolution: {integrity: sha512-2uUqazuKlTaSI/dC8AzicUck7+IrEaOnN/e0jd3Xtt1KcGpwx30v50mL7oPyr/h9bL3E4aZccVwpwP+5W9Vjkg==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/npmlog/-/npmlog-4.1.2.tgz}
-    name: npmlog
-    version: 4.1.2
-    requiresBuild: true
-    dependencies:
-      are-we-there-yet: registry.npmjs.org/are-we-there-yet/1.1.7
-      console-control-strings: registry.npmjs.org/console-control-strings/1.1.0
-      gauge: registry.npmjs.org/gauge/2.7.4
-      set-blocking: registry.npmjs.org/set-blocking/2.0.0
-    dev: true
-    optional: true
 
   registry.npmjs.org/number-is-nan/1.0.1:
     resolution: {integrity: sha1-CXtgK1NCKlIsGvuHkDGDNpQaAR0=, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/number-is-nan/-/number-is-nan-1.0.1.tgz}
@@ -4473,16 +4489,6 @@ packages:
     name: typedarray
     version: 0.0.6
     dev: true
-
-  registry.npmjs.org/uglify-js/3.15.5:
-    resolution: {integrity: sha512-hNM5q5GbBRB5xB+PMqVRcgYe4c8jbyZ1pzZhS6jbq54/4F2gFK869ZheiE5A8/t+W5jtTNpWef/5Q9zk639FNQ==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/uglify-js/-/uglify-js-3.15.5.tgz}
-    name: uglify-js
-    version: 3.15.5
-    engines: {node: '>=0.8.0'}
-    hasBin: true
-    requiresBuild: true
-    dev: true
-    optional: true
 
   registry.npmjs.org/unbox-primitive/1.0.2:
     resolution: {integrity: sha512-61pPlCD9h51VoreyJ0BReideM3MDKMKnh6+V9L08331ipq6Q8OFXZYiqP6n/tbHx4s5I9uRhcye6BrbkizkBDw==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/unbox-primitive/-/unbox-primitive-1.0.2.tgz}
