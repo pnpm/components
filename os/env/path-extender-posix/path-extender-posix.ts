@@ -70,7 +70,9 @@ async function updateShell (
     return setupFishShell(pnpmHomeDir, opts)
   }
   }
-  if (currentShell == null) throw new PnpmError('UNKNOWN_SHELL', 'Could not infer shell type.')
+  if (!currentShell) throw new PnpmError('UNKNOWN_SHELL', 'Could not infer shell type.', {
+    hint: 'Either set the SHELL environment variable or replace "sh" in the installer command with "bash"'
+  })
   throw new PnpmError('UNSUPPORTED_SHELL', `Can't setup configuration for "${currentShell}" shell. Supported shell languages are bash, zsh, and fish.`)
 }
 
