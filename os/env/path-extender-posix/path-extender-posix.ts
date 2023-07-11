@@ -71,7 +71,7 @@ async function updateShell (
   }
   }
   if (!currentShell) throw new PnpmError('UNKNOWN_SHELL', 'Could not infer shell type.', {
-    hint: 'Either set the SHELL environment variable or replace "sh" in the installer command with "bash".'
+    hint: 'Set the SHELL environment variable to one of the support shells.'
   })
   throw new PnpmError('UNSUPPORTED_SHELL', `Can't setup configuration for "${currentShell}" shell. Supported shell languages are bash, zsh, and fish.`)
 }
