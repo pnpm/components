@@ -70,10 +70,14 @@ async function updateShell (
     return setupFishShell(pnpmHomeDir, opts)
   }
   }
+  const supportedShellsMsg = 'Supported shell languages are bash, zsh, fish, ksh, dash, and sh.'
   if (!currentShell) throw new PnpmError('UNKNOWN_SHELL', 'Could not infer shell type.', {
-    hint: 'Set the SHELL environment variable to one of the support shells.'
+    hint: `Set the SHELL environment variable to your active shell.
+${supportedShellsMsg}`
   })
-  throw new PnpmError('UNSUPPORTED_SHELL', `Can't setup configuration for "${currentShell}" shell. Supported shell languages are bash, zsh, and fish.`)
+  throw new PnpmError('UNSUPPORTED_SHELL', `Can't setup configuration for "${currentShell}" shell`, {
+    hint: supportedShellsMsg,
+  })
 }
 
 async function setupShell (
