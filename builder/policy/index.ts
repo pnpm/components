@@ -1,0 +1,1 @@
+export { createAllowBuildFunction } from './policy'
