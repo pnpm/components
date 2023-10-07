@@ -10,58 +10,67 @@
 
 {
     "agent": {
+        "name": "agent",
         "scope": "pnpm.network",
         "version": "0.1.0",
         "mainFile": "index.ts",
         "rootDir": "network/agent"
     },
     "ca-file": {
+        "name": "ca-file",
         "scope": "pnpm.network",
         "version": "1.0.2",
         "mainFile": "index.ts",
         "rootDir": "network/ca-file"
     },
     "env-replace": {
+        "name": "env-replace",
         "scope": "pnpm.config",
         "version": "1.1.0",
         "mainFile": "index.ts",
         "rootDir": "config/env-replace"
     },
     "env/path-extender": {
+        "name": "env/path-extender",
         "scope": "pnpm.os",
         "version": "0.2.11",
         "mainFile": "index.ts",
         "rootDir": "os/env/path-extender"
     },
     "env/path-extender-posix": {
+        "name": "env/path-extender-posix",
         "scope": "pnpm.os",
         "version": "0.2.9",
         "mainFile": "index.ts",
         "rootDir": "os/env/path-extender-posix"
     },
     "env/path-extender-windows": {
+        "name": "env/path-extender-windows",
         "scope": "pnpm.os",
         "version": "0.2.4",
         "mainFile": "index.ts",
         "rootDir": "os/env/path-extender-windows"
     },
     "lex-comparator": {
+        "name": "lex-comparator",
         "scope": "pnpm.util",
         "version": "1.0.0",
         "mainFile": "index.ts",
         "rootDir": "util/lex-comparator"
     },
     "policy": {
+        "name": "policy",
         "scope": "pnpm.builder",
-        "version": "1.0.0",
+        "version": "1.1.0-1",
         "mainFile": "index.ts",
         "rootDir": "builder/policy"
     },
     "proxy-agent": {
+        "name": "proxy-agent",
         "scope": "pnpm.network",
         "version": "0.1.0",
         "mainFile": "index.ts",
         "rootDir": "network/proxy-agent"
     },
-    "$schema-version": "16.0.0"
+    "$schema-version": "17.0.0"
 }
