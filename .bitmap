@@ -61,7 +61,7 @@
     "policy": {
         "name": "policy",
         "scope": "pnpm.builder",
-        "version": "1.1.0-1",
+        "version": "1.1.0",
         "mainFile": "index.ts",
         "rootDir": "builder/policy"
     },
