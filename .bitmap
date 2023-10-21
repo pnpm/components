@@ -51,6 +51,13 @@
         "mainFile": "index.ts",
         "rootDir": "os/env/path-extender-windows"
     },
+    "group": {
+        "name": "group",
+        "scope": "pnpm.log",
+        "version": "1.0.1",
+        "mainFile": "index.ts",
+        "rootDir": "log/group"
+    },
     "lex-comparator": {
         "name": "lex-comparator",
         "scope": "pnpm.util",
