@@ -182,7 +182,7 @@ async function updateShellConfig (
 ): Promise<UpdateShellResult> {
   if (!fs.existsSync(configFile)) {
     await fs.promises.mkdir(path.dirname(configFile), { recursive: true })
-    await fs.promises.writeFile(configFile, newContent, 'utf8')
+    await fs.promises.writeFile(configFile, `${newContent}\n`, 'utf8')
     return {
       changeType: 'created',
       oldSettings: '',
@@ -191,7 +191,7 @@ async function updateShellConfig (
   const configContent = await fs.promises.readFile(configFile, 'utf8')
   const match = new RegExp(`# ${opts.configSectionName}\n([\\s\\S]*)\n# ${opts.configSectionName} end`, 'g').exec(configContent)
   if (!match) {
-    await fs.promises.appendFile(configFile, `\n${newContent}`, 'utf8')
+    await fs.promises.appendFile(configFile, `\n${newContent}\n`, 'utf8')
     return {
       changeType: 'appended',
       oldSettings: '',
