@@ -56,7 +56,8 @@ case ":$PATH:" in
   *":$PNPM_HOME:"*) ;;
   *) export PATH="$PNPM_HOME:$PATH" ;;
 esac
-# pnpm end`)
+# pnpm end
+`)
   })
   it('should append to empty shell script without using a proxy variable', async () => {
     fs.writeFileSync(configFile, '', 'utf8')
@@ -81,7 +82,8 @@ case ":$PATH:" in
   *":${pnpmHomeDir}:"*) ;;
   *) export PATH="${pnpmHomeDir}:$PATH" ;;
 esac
-# pnpm end`)
+# pnpm end
+`)
   })
   it('should put the new directory to the end of the PATH', async () => {
     fs.writeFileSync(configFile, '', 'utf8')
@@ -110,7 +112,8 @@ case ":$PATH:" in
   *":$PNPM_HOME:"*) ;;
   *) export PATH="$PATH:$PNPM_HOME" ;;
 esac
-# pnpm end`)
+# pnpm end
+`)
   })
   it('should create a shell script', async () => {
     const report = await addDirToPosixEnvPath(pnpmHomeDir, {
@@ -136,7 +139,8 @@ case ":$PATH:" in
   *":$PNPM_HOME:"*) ;;
   *) export PATH="$PNPM_HOME:$PATH" ;;
 esac
-# pnpm end`)
+# pnpm end
+`)
   })
   it('should make no changes to a shell script that already has the necessary configurations', async () => {
     fs.writeFileSync(configFile, `
@@ -270,7 +274,8 @@ case ":$PATH:" in
   *":$PNPM_HOME:"*) ;;
   *) export PATH="$PNPM_HOME:$PATH" ;;
 esac
-# pnpm end`)
+# pnpm end
+`)
   })
   it('should make no changes to a shell script that already has the necessary configurations', async () => {
     fs.writeFileSync(configFile, `
@@ -344,7 +349,8 @@ case ":$PATH:" in
   *":$PNPM_HOME:"*) ;;
   *) export PATH="$PNPM_HOME:$PATH" ;;
 esac
-# pnpm end`)
+# pnpm end
+`)
     process.env.ZDOTDIR = ''
   })
 })
@@ -383,7 +389,8 @@ case ":$PATH:" in
   *":$PNPM_HOME:"*) ;;
   *) export PATH="$PNPM_HOME:$PATH" ;;
 esac
-# pnpm end`)
+# pnpm end
+`)
   })
   it('should put the new directory to the end of the PATH', async () => {
     fs.writeFileSync(configFile, '', 'utf8')
@@ -412,7 +419,8 @@ case ":$PATH:" in
   *":$PNPM_HOME:"*) ;;
   *) export PATH="$PATH:$PNPM_HOME" ;;
 esac
-# pnpm end`)
+# pnpm end
+`)
   })
   it('should create a shell script', async () => {
     const report = await addDirToPosixEnvPath(pnpmHomeDir, {
@@ -438,7 +446,8 @@ case ":$PATH:" in
   *":$PNPM_HOME:"*) ;;
   *) export PATH="$PNPM_HOME:$PATH" ;;
 esac
-# pnpm end`)
+# pnpm end
+`)
   })
   it('should make no changes to a shell script that already has the necessary configurations', async () => {
     fs.writeFileSync(configFile, `
@@ -579,7 +588,8 @@ case ":$PATH:" in
   *":$PNPM_HOME:"*) ;;
   *) export PATH="$PNPM_HOME:$PATH" ;;
 esac
-# pnpm end`)
+# pnpm end
+`)
   })
   it('should put the new directory to the end of the PATH', async () => {
     fs.writeFileSync(configFile, '', 'utf8')
@@ -608,7 +618,8 @@ case ":$PATH:" in
   *":$PNPM_HOME:"*) ;;
   *) export PATH="$PATH:$PNPM_HOME" ;;
 esac
-# pnpm end`)
+# pnpm end
+`)
   })
   it('should create a shell script', async () => {
     const report = await addDirToPosixEnvPath(pnpmHomeDir, {
@@ -634,7 +645,8 @@ case ":$PATH:" in
   *":$PNPM_HOME:"*) ;;
   *) export PATH="$PNPM_HOME:$PATH" ;;
 esac
-# pnpm end`)
+# pnpm end
+`)
   })
   it('should make no changes to a shell script that already has the necessary configurations', async () => {
     fs.writeFileSync(configFile, `
@@ -775,7 +787,8 @@ case ":$PATH:" in
   *":$PNPM_HOME:"*) ;;
   *) export PATH="$PNPM_HOME:$PATH" ;;
 esac
-# pnpm end`)
+# pnpm end
+`)
   })
   it('should put the new directory to the end of the PATH', async () => {
     fs.writeFileSync(configFile, '', 'utf8')
@@ -804,7 +817,8 @@ case ":$PATH:" in
   *":$PNPM_HOME:"*) ;;
   *) export PATH="$PATH:$PNPM_HOME" ;;
 esac
-# pnpm end`)
+# pnpm end
+`)
   })
   it('should create a shell script', async () => {
     const report = await addDirToPosixEnvPath(pnpmHomeDir, {
@@ -830,7 +844,8 @@ case ":$PATH:" in
   *":$PNPM_HOME:"*) ;;
   *) export PATH="$PNPM_HOME:$PATH" ;;
 esac
-# pnpm end`)
+# pnpm end
+`)
   })
   it('should make no changes to a shell script that already has the necessary configurations', async () => {
     fs.writeFileSync(configFile, `
@@ -962,7 +977,8 @@ set -gx PNPM_HOME "${pnpmHomeDir}"
 if not string match -q -- $PNPM_HOME $PATH
   set -gx PATH "$PNPM_HOME" $PATH
 end
-# pnpm end`)
+# pnpm end
+`)
   })
   it('should append to empty shell script without using a proxy varialbe', async () => {
     fs.mkdirSync('.config/fish', { recursive: true })
@@ -986,7 +1002,8 @@ end`,
 if not string match -q -- "${pnpmHomeDir}" $PATH
   set -gx PATH "${pnpmHomeDir}" $PATH
 end
-# pnpm end`)
+# pnpm end
+`)
   })
   it('should add the new dir to the end of PATH', async () => {
     fs.mkdirSync('.config/fish', { recursive: true })
@@ -1014,7 +1031,8 @@ set -gx PNPM_HOME "${pnpmHomeDir}"
 if not string match -q -- $PNPM_HOME $PATH
   set -gx PATH $PATH "$PNPM_HOME"
 end
-# pnpm end`)
+# pnpm end
+`)
   })
   it('should create a shell script', async () => {
     const report = await addDirToPosixEnvPath(pnpmHomeDir, {
@@ -1038,7 +1056,8 @@ set -gx PNPM_HOME "${pnpmHomeDir}"
 if not string match -q -- $PNPM_HOME $PATH
   set -gx PATH "$PNPM_HOME" $PATH
 end
-# pnpm end`)
+# pnpm end
+`)
   })
   it('should make no changes to a shell script that already has the necessary configurations', async () => {
     fs.mkdirSync('.config/fish', { recursive: true })
