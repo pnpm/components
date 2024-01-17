@@ -48,7 +48,7 @@ jobs:
 
     - name: Add Bit to PATH (Windows)
       if: runner.os == 'Windows'
-      run: echo "$env:HOME\bin" | Out-File -FilePath $env:GITHUB_PATH -Append
+      run: echo "C:\Users\runneradmin\bin\AppData\Local\.bvm" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
       shell: pwsh
 
     - name: Bit Install
