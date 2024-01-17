@@ -41,7 +41,7 @@ jobs:
         cache: 'pnpm'
     - name: Install Bit
       run: pnpm dlx @teambit/bvm install
-    - name: Set PATH and Bit Install
+    - name: Bit Install
       run: |
         if [ "${{ runner.os }}" = "Windows" ]; then
           echo "$env:PATH=$HOME/bin;$env:PATH" | Out-String | Invoke-Expression
@@ -49,7 +49,7 @@ jobs:
           export PATH=$HOME/bin:$PATH
         fi
         bit install
-    - name: Set PATH and Bit Test
+    - name: Bit Test
       run: |
         if [ "${{ runner.os }}" = "Windows" ]; then
           echo "$env:PATH=$HOME/bin;$env:PATH" | Out-String | Invoke-Expression
