@@ -13,26 +13,41 @@ export type AgentOptions = ProxyAgentOptions & {
   noProxy?: boolean | string
 }
 
+function uriToHost (uri: string) {
+  const parsedUri = new URL(uri)
+  const port = parsedUri.port
+  const hostname = parsedUri.hostname
+  let url = `//${hostname}`
+  if (port) {
+    url += `:${port}`
+  }
+  return url + '/'
+}
+
 export function getAgent (uri: string, opts: AgentOptions) {
   if ((opts.httpProxy || opts.httpsProxy) && !checkNoProxy(uri, opts)) {
     const proxyAgent = getProxyAgent(uri, opts)
     if (proxyAgent) return proxyAgent
   }
+
   return getNonProxyAgent(uri, opts)
 }
 
 function getNonProxyAgent (uri: string, opts: AgentOptions) {
   const parsedUri = new URL(uri)
+  const host = uriToHost(uri)
   const isHttps = parsedUri.protocol === 'https:'
+
+  const clientCertificates = opts.clientCertificates?.[host] ?? null
 
   /* eslint-disable @typescript-eslint/prefer-nullish-coalescing */
   const key = [
     `https:${isHttps.toString()}`,
     `local-address:${opts.localAddress ?? '>no-local-address<'}`,
     `strict-ssl:${isHttps ? Boolean(opts.strictSsl).toString() : '>no-strict-ssl<'}`,
-    `ca:${(isHttps && opts.ca?.toString()) || '>no-ca<'}`,
-    `cert:${(isHttps && opts.cert?.toString()) || '>no-cert<'}`,
-    `key:${(isHttps && opts.key) || '>no-key<'}`,
+    `ca:${(isHttps && clientCertificates?.ca || opts.ca?.toString()) || '>no-ca<'}`,
+    `cert:${(isHttps && clientCertificates?.cert || opts.cert?.toString()) || '>no-cert<'}`,
+    `key:${(isHttps && clientCertificates?.key || opts.key) || '>no-key<'}`,
   ].join(':')
   /* eslint-enable @typescript-eslint/prefer-nullish-coalescing */
 
@@ -55,9 +70,9 @@ function getNonProxyAgent (uri: string, opts: AgentOptions) {
   // https://github.com/nodejs/node/blob/350a95b89faab526de852d417bbb8a3ac823c325/lib/_http_agent.js#L254
   const agent = isHttps
     ? new HttpsAgent({
-      ca: opts.ca,
-      cert: opts.cert,
-      key: opts.key,
+      ca: clientCertificates?.ca || opts.ca,
+      cert: clientCertificates?.cert || opts.cert,
+      key: clientCertificates?.key || opts.key,
       localAddress: opts.localAddress,
       maxSockets: opts.maxSockets ?? DEFAULT_MAX_SOCKETS,
       rejectUnauthorized: opts.strictSsl,

@@ -19,6 +19,13 @@ export interface ProxyAgentOptions {
   noProxy?: boolean | string
   strictSsl?: boolean
   timeout?: number
+  clientCertificates?: {
+    [registryUrl: string]: {
+      cert: string,
+      key: string,
+      ca?: string,
+    },
+  }
 }
 
 export function getProxyAgent (uri: string, opts: ProxyAgentOptions) {
@@ -148,10 +155,12 @@ class PatchedHttpsProxyAgent extends HttpsProxyAgent {
   constructor (opts: any) {
     super(opts)
 
+    // @ts-expect-error
     this[extraOpts] = opts
   }
 
   callback (req: any, opts: any) {
+    // @ts-expect-error
     return super.callback(req, { ...this[extraOpts], ...opts })
   }
 }
