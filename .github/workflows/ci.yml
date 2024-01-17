@@ -41,19 +41,18 @@ jobs:
         cache: 'pnpm'
     - name: Install Bit
       run: pnpm dlx @teambit/bvm install
+      
+    - name: Set PATH for Unix
+      if: runner.os != 'Windows'
+      run: echo "PATH=$HOME/bin:$PATH" >> $GITHUB_ENV
+
+    - name: Set PATH for Windows
+      if: runner.os == 'Windows'
+      run: echo "PATH=$env:HOME\bin;$env:PATH" >> $GITHUB_ENV
+      shell: pwsh
+
     - name: Bit Install
-      run: |
-        if [ "${{ runner.os }}" = "Windows" ]; then
-          echo "$env:PATH=$HOME/bin;$env:PATH" | Out-String | Invoke-Expression
-        else
-          export PATH=$HOME/bin:$PATH
-        fi
-        bit install
+      run: bit install
+
     - name: Bit Test
-      run: |
-        if [ "${{ runner.os }}" = "Windows" ]; then
-          echo "$env:PATH=$HOME/bin;$env:PATH" | Out-String | Invoke-Expression
-        else
-          export PATH=$HOME/bin:$PATH
-        fi
-        bit test
+      run: bit test
