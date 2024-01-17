@@ -21,7 +21,7 @@ function uriToHost (uri: string) {
   if (port) {
     url += `:${port}`
   }
-  return url + '/'
+  return `${url}/`
 }
 
 export function getAgent (uri: string, opts: AgentOptions) {
@@ -29,7 +29,6 @@ export function getAgent (uri: string, opts: AgentOptions) {
     const proxyAgent = getProxyAgent(uri, opts)
     if (proxyAgent) return proxyAgent
   }
-
   return getNonProxyAgent(uri, opts)
 }
 
