@@ -41,15 +41,15 @@ jobs:
         cache: 'pnpm'
     - name: Install Bit
       run: pnpm dlx @teambit/bvm install
-      
+
     - name: Set PATH for Unix
       if: runner.os != 'Windows'
       run: echo "PATH=$HOME/bin:$PATH" >> $GITHUB_ENV
 
-    - name: Set PATH for Windows
+    - name: Add Bit to PATH (Windows)
       if: runner.os == 'Windows'
-      run: echo "PATH=$env:HOME\bin;$env:PATH" >> $GITHUB_ENV
-      shell: pwsh
+      run: echo "$env:HOME\bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
+      shell: powershell
 
     - name: Bit Install
       run: bit install
