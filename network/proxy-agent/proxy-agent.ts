@@ -155,12 +155,10 @@ class PatchedHttpsProxyAgent extends HttpsProxyAgent {
   constructor (opts: any) {
     super(opts)
 
-    // @ts-expect-error
     this[extraOpts] = opts
   }
 
   callback (req: any, opts: any) {
-    // @ts-expect-error
     return super.callback(req, { ...this[extraOpts], ...opts })
   }
 }
