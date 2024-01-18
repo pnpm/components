@@ -28,7 +28,7 @@ export interface ProxyAgentOptions {
   }
 }
 
-export function getProxyAgent(uri: string, opts: ProxyAgentOptions) {
+export function getProxyAgent (uri: string, opts: ProxyAgentOptions) {
   const parsedUri = new URL(uri)
   const pxuri = getProxyUri(parsedUri, opts)
   if (!pxuri) return
@@ -56,7 +56,7 @@ export function getProxyAgent(uri: string, opts: ProxyAgentOptions) {
   return proxy
 }
 
-function getProxyUri(
+function getProxyUri (
   uri: URL,
   opts: {
     httpProxy?: string
@@ -98,7 +98,7 @@ function getProxyUri(
   }
 }
 
-function getProxy(
+function getProxy (
   proxyUrl: URL,
   opts: {
     ca?: string | string[]
@@ -142,7 +142,7 @@ function getProxy(
   return undefined
 }
 
-function getAuth(user: { username?: string; password?: string }) {
+function getAuth (user: { username?: string; password?: string }) {
   if (!user.username) {
     return undefined
   }
@@ -157,13 +157,13 @@ const extraOpts = Symbol('extra agent opts')
 
 // This is a workaround for this issue: https://github.com/TooTallNate/node-https-proxy-agent/issues/89
 class PatchedHttpsProxyAgent extends HttpsProxyAgent {
-  constructor(opts: any) {
+  constructor (opts: any) {
     super(opts)
 
     this[extraOpts] = opts
   }
 
-  callback(req: any, opts: any) {
+  callback (req: any, opts: any) {
     return super.callback(req, { ...this[extraOpts], ...opts })
   }
 }

@@ -14,7 +14,7 @@ export type AgentOptions = ProxyAgentOptions & {
   noProxy?: boolean | string
 }
 
-export function getAgent(uri: string, opts: AgentOptions) {
+export function getAgent (uri: string, opts: AgentOptions) {
   if ((opts.httpProxy || opts.httpsProxy) && !checkNoProxy(uri, opts)) {
     const proxyAgent = getProxyAgent(uri, opts)
     if (proxyAgent) return proxyAgent
@@ -22,7 +22,7 @@ export function getAgent(uri: string, opts: AgentOptions) {
   return getNonProxyAgent(uri, opts)
 }
 
-function getNonProxyAgent(uri: string, opts: AgentOptions) {
+function getNonProxyAgent (uri: string, opts: AgentOptions) {
   const parsedUri = new URL(uri)
   const host = nerfDart(uri)
   const isHttps = parsedUri.protocol === 'https:'
@@ -87,7 +87,7 @@ function getNonProxyAgent(uri: string, opts: AgentOptions) {
   return agent
 }
 
-function checkNoProxy(uri: string, opts: { noProxy?: boolean | string }) {
+function checkNoProxy (uri: string, opts: { noProxy?: boolean | string }) {
   const host = new URL(uri).hostname
     .split('.')
     .filter(x => x)
