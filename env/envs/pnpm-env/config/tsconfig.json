@@ -1,0 +1,15 @@
+/**
+ * @see https://bit.dev/reference/typescript/typescript-config
+ */
+{
+  "extends": "@pnpm/config",
+  "exclude": [
+    "artifacts",
+    "public",
+    "dist",
+    "node_modules",
+    "package.json",
+    "**/*.cjs"
+  ],
+  "include": ["**/*", "**/*.json", ".mocharc.js", ".mocharc.js"]
+}
