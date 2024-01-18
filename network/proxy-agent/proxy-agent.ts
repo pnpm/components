@@ -142,7 +142,7 @@ function getProxy (
   return undefined
 }
 
-function getAuth (user: { username?: string; password?: string }) {
+function getAuth (user: { username?: string, password?: string }) {
   if (!user.username) {
     return undefined
   }
