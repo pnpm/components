@@ -131,3 +131,75 @@ test('should not return client certificates for a different host', () => {
     __type: 'https',
   })
 })
+
+test('scoped certificates override global certificates', () => {
+  const agent = getAgent('https://foo.com/bar', {
+    ca: 'global-ca',
+    key: 'global-key',
+    cert: 'global-cert',
+    clientCertificates: {
+      '//foo.com/': {
+        ca: 'scoped-ca',
+        cert: 'scoped-cert',
+        key: 'scoped-key',
+      },
+    },
+  })
+
+  expect(agent).toEqual({
+    ca: 'scoped-ca',
+    cert: 'scoped-cert',
+    key: 'scoped-key',
+    localAddress: undefined,
+    maxSockets: 50,
+    rejectUnauthorized: undefined,
+    timeout: 0,
+    __type: 'https',
+  })
+})
+
+test('select correct client certificates when host has a port', () => {
+  const agent = getAgent('https://foo.com:1234/bar', {
+    clientCertificates: {
+      '//foo.com:1234/': {
+        ca: 'ca',
+        cert: 'cert',
+        key: 'key',
+      },
+    },
+  })
+
+  expect(agent).toEqual({
+    ca: 'ca',
+    cert: 'cert',
+    key: 'key',
+    localAddress: undefined,
+    maxSockets: 50,
+    rejectUnauthorized: undefined,
+    timeout: 0,
+    __type: 'https',
+  })
+})
+
+test('select correct client certificates when host has a path', () => {
+  const agent = getAgent('https://foo.com/bar/baz', {
+    clientCertificates: {
+      '//foo.com/bar/': {
+        ca: 'ca',
+        cert: 'cert',
+        key: 'key',
+      },
+    },
+  })
+
+  expect(agent).toEqual({
+    ca: 'ca',
+    cert: 'cert',
+    key: 'key',
+    localAddress: undefined,
+    maxSockets: 50,
+    rejectUnauthorized: undefined,
+    timeout: 0,
+    __type: 'https',
+  })
+})
