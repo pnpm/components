@@ -27,7 +27,10 @@ function getNonProxyAgent (uri: string, opts: AgentOptions) {
   const host = nerfDart(uri)
   const isHttps = parsedUri.protocol === 'https:'
 
-  const clientCertificates = opts.clientCertificates?.[host] ?? null
+  const { ca, cert, key } = {
+    ...opts,
+    ...opts.clientCertificates?.[host],
+  }
 
   /* eslint-disable @typescript-eslint/prefer-nullish-coalescing */
   const key = [
