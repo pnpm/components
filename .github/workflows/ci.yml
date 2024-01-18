@@ -46,6 +46,12 @@ jobs:
       if: runner.os != 'Windows'
       run: echo "PATH=$HOME/bin:$PATH" >> $GITHUB_ENV
 
+    - name: Set PATH for Windows
+      if: runner.os == 'Windows'
+      shell: pwsh
+      run: |
+        "C:\Users\runneradmin\AppData\Local\.bvm" | Out-File -FilePath $env:GITHUB_PATH -Append
+
     - name: Bit Install
       run: bit install
 
