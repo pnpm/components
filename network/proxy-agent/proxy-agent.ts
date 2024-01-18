@@ -21,14 +21,14 @@ export interface ProxyAgentOptions {
   timeout?: number
   clientCertificates?: {
     [registryUrl: string]: {
-      cert: string,
-      key: string,
-      ca?: string,
-    },
+      cert: string
+      key: string
+      ca?: string
+    }
   }
 }
 
-export function getProxyAgent (uri: string, opts: ProxyAgentOptions) {
+export function getProxyAgent(uri: string, opts: ProxyAgentOptions) {
   const parsedUri = new URL(uri)
   const pxuri = getProxyUri(parsedUri, opts)
   if (!pxuri) return
@@ -39,7 +39,9 @@ export function getProxyAgent (uri: string, opts: ProxyAgentOptions) {
     `https:${isHttps.toString()}`,
     `proxy:${pxuri.protocol}//${pxuri.username}:${pxuri.password}@${pxuri.host}:${pxuri.port}`,
     `local-address:${opts.localAddress ?? '>no-local-address<'}`,
-    `strict-ssl:${isHttps ? Boolean(opts.strictSsl).toString() : '>no-strict-ssl<'}`,
+    `strict-ssl:${
+      isHttps ? Boolean(opts.strictSsl).toString() : '>no-strict-ssl<'
+    }`,
     `ca:${(isHttps && opts.ca?.toString()) || '>no-ca<'}`,
     `cert:${(isHttps && opts.cert?.toString()) || '>no-cert<'}`,
     `key:${(isHttps && opts.key) || '>no-key<'}`,
@@ -54,7 +56,7 @@ export function getProxyAgent (uri: string, opts: ProxyAgentOptions) {
   return proxy
 }
 
-function getProxyUri (
+function getProxyUri(
   uri: URL,
   opts: {
     httpProxy?: string
@@ -65,14 +67,14 @@ function getProxyUri (
 
   let proxy: string | undefined
   switch (protocol) {
-  case 'http:': {
-    proxy = opts.httpProxy
-    break
-  }
-  case 'https:': {
-    proxy = opts.httpsProxy
-    break
-  }
+    case 'http:': {
+      proxy = opts.httpProxy
+      break
+    }
+    case 'https:': {
+      proxy = opts.httpsProxy
+      break
+    }
   }
 
   if (!proxy) {
@@ -96,7 +98,7 @@ function getProxyUri (
   }
 }
 
-function getProxy (
+function getProxy(
   proxyUrl: URL,
   opts: {
     ca?: string | string[]
@@ -121,7 +123,10 @@ function getProxy (
     port: proxyUrl.port,
     protocol: proxyUrl.protocol,
     rejectUnauthorized: opts.strictSsl,
-    timeout: typeof opts.timeout !== 'number' || opts.timeout === 0 ? 0 : opts.timeout + 1,
+    timeout:
+      typeof opts.timeout !== 'number' || opts.timeout === 0
+        ? 0
+        : opts.timeout + 1,
   }
 
   if (proxyUrl.protocol === 'http:' || proxyUrl.protocol === 'https:') {
@@ -137,7 +142,7 @@ function getProxy (
   return undefined
 }
 
-function getAuth (user: { username?: string, password?: string }) {
+function getAuth(user: { username?: string; password?: string }) {
   if (!user.username) {
     return undefined
   }
@@ -152,13 +157,13 @@ const extraOpts = Symbol('extra agent opts')
 
 // This is a workaround for this issue: https://github.com/TooTallNate/node-https-proxy-agent/issues/89
 class PatchedHttpsProxyAgent extends HttpsProxyAgent {
-  constructor (opts: any) {
+  constructor(opts: any) {
     super(opts)
 
     this[extraOpts] = opts
   }
 
-  callback (req: any, opts: any) {
+  callback(req: any, opts: any) {
     return super.callback(req, { ...this[extraOpts], ...opts })
   }
 }
