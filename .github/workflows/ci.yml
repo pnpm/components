@@ -41,7 +41,19 @@ jobs:
         cache: 'pnpm'
     - name: Install Bit
       run: pnpm dlx @teambit/bvm install
-    - name: bit install
-      run: export PATH=$HOME/bin:$PATH && bit install
-    - name: Test
-      run: export PATH=$HOME/bin:$PATH && bit test
+
+    - name: Set PATH for Unix
+      if: runner.os != 'Windows'
+      run: echo "PATH=$HOME/bin:$PATH" >> $GITHUB_ENV
+
+    - name: Set PATH for Windows
+      if: runner.os == 'Windows'
+      shell: pwsh
+      run: |
+        echo "$env:USERPROFILE\AppData\Local\.bvm" | Out-File -FilePath $env:GITHUB_PATH -Append
+
+    - name: Bit Install
+      run: bit install
+
+    - name: Bit Test
+      run: bit test
