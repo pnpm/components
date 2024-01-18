@@ -82,7 +82,7 @@ importers:
         version: registry.npmjs.org/string.prototype.matchall@4.0.7
     devDependencies:
       '@pnpm/config':
-        specifier: ^20.4.1
+        specifier: 20.4.1
         version: 20.4.1
       '@pnpm/eslint-config':
         specifier: ^1.1.0
@@ -90,6 +90,9 @@ importers:
       '@pnpm/prepare':
         specifier: 0.0.82
         version: 0.0.82
+      '@pnpm/tsconfig':
+        specifier: 2.0.0
+        version: 2.0.0
       '@types/graceful-fs':
         specifier: 4.1.5
         version: registry.npmjs.org/@types/graceful-fs@4.1.5
@@ -6761,6 +6764,10 @@ packages:
     engines: {node: '>=16.14'}
     dependencies:
       strip-comments-strings: 1.2.0
+    dev: true
+
+  /@pnpm/tsconfig@2.0.0:
+    resolution: {integrity: sha512-C0Q8jfh8AW+12kWEvhHKwFmnBBR8BkvZJZD2TxuzzP/FSSJTRl3CD6xicliYNvYjrXlgkA4DOqoF5OhqV/ag+g==}
     dev: true
 
   /@pnpm/types@9.3.0:
@@ -24516,6 +24523,7 @@ packages:
       envify: 3.4.1
       fbjs: 0.6.1
     dev: false
+    bundledDependencies: false
 
   /react@18.2.0:
     resolution: {integrity: sha512-/3IjMdb2L9QbBdWiW5e3P2/npwMBaU9mHCSCUzNln0ZCYbcfTsGbTJrU/kGemdH2IWmB2ioZ+zkxtmq6g09fGQ==}

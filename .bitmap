@@ -97,6 +97,15 @@
         "config": {
             "teambit.envs/envs": {
                 "env": "teambit.envs/env"
+            },
+            "teambit.dependencies/dependency-resolver": {
+                "policy": {
+                    "devDependencies": {
+                        "@pnpm/eslint-config": "1.1.0",
+                        "@pnpm/config": "20.4.1",
+                        "@pnpm/tsconfig": "2.0.0"
+                    }
+                }
             }
         }
     },

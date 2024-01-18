@@ -2,7 +2,10 @@
  * @see https://bit.dev/reference/typescript/typescript-config
  */
 {
-  "extends": "@pnpm/config",
+  "extends": "@pnpm/tsconfig",
+  "compilerOptions": {
+    "ignoreDeprecations": "5.0"
+  },
   "exclude": [
     "artifacts",
     "public",
