@@ -27,7 +27,7 @@ function getNonProxyAgent (uri: string, opts: AgentOptions) {
   const host = nerfDart(uri)
   const isHttps = parsedUri.protocol === 'https:'
 
-  const { ca, cert, key } = {
+  const { ca, cert, key: certKey } = {
     ...opts,
     ...opts.clientCertificates?.[host],
   }
@@ -39,15 +39,9 @@ function getNonProxyAgent (uri: string, opts: AgentOptions) {
     `strict-ssl:${
       isHttps ? Boolean(opts.strictSsl).toString() : '>no-strict-ssl<'
     }`,
-    `ca:${
-      isHttps && (clientCertificates?.ca || opts.ca?.toString()) || '>no-ca<'
-    }`,
-    `cert:${
-      isHttps && (clientCertificates?.cert ||
-      opts.cert?.toString()) ||
-      '>no-cert<'
-    }`,
-    `key:${isHttps && (clientCertificates?.key || opts.key) || '>no-key<'}`,
+    `ca:${isHttps && (ca?.toString()) || '>no-ca<'}`,
+    `cert:${isHttps && (cert?.toString()) || '>no-cert<'}`,
+    `key:${isHttps && (certKey?.toString()) || '>no-key<'}`,
   ].join(':')
   /* eslint-enable @typescript-eslint/prefer-nullish-coalescing */
 
@@ -73,9 +67,9 @@ function getNonProxyAgent (uri: string, opts: AgentOptions) {
   // https://github.com/nodejs/node/blob/350a95b89faab526de852d417bbb8a3ac823c325/lib/_http_agent.js#L254
   const agent = isHttps
     ? new HttpsAgent({
-        ca: clientCertificates?.ca || opts.ca,
-        cert: clientCertificates?.cert || opts.cert,
-        key: clientCertificates?.key || opts.key,
+        ca,
+        cert,
+        key: certKey,
         localAddress: opts.localAddress,
         maxSockets: opts.maxSockets ?? DEFAULT_MAX_SOCKETS,
         rejectUnauthorized: opts.strictSsl,
