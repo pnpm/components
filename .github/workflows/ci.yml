@@ -50,7 +50,7 @@ jobs:
       if: runner.os == 'Windows'
       shell: pwsh
       run: |
-        "C:\Users\runneradmin\AppData\Local\.bvm" | Out-File -FilePath $env:GITHUB_PATH -Append
+        echo "$env:USERPROFILE\AppData\Local\.bvm" | Out-File -FilePath $env:GITHUB_PATH -Append
 
     - name: Bit Install
       run: bit install
