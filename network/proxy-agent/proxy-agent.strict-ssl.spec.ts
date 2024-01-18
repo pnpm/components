@@ -31,6 +31,6 @@ describe('untrusted certificate', () => {
        httpsProxy: `http://127.0.0.1:${proxyPort}`,
        strictSsl: true,
      })
-     await expect(fetch(url, { agent })).rejects.toThrow(/self[- ]signed certificate/);
+     await expect(fetch(url, { agent })).rejects.toThrow(/self[- ]signed certificate/)
    })
 })

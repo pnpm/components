@@ -1,0 +1,18 @@
+/**
+ * @see https://bit.dev/reference/typescript/typescript-config
+ */
+{
+  "extends": "@pnpm/tsconfig",
+  "compilerOptions": {
+    "ignoreDeprecations": "5.0"
+  },
+  "exclude": [
+    "artifacts",
+    "public",
+    "dist",
+    "node_modules",
+    "package.json",
+    "**/*.cjs"
+  ],
+  "include": ["**/*", "**/*.json", ".mocharc.js", ".mocharc.js"]
+}
