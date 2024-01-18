@@ -37,14 +37,14 @@ function getNonProxyAgent (uri: string, opts: AgentOptions) {
       isHttps ? Boolean(opts.strictSsl).toString() : '>no-strict-ssl<'
     }`,
     `ca:${
-      (isHttps && clientCertificates?.ca) || opts.ca?.toString() || '>no-ca<'
+      isHttps && (clientCertificates?.ca || opts.ca?.toString()) || '>no-ca<'
     }`,
     `cert:${
-      (isHttps && clientCertificates?.cert) ||
-      opts.cert?.toString() ||
+      isHttps && (clientCertificates?.cert ||
+      opts.cert?.toString()) ||
       '>no-cert<'
     }`,
-    `key:${(isHttps && clientCertificates?.key) || opts.key || '>no-key<'}`,
+    `key:${isHttps && (clientCertificates?.key || opts.key) || '>no-key<'}`,
   ].join(':')
   /* eslint-enable @typescript-eslint/prefer-nullish-coalescing */
 
