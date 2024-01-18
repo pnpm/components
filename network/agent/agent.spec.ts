@@ -8,8 +8,7 @@ jest.mock('agentkeepalive', () => {
 jest.mock('https-proxy-agent', () => mockHttpAgent('https-proxy'))
 
 function mockHttpAgent (type: string) {
-  return function Agent (opts: any) {
-    // eslint-disable-line @typescript-eslint/no-explicit-any
+  return function Agent (opts: any) { // eslint-disable-line @typescript-eslint/no-explicit-any
     return {
       ...opts,
       __type: type,
