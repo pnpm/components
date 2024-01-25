@@ -207,7 +207,7 @@ test('select correct client certificates when host has a path', () => {
 test('select correct client certificates when host has a path and the cert contains a path', () => {
   const agent = getAgent('https://foo.com/bar/baz', {
     clientCertificates: {
-      '//foo.com/bar': {
+      '//foo.com/bar/': {
         ca: 'ca',
         cert: 'cert',
         key: 'key',

@@ -23,14 +23,14 @@ export function getAgent (uri: string, opts: AgentOptions) {
 }
 
 function getClientCertificates(uri: string, opts: AgentOptions) {
-  const { host, hostOnlyDomain, pathname } = parseUri(uri)
+  const { host, hostOnlyDomain, pathname, nerf } = parseUri(uri)
 
   if (host.endsWith(pathname)) {
     return opts.clientCertificates?.[host];
   }
 
-  const fullPath = `${host}${pathname !== '/' ? pathname : ''}`;
-  return opts.clientCertificates?.[fullPath] ?? opts.clientCertificates?.[host] ?? opts.clientCertificates?.[hostOnlyDomain];
+  const fullPath = `${nerf}${pathname !== '/' ? pathname : ''}`;
+  return opts.clientCertificates?.[fullPath] ?? opts.clientCertificates?.[nerf] ?? opts.clientCertificates?.[hostOnlyDomain];
 }
 
 function getNonProxyAgent (uri: string, opts: AgentOptions) {
