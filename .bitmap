@@ -161,5 +161,19 @@
             }
         }
     },
+    "url": {
+        "name": "url",
+        "scope": "",
+        "version": "",
+        "defaultScope": "pnpm.network",
+        "mainFile": "index.ts",
+        "rootDir": "network/url",
+        "config": {
+            "pnpm.env/envs/pnpm-env": {},
+            "teambit.envs/envs": {
+                "env": "pnpm.env/envs/pnpm-env"
+            }
+        }
+    },
     "$schema-version": "17.0.0"
 }

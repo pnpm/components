@@ -1,8 +1,8 @@
 import { URL } from 'url'
 import HttpAgent from 'agentkeepalive'
 import LRU from 'lru-cache'
-import nerfDart from 'nerf-dart'
 import { getProxyAgent, ProxyAgentOptions } from '@pnpm/network.proxy-agent'
+import { parseUri } from '@pnpm/network.url';
 
 const HttpsAgent = HttpAgent.HttpsAgent
 
@@ -22,14 +22,24 @@ export function getAgent (uri: string, opts: AgentOptions) {
   return getNonProxyAgent(uri, opts)
 }
 
+function getClientCertificates(uri: string, opts: AgentOptions) {
+  const { host, hostOnlyDomain, pathname } = parseUri(uri)
+
+  if (host.endsWith(pathname)) {
+    return opts.clientCertificates?.[host];
+  }
+
+  const fullPath = `${host}${pathname !== '/' ? pathname : ''}`;
+  return opts.clientCertificates?.[fullPath] ?? opts.clientCertificates?.[host] ?? opts.clientCertificates?.[hostOnlyDomain];
+}
+
 function getNonProxyAgent (uri: string, opts: AgentOptions) {
   const parsedUri = new URL(uri)
-  const host = nerfDart(uri)
   const isHttps = parsedUri.protocol === 'https:'
 
   const { ca, cert, key: certKey } = {
     ...opts,
-    ...opts.clientCertificates?.[host],
+    ...getClientCertificates(uri, opts),
   }
 
   /* eslint-disable @typescript-eslint/prefer-nullish-coalescing */

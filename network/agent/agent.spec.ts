@@ -184,7 +184,30 @@ test('select correct client certificates when host has a port', () => {
 test('select correct client certificates when host has a path', () => {
   const agent = getAgent('https://foo.com/bar/baz', {
     clientCertificates: {
-      '//foo.com/bar/': {
+      '//foo.com/': {
+        ca: 'ca',
+        cert: 'cert',
+        key: 'key',
+      },
+    },
+  })
+
+  expect(agent).toEqual({
+    ca: 'ca',
+    cert: 'cert',
+    key: 'key',
+    localAddress: undefined,
+    maxSockets: 50,
+    rejectUnauthorized: undefined,
+    timeout: 0,
+    __type: 'https',
+  })
+})
+
+test('select correct client certificates when host has a path and the cert contains a path', () => {
+  const agent = getAgent('https://foo.com/bar/baz', {
+    clientCertificates: {
+      '//foo.com/bar': {
         ca: 'ca',
         cert: 'cert',
         key: 'key',
