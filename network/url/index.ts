@@ -1,2 +1,2 @@
-export { parseUri } from './url';
-export type { ParsedUri } from './url';
+export { parseUri, getMaxParts } from "./url";
+export type { ParsedUri } from "./url";
