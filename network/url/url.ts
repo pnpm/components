@@ -56,6 +56,27 @@ export function getMaxParts(uris: string[]) {
 	}, 0);
 }
 
+export function getFromUri<T>(
+	generic: { [key: string]: T } | undefined,
+	uri: string,
+	maxParts: number,
+): T | undefined {
+	if (!generic) return undefined;
+	if (generic[uri]) return generic[uri];
+	const { nerf, withoutPort } = parseUri(uri);
+	const parts = nerf.split("/");
+	for (let i = Math.min(parts.length, maxParts) - 1; i >= 3; i--) {
+		const key = `${parts.slice(0, i).join("/")}/`;
+		if (generic[key]) {
+			return generic[key];
+		}
+	}
+	if (withoutPort !== uri) {
+		return getFromUri(generic, withoutPort, maxParts);
+	}
+	return undefined;
+}
+
 function convertToDomain(url: URL): string {
 	let result = `//${url.hostname}`;
 	if (url.port) {

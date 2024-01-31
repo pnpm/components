@@ -2,7 +2,7 @@ import { URL } from 'url'
 import HttpAgent from 'agentkeepalive'
 import LRU from 'lru-cache'
 import { getProxyAgent, ProxyAgentOptions } from '@pnpm/network.proxy-agent'
-import { getMaxParts, parseUri } from '@pnpm/network.url';
+import { getMaxParts, getFromUri } from '@pnpm/network.url';
 
 const HttpsAgent = HttpAgent.HttpsAgent
 
@@ -22,31 +22,13 @@ export function getAgent (uri: string, opts: AgentOptions) {
   return getNonProxyAgent(uri, opts)
 }
 
-function getClientCertificates(certs: AgentOptions['clientCertificates'], uri: string, maxParts: number) {
-  if (!certs) {
-    return {}
-  }
-  const { nerf, withoutPort } = parseUri(uri)
-  if (certs[uri]) return certs[uri]
-  const parts = nerf.split('/')
-  for (let i = Math.min(parts.length, maxParts) - 1; i >= 3; i--) {
-    const key = `${parts.slice(0, i).join('/')}/`
-    if (certs[key]) return certs[key]
-  }
-  const urlWithoutPort = withoutPort
-  if (urlWithoutPort !== uri) {
-    return getClientCertificates(certs, urlWithoutPort, maxParts)
-  }
-  return {}
-}
-
 function getNonProxyAgent (uri: string, opts: AgentOptions) {
   const parsedUri = new URL(uri)
   const isHttps = parsedUri.protocol === 'https:'
 
   const { ca, cert, key: certKey } = {
     ...opts,
-    ...getClientCertificates(opts.clientCertificates, uri, getMaxParts(Object.keys(opts.clientCertificates ?? {})))
+    ...getFromUri(opts.clientCertificates, uri, getMaxParts(Object.keys(opts.clientCertificates ?? {})))
   }
 
   /* eslint-disable @typescript-eslint/prefer-nullish-coalescing */
