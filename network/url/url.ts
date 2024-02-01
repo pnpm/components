@@ -49,7 +49,7 @@ export function parseUri(uri: string): ParsedUri {
 	};
 }
 
-export function getMaxParts(uris: string[]) {
+function getMaxParts(uris: string[]) {
 	return uris.reduce((max, uri) => {
 		const parts = uri.split("/").length;
 		return parts > max ? parts : max;
@@ -59,11 +59,11 @@ export function getMaxParts(uris: string[]) {
 export function getFromUri<T>(
 	generic: { [key: string]: T } | undefined,
 	uri: string,
-	maxParts: number,
 ): T | undefined {
 	if (!generic) return undefined;
 	if (generic[uri]) return generic[uri];
 	const { nerf, withoutPort } = parseUri(uri);
+	const maxParts = getMaxParts(Object.keys(generic));
 	const parts = nerf.split("/");
 	for (let i = Math.min(parts.length, maxParts) - 1; i >= 3; i--) {
 		const key = `${parts.slice(0, i).join("/")}/`;
@@ -72,7 +72,7 @@ export function getFromUri<T>(
 		}
 	}
 	if (withoutPort !== uri) {
-		return getFromUri(generic, withoutPort, maxParts);
+		return getFromUri(generic, withoutPort);
 	}
 	return undefined;
 }

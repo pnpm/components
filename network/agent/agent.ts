@@ -2,7 +2,7 @@ import { URL } from 'url'
 import HttpAgent from 'agentkeepalive'
 import LRU from 'lru-cache'
 import { getProxyAgent, ProxyAgentOptions } from '@pnpm/network.proxy-agent'
-import { getMaxParts, getFromUri } from '@pnpm/network.url';
+import { getFromUri } from '@pnpm/network.url';
 
 const HttpsAgent = HttpAgent.HttpsAgent
 
@@ -28,7 +28,7 @@ function getNonProxyAgent (uri: string, opts: AgentOptions) {
 
   const { ca, cert, key: certKey } = {
     ...opts,
-    ...getFromUri(opts.clientCertificates, uri, getMaxParts(Object.keys(opts.clientCertificates ?? {})))
+    ...getFromUri(opts.clientCertificates, uri)
   }
 
   /* eslint-disable @typescript-eslint/prefer-nullish-coalescing */
