@@ -40,7 +40,7 @@ jobs:
         node-version: ${{ matrix.node }}
         cache: 'pnpm'
     - name: Install Bit
-      run: pnpm add -g @teambit/bvm && bvm install --use-system-node
+      run: pnpm dlx @teambit/bvm install
 
     - name: Set PATH for Unix
       if: runner.os != 'Windows'
