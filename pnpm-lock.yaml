@@ -38,6 +38,9 @@ importers:
       '@teambit/react.react-env':
         specifier: ^1.0.34
         version: 1.0.34(@teambit/legacy@node_modules+@teambit+legacy)(@types/node@18.19.8)
+      '@teambit/toolbox.performance.v8-cache':
+        specifier: ^0.0.33
+        version: 0.0.33
       '@teambit/typescript.typescript-compiler':
         specifier: ^2.0.15
         version: 2.0.15(@teambit/legacy@node_modules+@teambit+legacy)
@@ -152,6 +155,8 @@ importers:
   network/config: {}
 
   network/proxy-agent: {}
+
+  network/url: {}
 
   os/env/path-extender: {}
 
@@ -11936,6 +11941,11 @@ packages:
 
   /@teambit/toolbox.performance.v8-cache@0.0.31:
     resolution: {integrity: sha512-nDjxneJyl/veldxX5gn3NOSntQe3XeM6mcjcP59V8HRkh+wLIS0eOGmEydBjUW3VKa6PGuZq0v/PZ45A01J5ng==}
+    engines: {node: '>=12.22.0'}
+    dev: false
+
+  /@teambit/toolbox.performance.v8-cache@0.0.33:
+    resolution: {integrity: sha512-Y4+aMSOvDm+4kAsNUN7GnXwGc1GyxOtoSHo8qASJDo4JwFeNn43H0oUiexBrQGbc0u0EJi+XHYdlvx/gPWiAsQ==}
     engines: {node: '>=12.22.0'}
     dev: false
 

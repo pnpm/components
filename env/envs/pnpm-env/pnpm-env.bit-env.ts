@@ -15,7 +15,9 @@ import { ESLintLinter, EslintTask } from "@teambit/defender.eslint-linter";
 import { JestTask, JestTester } from "@teambit/defender.jest-tester";
 import { PrettierFormatter } from "@teambit/defender.prettier-formatter";
 import { Tester } from "@teambit/tester";
+import { NativeCompileCache } from '@teambit/toolbox.performance.v8-cache';
 
+NativeCompileCache.uninstall();
 export class PnpmEnv extends NodeEnv {
 	/* shorthand name for the environment */
 	name = "pnpm-env";
