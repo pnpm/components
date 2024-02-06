@@ -1,2 +1,1 @@
-export { parseUri, pickSettingByUrl } from './config';
-export type { ParsedUri } from './config';
+export { pickSettingByUrl } from './config';
