@@ -11,7 +11,7 @@ export function readCAFileSync (filePath: string): string[] | undefined {
       .filter((ca) => Boolean(ca.trim()))
       .map((ca) => `${ca.trimLeft()}${delim}`)
     return output
-  } catch (err) {
+  } catch (err: any) { // eslint-disable-line
     if (err.code === 'ENOENT') return undefined
     throw err
   }
