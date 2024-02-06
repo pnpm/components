@@ -143,9 +143,9 @@ importers:
 
   network/ca-file: {}
 
-  network/proxy-agent: {}
+  network/config: {}
 
-  network/url: {}
+  network/proxy-agent: {}
 
   os/env/path-extender: {}
 
