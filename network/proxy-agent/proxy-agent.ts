@@ -19,6 +19,13 @@ export interface ProxyAgentOptions {
   noProxy?: boolean | string
   strictSsl?: boolean
   timeout?: number
+  clientCertificates?: {
+    [registryUrl: string]: {
+      cert: string
+      key: string
+      ca?: string
+    }
+  }
 }
 
 export function getProxyAgent (uri: string, opts: ProxyAgentOptions) {
@@ -32,7 +39,9 @@ export function getProxyAgent (uri: string, opts: ProxyAgentOptions) {
     `https:${isHttps.toString()}`,
     `proxy:${pxuri.protocol}//${pxuri.username}:${pxuri.password}@${pxuri.host}:${pxuri.port}`,
     `local-address:${opts.localAddress ?? '>no-local-address<'}`,
-    `strict-ssl:${isHttps ? Boolean(opts.strictSsl).toString() : '>no-strict-ssl<'}`,
+    `strict-ssl:${
+      isHttps ? Boolean(opts.strictSsl).toString() : '>no-strict-ssl<'
+    }`,
     `ca:${(isHttps && opts.ca?.toString()) || '>no-ca<'}`,
     `cert:${(isHttps && opts.cert?.toString()) || '>no-cert<'}`,
     `key:${(isHttps && opts.key) || '>no-key<'}`,
@@ -58,14 +67,14 @@ function getProxyUri (
 
   let proxy: string | undefined
   switch (protocol) {
-  case 'http:': {
-    proxy = opts.httpProxy
-    break
-  }
-  case 'https:': {
-    proxy = opts.httpsProxy
-    break
-  }
+    case 'http:': {
+      proxy = opts.httpProxy
+      break
+    }
+    case 'https:': {
+      proxy = opts.httpsProxy
+      break
+    }
   }
 
   if (!proxy) {
@@ -114,7 +123,10 @@ function getProxy (
     port: proxyUrl.port,
     protocol: proxyUrl.protocol,
     rejectUnauthorized: opts.strictSsl,
-    timeout: typeof opts.timeout !== 'number' || opts.timeout === 0 ? 0 : opts.timeout + 1,
+    timeout:
+      typeof opts.timeout !== 'number' || opts.timeout === 0
+        ? 0
+        : opts.timeout + 1,
   }
 
   if (proxyUrl.protocol === 'http:' || proxyUrl.protocol === 'https:') {

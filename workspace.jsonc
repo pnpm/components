@@ -1,7 +1,7 @@
 /**
  * this is the main configuration file of your bit workspace.
  * for full documentation, please see: https://bit.dev/docs/workspace/workspace-configuration
- **/{
+ **/ {
   "$schema": "https://static.bit.dev/teambit/schemas/schema.json",
   /**
    * main configuration of the Bit workspace.
@@ -58,6 +58,7 @@
         "http-proxy-agent": "5.0.0",
         "https-proxy-agent": "5.0.1",
         "lru-cache": "7.10.1",
+        "nerf-dart": "^1.0.0",
         "node-fetch": "^2.6.7",
         "proxy": "1.0.2",
         "safe-execa": "0.1.1",
@@ -79,9 +80,7 @@
   "teambit.workspace/variants": {
     "*": {
       "teambit.pkg/pkg": {
-        "packageManagerPublishArgs": [
-          "--access public"
-        ],
+        "packageManagerPublishArgs": ["--access public"],
         "packageJson": {
           "name": "@pnpm/{scope}.{name}",
           "private": false,

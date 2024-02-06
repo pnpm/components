@@ -2,7 +2,9 @@ import fs from 'graceful-fs'
 
 export function readCAFileSync (filePath: string): string[] | undefined {
   try {
-    const contents = fs.readFileSync(filePath, 'utf8')
+    let contents = fs.readFileSync(filePath, 'utf8')
+    // Normalize line endings to Unix-style
+    contents = contents.replace(/\r\n/g, '\n');
     const delim = '-----END CERTIFICATE-----'
     const output = contents
       .split(delim)

@@ -35,6 +35,20 @@
             }
         }
     },
+    "config": {
+        "name": "config",
+        "scope": "",
+        "version": "",
+        "defaultScope": "pnpm.network",
+        "mainFile": "index.ts",
+        "rootDir": "network/config",
+        "config": {
+            "pnpm.env/envs/pnpm-env": {},
+            "teambit.envs/envs": {
+                "env": "pnpm.env/envs/pnpm-env"
+            }
+        }
+    },
     "env-replace": {
         "name": "env-replace",
         "scope": "pnpm.config",

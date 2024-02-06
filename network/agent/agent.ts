@@ -2,6 +2,7 @@ import { URL } from 'url'
 import HttpAgent from 'agentkeepalive'
 import LRU from 'lru-cache'
 import { getProxyAgent, ProxyAgentOptions } from '@pnpm/network.proxy-agent'
+import { pickSettingByUrl  } from '@pnpm/network.config';
 
 const HttpsAgent = HttpAgent.HttpsAgent
 
@@ -25,14 +26,21 @@ function getNonProxyAgent (uri: string, opts: AgentOptions) {
   const parsedUri = new URL(uri)
   const isHttps = parsedUri.protocol === 'https:'
 
+  const { ca, cert, key: certKey } = {
+    ...opts,
+    ...pickSettingByUrl(opts.clientCertificates, uri)
+  }
+
   /* eslint-disable @typescript-eslint/prefer-nullish-coalescing */
   const key = [
     `https:${isHttps.toString()}`,
     `local-address:${opts.localAddress ?? '>no-local-address<'}`,
-    `strict-ssl:${isHttps ? Boolean(opts.strictSsl).toString() : '>no-strict-ssl<'}`,
-    `ca:${(isHttps && opts.ca?.toString()) || '>no-ca<'}`,
-    `cert:${(isHttps && opts.cert?.toString()) || '>no-cert<'}`,
-    `key:${(isHttps && opts.key) || '>no-key<'}`,
+    `strict-ssl:${
+      isHttps ? Boolean(opts.strictSsl).toString() : '>no-strict-ssl<'
+    }`,
+    `ca:${isHttps && (ca?.toString()) || '>no-ca<'}`,
+    `cert:${isHttps && (cert?.toString()) || '>no-cert<'}`,
+    `key:${isHttps && (certKey?.toString()) || '>no-key<'}`,
   ].join(':')
   /* eslint-enable @typescript-eslint/prefer-nullish-coalescing */
 
@@ -45,7 +53,10 @@ function getNonProxyAgent (uri: string, opts: AgentOptions) {
   // opts.timeout is a non-zero value, set it to timeout + 1, to ensure that
   // the node-fetch-npm timeout will always fire first, giving us more
   // consistent errors.
-  const agentTimeout = typeof opts.timeout !== 'number' || opts.timeout === 0 ? 0 : opts.timeout + 1
+  const agentTimeout =
+    typeof opts.timeout !== 'number' || opts.timeout === 0
+      ? 0
+      : opts.timeout + 1
 
   // NOTE: localAddress is passed to the agent here even though it is an
   // undocumented option of the agent's constructor.
@@ -55,29 +66,35 @@ function getNonProxyAgent (uri: string, opts: AgentOptions) {
   // https://github.com/nodejs/node/blob/350a95b89faab526de852d417bbb8a3ac823c325/lib/_http_agent.js#L254
   const agent = isHttps
     ? new HttpsAgent({
-      ca: opts.ca,
-      cert: opts.cert,
-      key: opts.key,
-      localAddress: opts.localAddress,
-      maxSockets: opts.maxSockets ?? DEFAULT_MAX_SOCKETS,
-      rejectUnauthorized: opts.strictSsl,
-      timeout: agentTimeout,
-    } as any) // eslint-disable-line @typescript-eslint/no-explicit-any
+        ca,
+        cert,
+        key: certKey,
+        localAddress: opts.localAddress,
+        maxSockets: opts.maxSockets ?? DEFAULT_MAX_SOCKETS,
+        rejectUnauthorized: opts.strictSsl,
+        timeout: agentTimeout,
+      } as any) // eslint-disable-line @typescript-eslint/no-explicit-any
     : new HttpAgent({
-      localAddress: opts.localAddress,
-      maxSockets: opts.maxSockets ?? DEFAULT_MAX_SOCKETS,
-      timeout: agentTimeout,
-    } as any) // eslint-disable-line @typescript-eslint/no-explicit-any
+        localAddress: opts.localAddress,
+        maxSockets: opts.maxSockets ?? DEFAULT_MAX_SOCKETS,
+        timeout: agentTimeout,
+      } as any) // eslint-disable-line @typescript-eslint/no-explicit-any
   AGENT_CACHE.set(key, agent)
   return agent
 }
 
 function checkNoProxy (uri: string, opts: { noProxy?: boolean | string }) {
-  const host = new URL(uri).hostname.split('.').filter(x => x).reverse()
+  const host = new URL(uri).hostname
+    .split('.')
+    .filter(x => x)
+    .reverse()
   if (typeof opts.noProxy === 'string') {
     const noproxyArr = opts.noProxy.split(/\s*,\s*/g)
     return noproxyArr.some(no => {
-      const noParts = no.split('.').filter(x => x).reverse()
+      const noParts = no
+        .split('.')
+        .filter(x => x)
+        .reverse()
       if (noParts.length === 0) {
         return false
       }
