@@ -56,7 +56,7 @@ test('a socks proxy', () => {
   }
   const agent = getProxyAgent('https://foo.com/bar', opts)
   expect(agent instanceof SocksProxyAgent).toBeTruthy()
-  expect(agent['proxy']).toEqual({
+  expect((agent instanceof SocksProxyAgent)['proxy']).toEqual({
     host: 'my.proxy',
     port: 1234,
     type: 5,
