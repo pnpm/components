@@ -12,168 +12,86 @@
     "agent": {
         "name": "agent",
         "scope": "pnpm.network",
-        "version": "0.1.0",
+        "version": "1.0.0",
         "mainFile": "index.ts",
-        "rootDir": "network/agent",
-        "config": {
-            "pnpm.env/envs/pnpm-env": {},
-            "teambit.envs/envs": {
-                "env": "pnpm.env/envs/pnpm-env"
-            }
-        }
+        "rootDir": "network/agent"
     },
     "ca-file": {
         "name": "ca-file",
         "scope": "pnpm.network",
-        "version": "1.0.2",
+        "version": "2.0.0",
         "mainFile": "index.ts",
-        "rootDir": "network/ca-file",
-        "config": {
-            "pnpm.env/envs/pnpm-env": {},
-            "teambit.envs/envs": {
-                "env": "pnpm.env/envs/pnpm-env"
-            }
-        }
+        "rootDir": "network/ca-file"
     },
     "config": {
         "name": "config",
-        "scope": "",
-        "version": "",
-        "defaultScope": "pnpm.network",
+        "scope": "pnpm.network",
+        "version": "1.0.0",
         "mainFile": "index.ts",
-        "rootDir": "network/config",
-        "config": {
-            "pnpm.env/envs/pnpm-env": {},
-            "teambit.envs/envs": {
-                "env": "pnpm.env/envs/pnpm-env"
-            }
-        }
+        "rootDir": "network/config"
     },
     "env-replace": {
         "name": "env-replace",
         "scope": "pnpm.config",
-        "version": "1.1.0",
+        "version": "2.0.0",
         "mainFile": "index.ts",
-        "rootDir": "config/env-replace",
-        "config": {
-            "pnpm.env/envs/pnpm-env": {},
-            "teambit.envs/envs": {
-                "env": "pnpm.env/envs/pnpm-env"
-            }
-        }
+        "rootDir": "config/env-replace"
     },
     "env/path-extender": {
         "name": "env/path-extender",
         "scope": "pnpm.os",
-        "version": "0.2.12",
+        "version": "1.0.0",
         "mainFile": "index.ts",
-        "rootDir": "os/env/path-extender",
-        "config": {
-            "pnpm.env/envs/pnpm-env": {},
-            "teambit.envs/envs": {
-                "env": "pnpm.env/envs/pnpm-env"
-            }
-        }
+        "rootDir": "os/env/path-extender"
     },
     "env/path-extender-posix": {
         "name": "env/path-extender-posix",
         "scope": "pnpm.os",
-        "version": "0.2.10",
+        "version": "1.0.0",
         "mainFile": "index.ts",
-        "rootDir": "os/env/path-extender-posix",
-        "config": {
-            "pnpm.env/envs/pnpm-env": {},
-            "teambit.envs/envs": {
-                "env": "pnpm.env/envs/pnpm-env"
-            }
-        }
+        "rootDir": "os/env/path-extender-posix"
     },
     "env/path-extender-windows": {
         "name": "env/path-extender-windows",
         "scope": "pnpm.os",
-        "version": "0.2.5",
+        "version": "1.0.0",
         "mainFile": "index.ts",
-        "rootDir": "os/env/path-extender-windows",
-        "config": {
-            "pnpm.env/envs/pnpm-env": {},
-            "teambit.envs/envs": {
-                "env": "pnpm.env/envs/pnpm-env"
-            }
-        }
+        "rootDir": "os/env/path-extender-windows"
     },
     "envs/pnpm-env": {
         "name": "envs/pnpm-env",
-        "scope": "",
-        "version": "",
-        "defaultScope": "pnpm.env",
+        "scope": "pnpm.env",
+        "version": "1.0.0",
         "mainFile": "index.ts",
-        "rootDir": "env/envs/pnpm-env",
-        "config": {
-            "teambit.envs/envs": {
-                "env": "teambit.envs/env"
-            },
-            "teambit.dependencies/dependency-resolver": {
-                "policy": {
-                    "devDependencies": {
-                        "@pnpm/eslint-config": "1.1.0",
-                        "@pnpm/config": "20.4.1",
-                        "@pnpm/tsconfig": "2.0.0"
-                    }
-                }
-            }
-        }
+        "rootDir": "env/envs/pnpm-env"
     },
     "group": {
         "name": "group",
         "scope": "pnpm.log",
-        "version": "1.0.1",
+        "version": "2.0.0",
         "mainFile": "index.ts",
-        "rootDir": "log/group",
-        "config": {
-            "pnpm.env/envs/pnpm-env": {},
-            "teambit.envs/envs": {
-                "env": "pnpm.env/envs/pnpm-env"
-            }
-        }
+        "rootDir": "log/group"
     },
     "lex-comparator": {
         "name": "lex-comparator",
         "scope": "pnpm.util",
-        "version": "1.0.0",
+        "version": "2.0.0",
         "mainFile": "index.ts",
-        "rootDir": "util/lex-comparator",
-        "config": {
-            "pnpm.env/envs/pnpm-env": {},
-            "teambit.envs/envs": {
-                "env": "pnpm.env/envs/pnpm-env"
-            }
-        }
+        "rootDir": "util/lex-comparator"
     },
     "policy": {
         "name": "policy",
         "scope": "pnpm.builder",
-        "version": "1.1.0",
+        "version": "2.0.0",
         "mainFile": "index.ts",
-        "rootDir": "builder/policy",
-        "config": {
-            "pnpm.env/envs/pnpm-env": {},
-            "teambit.envs/envs": {
-                "env": "pnpm.env/envs/pnpm-env"
-            }
-        }
+        "rootDir": "builder/policy"
     },
     "proxy-agent": {
         "name": "proxy-agent",
         "scope": "pnpm.network",
-        "version": "0.1.0",
+        "version": "1.0.0",
         "mainFile": "index.ts",
-        "rootDir": "network/proxy-agent",
-        "config": {
-            "pnpm.env/envs/pnpm-env": {},
-            "teambit.envs/envs": {
-                "env": "pnpm.env/envs/pnpm-env"
-            }
-        }
+        "rootDir": "network/proxy-agent"
     },
     "$schema-version": "17.0.0"
 }
