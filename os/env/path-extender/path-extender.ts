@@ -26,8 +26,8 @@ export async function addDirToEnvPath(dir: string, opts: AddDirToEnvPathOpts): P
 }
 
 export function renderWindowsReport (changedEnvVariables: PathExtenderWindowsReport): PathExtenderReport {
-  const oldSettings = []
-  const newSettings = []
+  const oldSettings: string[] = []
+  const newSettings: string[] = []
   for (const changedEnvVariable of changedEnvVariables) {
     if (changedEnvVariable.oldValue) {
       oldSettings.push(`${changedEnvVariable.variable}=${changedEnvVariable.oldValue}`)

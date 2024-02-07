@@ -30,7 +30,7 @@ export interface AddDirToWindowsEnvPathOpts {
 export interface EnvVariableChange {
   variable: string,
   action: EnvVariableChangeAction
-  oldValue: string,
+  oldValue: string | undefined,
   newValue: string,
 }
 
@@ -41,7 +41,10 @@ export async function addDirToWindowsEnvPath (dir: string, opts?: AddDirToWindow
   // Otherwise, the non-ascii characters in the environment variables will become garbled characters.
   const chcpResult = await execa('chcp')
   const cpMatch = /\d+/.exec(chcpResult.stdout) ?? []
-  const cpBak = parseInt(cpMatch[0])
+  if (cpMatch.length === 0) {
+    throw new PnpmError('CHCP', `exec chcp failed: ${chcpResult.stderr}`)
+  }
+  const cpBak = parseInt(cpMatch[0] as string)
   if (chcpResult.failed || !(cpBak > 0)) {
     throw new PnpmError('CHCP', `exec chcp failed: ${cpBak}, ${chcpResult.stderr}`)
   }
@@ -64,7 +67,7 @@ async function _addDirToWindowsEnvPath (dir: string, opts: AddDirToWindowsEnvPat
   if (opts.proxyVarName) {
     changes.push(await updateEnvVariable(registryOutput, opts.proxyVarName, addedDir, {
       expandableString: false,
-      overwrite: opts.overwriteProxyVar,
+      overwrite: opts.overwriteProxyVar ?? false
     }))
     changes.push(await addToPath(registryOutput, `%${opts.proxyVarName}%`, opts.position))
   } else {
@@ -91,7 +94,7 @@ async function updateEnvVariable (
     return { variable: name, action: 'skipped', oldValue: currentValue, newValue: value }
   } else {
     await setEnvVarInRegistry(name, value, { expandableString: opts.expandableString })
-    return { variable: name, action: 'updated', oldValue: currentValue, newValue: value }
+    return { variable: name, action: 'updated', oldValue: currentValue as string, newValue: value }
   }
 }
 

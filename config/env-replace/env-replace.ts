@@ -17,7 +17,7 @@ function replaceEnvMatch (env: NodeJS.ProcessEnv, orig: string, escape: string, 
 
 const ENV_VALUE = /([^:-]+)(:?)-(.+)/
 
-function getEnvValue (env: NodeJS.ProcessEnv, name: string): string {
+function getEnvValue (env: NodeJS.ProcessEnv, name: string): string | undefined {
   const matched = name.match(ENV_VALUE)
   if (!matched) return env[name]
   const [, variableName, colon, fallback] = matched

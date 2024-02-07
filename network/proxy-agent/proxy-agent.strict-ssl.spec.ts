@@ -3,7 +3,7 @@ import { getProxyAgent } from './proxy-agent'
 import Proxy from 'proxy'
 
 describe('untrusted certificate', () => {
-  let proxy: Proxy
+  let proxy: any
   let proxyPort: number
   beforeAll((done) => {
     // setup HTTP proxy server
