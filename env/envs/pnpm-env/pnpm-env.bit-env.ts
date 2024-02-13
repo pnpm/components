@@ -2,7 +2,7 @@
  * this env extends the Bit official NodeJS environment.
  * learn more: https://bit.cloud/bitdev/node/node-env
  */
-import { NodeEnv } from "@bitdev/node.node-env";
+import { NodeEnv } from "@teambit/node.node";
 import { Compiler } from "@teambit/compiler";
 import { EnvHandler } from "@teambit/envs";
 import { Pipeline } from "@teambit/builder";
