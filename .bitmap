@@ -12,84 +12,84 @@
     "agent": {
         "name": "agent",
         "scope": "pnpm.network",
-        "version": "1.0.0",
+        "version": "1.0.1",
         "mainFile": "index.ts",
         "rootDir": "network/agent"
     },
     "ca-file": {
         "name": "ca-file",
         "scope": "pnpm.network",
-        "version": "2.0.0",
+        "version": "2.0.1",
         "mainFile": "index.ts",
         "rootDir": "network/ca-file"
     },
     "config": {
         "name": "config",
         "scope": "pnpm.network",
-        "version": "1.0.0",
+        "version": "1.0.1",
         "mainFile": "index.ts",
         "rootDir": "network/config"
     },
     "env-replace": {
         "name": "env-replace",
         "scope": "pnpm.config",
-        "version": "2.0.0",
+        "version": "2.0.1",
         "mainFile": "index.ts",
         "rootDir": "config/env-replace"
     },
     "env/path-extender": {
         "name": "env/path-extender",
         "scope": "pnpm.os",
-        "version": "1.0.0",
+        "version": "1.0.1",
         "mainFile": "index.ts",
         "rootDir": "os/env/path-extender"
     },
     "env/path-extender-posix": {
         "name": "env/path-extender-posix",
         "scope": "pnpm.os",
-        "version": "1.0.0",
+        "version": "1.0.1",
         "mainFile": "index.ts",
         "rootDir": "os/env/path-extender-posix"
     },
     "env/path-extender-windows": {
         "name": "env/path-extender-windows",
         "scope": "pnpm.os",
-        "version": "1.0.0",
+        "version": "1.0.1",
         "mainFile": "index.ts",
         "rootDir": "os/env/path-extender-windows"
     },
     "envs/pnpm-env": {
         "name": "envs/pnpm-env",
         "scope": "pnpm.env",
-        "version": "1.0.0",
+        "version": "1.0.1",
         "mainFile": "index.ts",
         "rootDir": "env/envs/pnpm-env"
     },
     "group": {
         "name": "group",
         "scope": "pnpm.log",
-        "version": "2.0.0",
+        "version": "2.0.1",
         "mainFile": "index.ts",
         "rootDir": "log/group"
     },
     "lex-comparator": {
         "name": "lex-comparator",
         "scope": "pnpm.util",
-        "version": "2.0.0",
+        "version": "2.0.1",
         "mainFile": "index.ts",
         "rootDir": "util/lex-comparator"
     },
     "policy": {
         "name": "policy",
         "scope": "pnpm.builder",
-        "version": "2.0.0",
+        "version": "2.0.1",
         "mainFile": "index.ts",
         "rootDir": "builder/policy"
     },
     "proxy-agent": {
         "name": "proxy-agent",
         "scope": "pnpm.network",
-        "version": "1.0.0",
+        "version": "1.0.1",
         "mainFile": "index.ts",
         "rootDir": "network/proxy-agent"
     },
