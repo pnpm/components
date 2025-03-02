@@ -44,7 +44,7 @@ jobs:
     - name: Set Bit to nightly
       run: bvm config set RELEASE_TYPE nightly
     - name: Install Bit
-      run: bvm install 1.6.44
+      run: bvm install 1.9.76
 
     - name: Set PATH for Unix
       if: runner.os != 'Windows'
