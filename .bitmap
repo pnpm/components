@@ -63,7 +63,18 @@
         "scope": "pnpm.env",
         "version": "2.0.0",
         "mainFile": "index.ts",
-        "rootDir": "env/envs/pnpm-env"
+        "rootDir": "env/envs/pnpm-env",
+        "config": {
+            "teambit.dependencies/dependency-resolver": {
+                "policy": {
+                    "devDependencies": {
+                        "@pnpm/eslint-config": "1.1.0",
+                        "@pnpm/config": "1002.4.1",
+                        "@pnpm/tsconfig": "2.0.0"
+                    }
+                }
+            }
+        }
     },
     "group": {
         "name": "group",
