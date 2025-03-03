@@ -7,7 +7,7 @@ export function createAllowBuildFunction (
     onlyBuiltDependenciesFile?: string
   }
 ): undefined | ((pkgName: string) => boolean) {
-  if (opts.onlyBuiltDependenciesFile || opts.onlyBuiltDependencies != null) {
+  if (opts.onlyBuiltDependenciesFile || opts.onlyBuiltDependencies?.length) {
     const onlyBuiltDeps = opts.onlyBuiltDependencies ?? []
     if (opts.onlyBuiltDependenciesFile) {
       onlyBuiltDeps.push(...JSON.parse(fs.readFileSync(opts.onlyBuiltDependenciesFile, 'utf8')))

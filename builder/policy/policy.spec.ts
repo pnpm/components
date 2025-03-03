@@ -52,3 +52,9 @@ it('should onlyBuiltDependencies set via a file and config', () => {
 it('should return undefined if no policy is set', () => {
   expect(createAllowBuildFunction({})).toBeUndefined()
 })
+
+it('should return undefined if onlyBuiltDependencies is empty array', () => {
+  expect(createAllowBuildFunction({
+    onlyBuiltDependencies: [],
+  })).toBeUndefined()
+})
