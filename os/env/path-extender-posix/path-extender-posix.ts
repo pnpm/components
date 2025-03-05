@@ -22,7 +22,7 @@ export interface AddDirToPosixEnvPathOpts {
   configSectionName: string
 }
 
-export type ShellType = 'zsh' | 'bash' | 'fish' | 'ksh' | 'dash' | 'sh'
+export type ShellType = 'zsh' | 'bash' | 'fish' | 'ksh' | 'dash' | 'sh' | 'nu'
 
 export type ConfigFileChangeType = 'skipped' | 'appended' | 'modified' | 'created'
 
@@ -50,6 +50,7 @@ function detectCurrentShell () {
   if (process.env.ZSH_VERSION) return 'zsh'
   if (process.env.BASH_VERSION) return 'bash'
   if (process.env.FISH_VERSION) return 'fish'
+  if (process.env.NU_VERSION) return 'nu'
   return typeof process.env.SHELL === 'string' ? path.basename(process.env.SHELL) : null
 }
 
@@ -69,8 +70,11 @@ async function updateShell (
   case 'fish': {
     return setupFishShell(pnpmHomeDir, opts)
   }
+  case 'nu': {
+    return setupNuShell(pnpmHomeDir, opts)
   }
-  const supportedShellsMsg = 'Supported shell languages are bash, zsh, fish, ksh, dash, and sh.'
+  }
+  const supportedShellsMsg = 'Supported shell languages are bash, zsh, fish, ksh, dash, sh, and nushell.'
   if (!currentShell) throw new PnpmError('UNKNOWN_SHELL', 'Could not infer shell type.', {
     hint: `Set the SHELL environment variable to your active shell.
 ${supportedShellsMsg}`
@@ -158,6 +162,27 @@ end`
   }
 }
 
+async function setupNuShell (dir: string, opts: AddDirToPosixEnvPathOpts): Promise<PathExtenderPosixReport> {
+  const configFile = path.join(os.homedir(), '.config/nushell/env.nu')
+  let newSettings!: string
+  const addingCommand = (opts.position ?? "start") === "start" ? "prepend" : "append"
+  if (opts.proxyVarName) {
+    newSettings = `$env.${opts.proxyVarName} = "${dir}"
+$env.PATH = ($env.PATH | split row (char esep) | ${addingCommand} $env.${opts.proxyVarName} )`
+  } else {
+    newSettings = `$env.PATH = ($env.PATH | split row (char esep) | ${addingCommand} ${dir} )`
+  }
+  const content = wrapSettings(opts.configSectionName, newSettings)
+  const { changeType, oldSettings } = await updateShellConfig(configFile, content, opts)
+  return {
+    configFile: {
+      path: configFile,
+      changeType,
+    },
+    oldSettings,
+    newSettings,
+  }
+}
 function wrapSettings (sectionName: string, settings: string): string {
   return `# ${sectionName}
 ${settings}

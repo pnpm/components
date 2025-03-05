@@ -1147,3 +1147,175 @@ end
 # pnpm end`)
   })
 })
+
+describe('Nushell', () => {
+  let configFile!: string
+  beforeAll(() => {
+    process.env.NU_VERSION = '0.92.2'
+  })
+  beforeEach(() => {
+    configFile = path.join(homeDir, '.config/nushell/env.nu')
+  })
+  it('should append to empty shell script', async () => {
+    fs.mkdirSync('.config/nushell', { recursive: true })
+    fs.writeFileSync(configFile, '', 'utf8')
+    const report = await addDirToPosixEnvPath(pnpmHomeDir, {
+      proxyVarName: 'PNPM_HOME',
+      configSectionName: 'pnpm',
+    })
+    expect(report).toStrictEqual({
+      configFile: {
+        path: configFile,
+        changeType: 'appended',
+      },
+      oldSettings: ``,
+      newSettings: `$env.PNPM_HOME = "${pnpmHomeDir}"
+$env.PATH = ($env.PATH | split row (char esep) | prepend $env.PNPM_HOME )`,
+    })
+    const configContent = fs.readFileSync(configFile, 'utf8')
+    expect(configContent).toEqual(`
+# pnpm
+$env.PNPM_HOME = "${pnpmHomeDir}"
+$env.PATH = ($env.PATH | split row (char esep) | prepend $env.PNPM_HOME )
+# pnpm end
+`)
+  })
+  it('should append to empty shell script without using a proxy varialbe', async () => {
+    fs.mkdirSync('.config/nushell', { recursive: true })
+    fs.writeFileSync(configFile, '', 'utf8')
+    const report = await addDirToPosixEnvPath(pnpmHomeDir, {
+      configSectionName: 'pnpm',
+    })
+    expect(report).toStrictEqual({
+      configFile: {
+        path: configFile,
+        changeType: 'appended',
+      },
+      oldSettings: ``,
+      newSettings: `$env.PATH = ($env.PATH | split row (char esep) | prepend ${pnpmHomeDir} )`,
+    })
+    const configContent = fs.readFileSync(configFile, 'utf8')
+    expect(configContent).toEqual(`
+# pnpm
+$env.PATH = ($env.PATH | split row (char esep) | prepend ${pnpmHomeDir} )
+# pnpm end
+`)
+  })
+  it('should add the new dir to the end of PATH', async () => {
+    fs.mkdirSync('.config/nushell', { recursive: true })
+    fs.writeFileSync(configFile, '', 'utf8')
+    const report = await addDirToPosixEnvPath(pnpmHomeDir, {
+      proxyVarName: 'PNPM_HOME',
+      configSectionName: 'pnpm',
+      position: 'end',
+    })
+    expect(report).toStrictEqual({
+      configFile: {
+        path: configFile,
+        changeType: 'appended',
+      },
+      oldSettings: ``,
+      newSettings: `$env.PNPM_HOME = "${pnpmHomeDir}"
+$env.PATH = ($env.PATH | split row (char esep) | append $env.PNPM_HOME )`,
+    })
+    const configContent = fs.readFileSync(configFile, 'utf8')
+    expect(configContent).toEqual(`
+# pnpm
+$env.PNPM_HOME = "${pnpmHomeDir}"
+$env.PATH = ($env.PATH | split row (char esep) | append $env.PNPM_HOME )
+# pnpm end
+`)
+  })
+  it('should create a shell script', async () => {
+    const report = await addDirToPosixEnvPath(pnpmHomeDir, {
+      proxyVarName: 'PNPM_HOME',
+      configSectionName: 'pnpm',
+    })
+    expect(report).toStrictEqual({
+      configFile: {
+        path: configFile,
+        changeType: 'created',
+      },
+      oldSettings: ``,
+      newSettings: `$env.PNPM_HOME = "${pnpmHomeDir}"
+$env.PATH = ($env.PATH | split row (char esep) | prepend $env.PNPM_HOME )`
+    })
+    const configContent = fs.readFileSync(configFile, 'utf8')
+    expect(configContent).toEqual(`# pnpm
+$env.PNPM_HOME = "${pnpmHomeDir}"
+$env.PATH = ($env.PATH | split row (char esep) | prepend $env.PNPM_HOME )
+# pnpm end
+`)
+  })
+  it('should make no changes to a shell script that already has the necessary configurations', async () => {
+    fs.mkdirSync('.config/nushell', { recursive: true })
+    fs.writeFileSync(configFile, `
+# pnpm
+$env.PNPM_HOME = "${pnpmHomeDir}"
+$env.PATH = ($env.PATH | split row (char esep) | prepend $env.PNPM_HOME )
+# pnpm end`, 'utf8')
+    const report = await addDirToPosixEnvPath(pnpmHomeDir, {
+      proxyVarName: 'PNPM_HOME',
+      configSectionName: 'pnpm',
+    })
+    expect(report).toStrictEqual({
+      configFile: {
+        path: configFile,
+        changeType: 'skipped',
+      },
+      oldSettings: `$env.PNPM_HOME = "${pnpmHomeDir}"
+$env.PATH = ($env.PATH | split row (char esep) | prepend $env.PNPM_HOME )`,
+      newSettings: `$env.PNPM_HOME = "${pnpmHomeDir}"
+$env.PATH = ($env.PATH | split row (char esep) | prepend $env.PNPM_HOME )`
+    })
+    const configContent = fs.readFileSync(configFile, 'utf8')
+    expect(configContent).toEqual(`
+# pnpm
+$env.PNPM_HOME = "${pnpmHomeDir}"
+$env.PATH = ($env.PATH | split row (char esep) | prepend $env.PNPM_HOME )
+# pnpm end`)
+  })
+  it('should fail if the shell already has PNPM_HOME set to a different directory', async () => {
+    fs.mkdirSync('.config/nushell', { recursive: true })
+    fs.writeFileSync(configFile, `
+# pnpm
+$env.PNPM_HOME = "pnpm_home"
+$env.PATH = ($env.PATH | split row (char esep) | prepend $env.PNPM_HOME )
+# pnpm end`, 'utf8')
+    await expect(
+      addDirToPosixEnvPath(pnpmHomeDir, {
+        proxyVarName: 'PNPM_HOME',
+        configSectionName: 'pnpm',
+      })
+    ).rejects.toThrowError(/The config file at/)
+  })
+  it('should not fail if setup is forced', async () => {
+    fs.mkdirSync('.config/nushell', { recursive: true })
+    fs.writeFileSync(configFile, `
+# pnpm
+$env.PNPM_HOME = "pnpm_home"
+$env.PATH = ($env.PATH | split row (char esep) | prepend $env.PNPM_HOME )
+# pnpm end`, 'utf8')
+    const report = await addDirToPosixEnvPath(pnpmHomeDir, {
+      proxyVarName: 'PNPM_HOME',
+      overwrite: true,
+      configSectionName: 'pnpm',
+    })
+    expect(report).toStrictEqual({
+      configFile: {
+        path: configFile,
+        changeType: 'modified',
+      },
+      oldSettings: `$env.PNPM_HOME = "pnpm_home"
+$env.PATH = ($env.PATH | split row (char esep) | prepend $env.PNPM_HOME )`,
+      newSettings: `$env.PNPM_HOME = "${pnpmHomeDir}"
+$env.PATH = ($env.PATH | split row (char esep) | prepend $env.PNPM_HOME )`
+    })
+    const configContent = fs.readFileSync(configFile, 'utf8')
+    expect(configContent).toEqual(`
+# pnpm
+$env.PNPM_HOME = "${pnpmHomeDir}"
+$env.PATH = ($env.PATH | split row (char esep) | prepend $env.PNPM_HOME )
+# pnpm end`)
+  })
+})
