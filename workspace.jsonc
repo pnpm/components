@@ -51,7 +51,7 @@
         "@types/node-fetch": "^2.6.11",
         "@types/proxy": "^1.0.4",
         "@types/string.prototype.matchall": "4.0.1",
-        "agentkeepalive": "4.2.1",
+        "agentkeepalive": "4.6.0",
         "ci-info": "^3.9.0",
         "graceful-fs": "4.2.10",
         "http-proxy-agent": "5.0.0",
