@@ -12,14 +12,14 @@
     "agent": {
         "name": "agent",
         "scope": "pnpm.network",
-        "version": "2.0.1",
+        "version": "2.0.2",
         "mainFile": "index.ts",
         "rootDir": "network/agent"
     },
     "ca-file": {
         "name": "ca-file",
         "scope": "pnpm.network",
-        "version": "3.0.1",
+        "version": "3.0.2",
         "mainFile": "index.ts",
         "rootDir": "network/ca-file"
     },
@@ -40,7 +40,7 @@
     "env/path-extender": {
         "name": "env/path-extender",
         "scope": "pnpm.os",
-        "version": "2.0.1",
+        "version": "2.0.2",
         "mainFile": "index.ts",
         "rootDir": "os/env/path-extender"
     },
@@ -54,7 +54,7 @@
     "env/path-extender-windows": {
         "name": "env/path-extender-windows",
         "scope": "pnpm.os",
-        "version": "2.0.1",
+        "version": "2.0.2",
         "mainFile": "index.ts",
         "rootDir": "os/env/path-extender-windows"
     },
@@ -89,7 +89,7 @@
     "proxy-agent": {
         "name": "proxy-agent",
         "scope": "pnpm.network",
-        "version": "2.0.1",
+        "version": "2.0.2",
         "mainFile": "index.ts",
         "rootDir": "network/proxy-agent"
     },
