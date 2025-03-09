@@ -1,7 +1,7 @@
 import { PnpmError } from '@pnpm/error'
-import HttpsProxyAgent from 'https-proxy-agent/dist/agent'
-import createHttpProxyAgent from 'http-proxy-agent'
-import createSocksProxyAgent from 'socks-proxy-agent'
+import { HttpsProxyAgent } from 'https-proxy-agent'
+import { HttpProxyAgent } from 'http-proxy-agent'
+import { SocksProxyAgent } from 'socks-proxy-agent'
 import LRU from 'lru-cache'
 
 const DEFAULT_MAX_SOCKETS = 50
@@ -115,13 +115,9 @@ function getProxy (
     auth: getAuth(proxyUrl),
     ca: opts.ca,
     cert: opts.cert,
-    host: proxyUrl.hostname,
     key: opts.key,
     localAddress: opts.localAddress,
     maxSockets: opts.maxSockets ?? DEFAULT_MAX_SOCKETS,
-    path: proxyUrl.pathname,
-    port: proxyUrl.port,
-    protocol: proxyUrl.protocol,
     rejectUnauthorized: opts.strictSsl,
     timeout:
       typeof opts.timeout !== 'number' || opts.timeout === 0
@@ -131,13 +127,13 @@ function getProxy (
 
   if (proxyUrl.protocol === 'http:' || proxyUrl.protocol === 'https:') {
     if (!isHttps) {
-      return createHttpProxyAgent(popts)
+      return new HttpProxyAgent(proxyUrl, popts)
     } else {
-      return new PatchedHttpsProxyAgent(popts)
+      return new PatchedHttpsProxyAgent(proxyUrl, popts)
     }
   }
   if (proxyUrl.protocol?.startsWith('socks')) {
-    return createSocksProxyAgent(popts)
+    return new SocksProxyAgent(proxyUrl, popts)
   }
   return undefined
 }
@@ -156,14 +152,14 @@ function getAuth (user: { username?: string, password?: string }) {
 const extraOpts = Symbol('extra agent opts')
 
 // This is a workaround for this issue: https://github.com/TooTallNate/node-https-proxy-agent/issues/89
-class PatchedHttpsProxyAgent extends HttpsProxyAgent {
-  constructor (opts: any) {
-    super(opts)
+class PatchedHttpsProxyAgent<Uri extends string> extends HttpsProxyAgent<Uri> {
+  constructor (proxyUrl: Uri | URL, opts: any) {
+    super(proxyUrl, opts)
 
     this[extraOpts] = opts
   }
 
-  callback (req: any, opts: any) {
-    return super.callback(req, { ...this[extraOpts], ...opts })
+  connect (req: any, opts: any) {
+    return super.connect(req, { ...this[extraOpts], ...opts })
   }
 }

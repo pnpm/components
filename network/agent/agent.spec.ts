@@ -5,7 +5,6 @@ jest.mock('agentkeepalive', () => {
   MockHttp['HttpsAgent'] = mockHttpAgent('https')
   return MockHttp
 })
-jest.mock('https-proxy-agent', () => mockHttpAgent('https-proxy'))
 
 function mockHttpAgent (type: string) {
   return function Agent (opts: any) { // eslint-disable-line @typescript-eslint/no-explicit-any
@@ -55,8 +54,9 @@ test('all expected options passed down to proxy agent', () => {
     noProxy: 'qar.com, bar.com',
     ...OPTS,
   }
-  expect((getAgent('https://foo.com/bar', opts) as any).proxy).toEqual({
-    ALPNProtocols: ['http 1.1'],
+  const agent = (getAgent('https://foo.com/bar', opts) as any)
+  expect(agent.connectOpts).toEqual({
+    ALPNProtocols: ['http/1.1'],
     auth: 'user:pass',
     ca: 'ca',
     cert: 'cert',
@@ -65,10 +65,10 @@ test('all expected options passed down to proxy agent', () => {
     localAddress: 'localAddress',
     maxSockets: 5,
     port: 1234,
-    protocol: 'https:',
     rejectUnauthorized: true,
     timeout: 6,
   })
+  expect(agent.proxy.protocol).toEqual('https:')
 })
 
 test("don't use a proxy when the URL is in noProxy", () => {

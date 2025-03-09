@@ -1,5 +1,5 @@
 import { getProxyAgent } from './proxy-agent';
-import SocksProxyAgent from 'socks-proxy-agent'
+import { SocksProxyAgent } from 'socks-proxy-agent'
 
 jest.mock('agentkeepalive', () => {
   const MockHttp = mockHttpAgent('http')
@@ -33,8 +33,9 @@ test('all expected options passed down to proxy agent', () => {
     noProxy: 'qar.com, bar.com',
     ...OPTS,
   }
-  expect((getProxyAgent('https://foo.com/bar', opts) as any).proxy).toEqual({
-    ALPNProtocols: ['http 1.1'],
+  const agent = (getProxyAgent('https://foo.com/bar', opts) as any)
+  expect(agent.connectOpts).toEqual({
+    ALPNProtocols: ['http/1.1'],
     auth: 'user:pass',
     ca: 'ca',
     cert: 'cert',
@@ -43,10 +44,10 @@ test('all expected options passed down to proxy agent', () => {
     localAddress: 'localAddress',
     maxSockets: 5,
     port: 1234,
-    protocol: 'https:',
     rejectUnauthorized: true,
     timeout: 6,
   })
+  expect(agent.proxy.protocol).toEqual('https:')
 })
 
 test('a socks proxy', () => {
@@ -68,8 +69,9 @@ test('proxy credentials are decoded', () => {
     httpsProxy: `https://${encodeURIComponent('use@!r')}:${encodeURIComponent('p#as*s')}@my.proxy:1234/foo`,
     ...OPTS,
   }
-  expect((getProxyAgent('https://foo.com/bar', opts) as any).proxy).toEqual({
-    ALPNProtocols: ['http 1.1'],
+  const agent = (getProxyAgent('https://foo.com/bar', opts) as any)
+  expect(agent.connectOpts).toEqual({
+    ALPNProtocols: ['http/1.1'],
     auth: 'use@!r:p#as*s',
     ca: 'ca',
     cert: 'cert',
@@ -78,10 +80,11 @@ test('proxy credentials are decoded', () => {
     localAddress: 'localAddress',
     maxSockets: 5,
     port: 1234,
-    protocol: 'https:',
+    // protocol: 'https:',
     rejectUnauthorized: true,
     timeout: 6,
   })
+  expect(agent.proxy.protocol).toEqual('https:')
 })
 
 test('proxy credentials are decoded', () => {
