@@ -12,98 +12,91 @@
     "agent": {
         "name": "agent",
         "scope": "pnpm.network",
-        "version": "2.0.2",
+        "version": "2.0.3",
         "mainFile": "index.ts",
         "rootDir": "network/agent"
     },
     "ca-file": {
         "name": "ca-file",
         "scope": "pnpm.network",
-        "version": "3.0.2",
+        "version": "3.0.3",
         "mainFile": "index.ts",
         "rootDir": "network/ca-file"
     },
     "config": {
         "name": "config",
         "scope": "pnpm.network",
-        "version": "2.0.1",
+        "version": "2.1.0",
         "mainFile": "index.ts",
         "rootDir": "network/config"
     },
     "env-replace": {
         "name": "env-replace",
         "scope": "pnpm.config",
-        "version": "3.0.1",
+        "version": "3.0.2",
         "mainFile": "index.ts",
         "rootDir": "config/env-replace"
     },
     "env/path-extender": {
         "name": "env/path-extender",
         "scope": "pnpm.os",
-        "version": "2.0.2",
+        "version": "2.0.3",
         "mainFile": "index.ts",
         "rootDir": "os/env/path-extender"
     },
     "env/path-extender-posix": {
         "name": "env/path-extender-posix",
         "scope": "pnpm.os",
-        "version": "2.0.1",
+        "version": "2.1.0",
         "mainFile": "index.ts",
         "rootDir": "os/env/path-extender-posix"
     },
     "env/path-extender-windows": {
         "name": "env/path-extender-windows",
         "scope": "pnpm.os",
-        "version": "2.0.2",
+        "version": "2.0.3",
         "mainFile": "index.ts",
         "rootDir": "os/env/path-extender-windows"
     },
     "envs/pnpm-env": {
         "name": "envs/pnpm-env",
         "scope": "pnpm.env",
-        "version": "2.0.1",
+        "version": "2.1.0",
         "mainFile": "index.ts",
         "rootDir": "env/envs/pnpm-env"
     },
     "group": {
         "name": "group",
         "scope": "pnpm.log",
-        "version": "3.0.1",
+        "version": "3.0.2",
         "mainFile": "index.ts",
         "rootDir": "log/group"
     },
     "lex-comparator": {
         "name": "lex-comparator",
         "scope": "pnpm.util",
-        "version": "3.0.1",
+        "version": "3.0.2",
         "mainFile": "index.ts",
         "rootDir": "util/lex-comparator"
     },
     "nerf-dart": {
         "name": "nerf-dart",
-        "scope": "",
-        "version": "",
-        "defaultScope": "pnpm.config",
+        "scope": "pnpm.config",
+        "version": "1.0.1",
         "mainFile": "index.ts",
-        "rootDir": "config/nerf-dart",
-        "config": {
-            "pnpm.env/envs/pnpm-env": {},
-            "teambit.envs/envs": {
-                "env": "pnpm.env/envs/pnpm-env"
-            }
-        }
+        "rootDir": "config/nerf-dart"
     },
     "policy": {
         "name": "policy",
         "scope": "pnpm.builder",
-        "version": "3.0.1",
+        "version": "3.0.2",
         "mainFile": "index.ts",
         "rootDir": "builder/policy"
     },
     "proxy-agent": {
         "name": "proxy-agent",
         "scope": "pnpm.network",
-        "version": "2.0.2",
+        "version": "2.0.3",
         "mainFile": "index.ts",
         "rootDir": "network/proxy-agent"
     },
