@@ -1,4 +1,4 @@
-import nerfDart from 'nerf-dart';
+import { nerfDart } from '@pnpm/config.nerf-dart';
 
 function getMaxParts(uris: string[]) {
   return uris.reduce((max, uri) => {

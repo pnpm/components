@@ -13,7 +13,7 @@ importers:
         version: 7.20.0
       '@bitdev/node.node-env':
         specifier: ^1.0.8
-        version: 1.0.8(@babel/core@7.20.2)(@babel/traverse@7.23.7)(@testing-library/react@12.1.5(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@types/express@4.17.21)(@types/node@18.19.8)(@types/react@17.0.75)(@typescript-eslint/parser@5.35.1(eslint@7.32.0)(typescript@5.1.3))(babel-plugin-macros@3.1.0)(eslint@7.32.0)(html-webpack-plugin@5.5.0(webpack@5.84.1))(jsdom@23.2.0)(less@4.2.2)(puppeteer@24.3.0(typescript@5.1.3))(rollup@4.9.5)(sass@1.70.0)(terser@5.27.0)(type-fest@0.21.3)(typescript@5.1.3)(webpack-dev-server@4.15.0(webpack@5.89.0))
+        version: 1.0.8(@babel/core@7.20.2)(@babel/traverse@7.23.7)(@testing-library/react@12.1.5(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@types/express@4.17.21)(@types/node@18.19.8)(@types/react@17.0.75)(@typescript-eslint/parser@5.35.1(eslint@7.32.0)(typescript@5.1.3))(babel-plugin-macros@3.1.0)(eslint@7.32.0)(html-webpack-plugin@5.5.0(webpack@5.84.1))(jsdom@23.2.0)(less@4.2.2)(puppeteer@24.3.0(typescript@5.1.3))(rollup@4.9.5)(sass@1.63.6)(terser@5.27.0)(type-fest@0.21.3)(typescript@5.1.3)(webpack-dev-server@4.15.0(webpack@5.84.1))
       '@mdx-js/react':
         specifier: 1.6.22
         version: 1.6.22(react@18.2.0)
@@ -46,10 +46,10 @@ importers:
         version: 1.0.0(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
       '@teambit/node.node':
         specifier: ^1.0.37
-        version: 1.0.37(@babel/core@7.20.2)(@babel/traverse@7.23.7)(@testing-library/react@12.1.5(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@types/express@4.17.21)(@types/node@18.19.8)(@types/react@17.0.75)(@typescript-eslint/parser@5.35.1(eslint@7.32.0)(typescript@5.1.3))(babel-plugin-macros@3.1.0)(eslint@7.32.0)(graphql@16.8.1)(html-webpack-plugin@5.5.0(webpack@5.84.1))(less@4.2.2)(puppeteer@24.3.0(typescript@5.1.3))(type-fest@0.21.3)(typescript@5.1.3)(webpack-dev-server@4.15.0(webpack@5.89.0))
+        version: 1.0.37(@babel/core@7.20.2)(@babel/traverse@7.23.7)(@testing-library/react@12.1.5(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@types/express@4.17.21)(@types/node@18.19.8)(@types/react@17.0.75)(@typescript-eslint/parser@5.35.1(eslint@7.32.0)(typescript@5.1.3))(babel-plugin-macros@3.1.0)(eslint@7.32.0)(graphql@16.8.1)(html-webpack-plugin@5.5.0(webpack@5.84.1))(less@4.2.2)(puppeteer@24.3.0(typescript@5.1.3))(type-fest@0.21.3)(typescript@5.1.3)(webpack-dev-server@4.15.0(webpack@5.84.1))
       '@teambit/react.react-env':
         specifier: ^1.0.34
-        version: 1.0.34(@babel/core@7.20.2)(@babel/traverse@7.23.7)(@testing-library/react@12.1.5(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@types/express@4.17.21)(@types/node@18.19.8)(@typescript-eslint/parser@5.35.1(eslint@7.32.0)(typescript@5.1.3))(babel-plugin-macros@3.1.0)(html-webpack-plugin@5.5.0(webpack@5.84.1))(less@4.2.2)(puppeteer@24.3.0(typescript@5.1.3))(type-fest@0.21.3)(webpack-dev-server@4.15.0(webpack@5.89.0))
+        version: 1.0.34(@babel/core@7.20.2)(@babel/traverse@7.23.7)(@testing-library/react@12.1.5(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@types/express@4.17.21)(@types/node@18.19.8)(@typescript-eslint/parser@5.35.1(eslint@7.32.0)(typescript@5.1.3))(babel-plugin-macros@3.1.0)(html-webpack-plugin@5.5.0(webpack@5.84.1))(less@4.2.2)(puppeteer@24.3.0(typescript@5.1.3))(type-fest@0.21.3)(webpack-dev-server@4.15.0(webpack@5.84.1))
       '@teambit/typescript.typescript-compiler':
         specifier: ^2.0.15
         version: 2.0.15
@@ -89,9 +89,6 @@ importers:
       lru-cache:
         specifier: ^7.10.1
         version: 7.18.3
-      nerf-dart:
-        specifier: ^1.0.0
-        version: 1.0.0
       node-fetch:
         specifier: ^2.6.7
         version: 2.7.0
@@ -136,6 +133,8 @@ importers:
   builder/policy: {}
 
   config/env-replace: {}
+
+  config/nerf-dart: {}
 
   env/envs/pnpm-env:
     devDependencies:
@@ -7447,9 +7446,6 @@ packages:
   neo-async@2.6.2:
     resolution: {integrity: sha512-Yd3UES5mWCSqR+qNT93S3UoYUkqAZ9lLg8a7g9rimsWmYGK8cVToA4/sF3RrshdyV3sAGMXVUmpMYOw+dLpOuw==}
 
-  nerf-dart@1.0.0:
-    resolution: {integrity: sha512-EZSPZB70jiVsivaBLYDCyntd5eH8NTSMOn3rB+HxwdmKThGELLdYv8qVIMWvZEFy9w8ZZpW9h9OB32l1rGtj7g==}
-
   netmask@2.0.2:
     resolution: {integrity: sha512-dBpDMdxv9Irdq66304OLfEmQ9tbNRFnFTuZiLo+bD+r332bBmMJ8GBLXklIXXgxd3+v9+KUnZaUR5PJMa75Gsg==}
     engines: {node: '>= 0.4.0'}
@@ -10297,6 +10293,15 @@ packages:
   zwitch@2.0.4:
     resolution: {integrity: sha512-bXE4cR/kVZhKZX/RjPEflHaKVhUVl85noU3v6b8apfQEc1x4A+zBxjZ4lN8LqGd6WZ3dl98pY4o717VFmoPp+A==}
 
+bit:
+  depsRequiringBuild:
+    - core-js-pure@3.35.0
+    - core-js@3.35.0
+    - es5-ext@0.10.61
+    - esbuild@0.14.29
+    - esbuild@0.19.11
+    - puppeteer@24.3.0(typescript@5.1.3)
+
 snapshots:
 
   '@aashutoshrathi/word-wrap@1.2.6': {}
@@ -12725,7 +12730,7 @@ snapshots:
     dependencies:
       lodash: 4.17.21
 
-  '@bitdev/node.node-env@1.0.8(@babel/core@7.20.2)(@babel/traverse@7.23.7)(@testing-library/react@12.1.5(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@types/express@4.17.21)(@types/node@18.19.8)(@types/react@17.0.75)(@typescript-eslint/parser@5.35.1(eslint@7.32.0)(typescript@5.1.3))(babel-plugin-macros@3.1.0)(eslint@7.32.0)(html-webpack-plugin@5.5.0(webpack@5.84.1))(jsdom@23.2.0)(less@4.2.2)(puppeteer@24.3.0(typescript@5.1.3))(rollup@4.9.5)(sass@1.70.0)(terser@5.27.0)(type-fest@0.21.3)(typescript@5.1.3)(webpack-dev-server@4.15.0(webpack@5.89.0))':
+  '@bitdev/node.node-env@1.0.8(@babel/core@7.20.2)(@babel/traverse@7.23.7)(@testing-library/react@12.1.5(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@types/express@4.17.21)(@types/node@18.19.8)(@types/react@17.0.75)(@typescript-eslint/parser@5.35.1(eslint@7.32.0)(typescript@5.1.3))(babel-plugin-macros@3.1.0)(eslint@7.32.0)(html-webpack-plugin@5.5.0(webpack@5.84.1))(jsdom@23.2.0)(less@4.2.2)(puppeteer@24.3.0(typescript@5.1.3))(rollup@4.9.5)(sass@1.63.6)(terser@5.27.0)(type-fest@0.21.3)(typescript@5.1.3)(webpack-dev-server@4.15.0(webpack@5.84.1))':
     dependencies:
       '@babel/plugin-proposal-decorators': 7.20.2(@babel/core@7.20.2)
       '@babel/plugin-transform-class-properties': 7.22.5(@babel/core@7.20.2)
@@ -12743,10 +12748,10 @@ snapshots:
       '@teambit/node.generator.node-starters': 1.0.0
       '@teambit/preview.react-preview': 1.0.23(@babel/core@7.20.2)(@testing-library/react@12.1.5(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@types/react@17.0.75)(eslint@7.32.0)(graphql@16.8.1)(less@4.2.2)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)(type-fest@0.21.3)(typescript@5.1.3)
       '@teambit/react.mounter': 1.0.3
-      '@teambit/react.react-env': 1.0.26(@babel/core@7.20.2)(@babel/traverse@7.23.7)(@testing-library/react@12.1.5(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@types/express@4.17.21)(@types/node@18.19.8)(@typescript-eslint/parser@5.35.1(eslint@7.32.0)(typescript@5.1.3))(babel-plugin-macros@3.1.0)(html-webpack-plugin@5.5.0(webpack@5.84.1))(less@4.2.2)(puppeteer@24.3.0(typescript@5.1.3))(type-fest@0.21.3)(webpack-dev-server@4.15.0(webpack@5.89.0))
+      '@teambit/react.react-env': 1.0.26(@babel/core@7.20.2)(@babel/traverse@7.23.7)(@testing-library/react@12.1.5(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@types/express@4.17.21)(@types/node@18.19.8)(@typescript-eslint/parser@5.35.1(eslint@7.32.0)(typescript@5.1.3))(babel-plugin-macros@3.1.0)(html-webpack-plugin@5.5.0(webpack@5.84.1))(less@4.2.2)(puppeteer@24.3.0(typescript@5.1.3))(type-fest@0.21.3)(webpack-dev-server@4.15.0(webpack@5.84.1))
       '@teambit/toolbox.performance.v8-cache': 0.0.31
       '@teambit/typescript.typescript-compiler': 2.0.15
-      '@teambit/vite.vitest-tester': 0.0.18(@types/node@18.19.8)(less@4.2.2)(sass@1.70.0)(terser@5.27.0)
+      '@teambit/vite.vitest-tester': 0.0.18(@types/node@18.19.8)(less@4.2.2)(sass@1.63.6)(terser@5.27.0)
       babel-plugin-transform-typescript-metadata: 0.3.2(@babel/core@7.20.2)(@babel/traverse@7.23.7)
       core-js: 3.35.0
       eslint-plugin-import: 2.22.1(@typescript-eslint/parser@5.35.1(eslint@7.32.0)(typescript@5.1.3))(eslint@7.32.0)
@@ -12759,7 +12764,7 @@ snapshots:
       graphql-tag: 2.12.6(graphql@16.8.1)
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
-      vitest: 1.1.0(@types/node@18.19.8)(jsdom@23.2.0)(less@4.2.2)(sass@1.70.0)(terser@5.27.0)
+      vitest: 1.1.0(@types/node@18.19.8)(jsdom@23.2.0)(less@4.2.2)(sass@1.63.6)(terser@5.27.0)
     transitivePeerDependencies:
       - '@babel/core'
       - '@babel/traverse'
@@ -13484,9 +13489,9 @@ snapshots:
       webpack: 5.89.0(esbuild@0.14.29)
     optionalDependencies:
       type-fest: 0.21.3
-      webpack-dev-server: 4.15.0(webpack@5.89.0)
+      webpack-dev-server: 4.15.0(webpack@5.84.1)
 
-  '@pmmmwh/react-refresh-webpack-plugin@0.5.9(react-refresh@0.14.0)(type-fest@0.21.3)(webpack-dev-server@4.15.0(webpack@5.89.0))(webpack@5.84.1)':
+  '@pmmmwh/react-refresh-webpack-plugin@0.5.9(react-refresh@0.14.0)(type-fest@0.21.3)(webpack-dev-server@4.15.0(webpack@5.84.1))(webpack@5.84.1)':
     dependencies:
       ansi-html-community: 0.0.8
       common-path-prefix: 3.0.0
@@ -13501,7 +13506,7 @@ snapshots:
       webpack: 5.84.1
     optionalDependencies:
       type-fest: 0.21.3
-      webpack-dev-server: 4.15.0(webpack@5.89.0)
+      webpack-dev-server: 4.15.0(webpack@5.84.1)
 
   '@pnpm/assert-project@4.0.5(typanion@3.9.0)':
     dependencies:
@@ -15609,7 +15614,7 @@ snapshots:
     dependencies:
       lodash: 4.17.21
 
-  '@teambit/node.node@1.0.37(@babel/core@7.20.2)(@babel/traverse@7.23.7)(@testing-library/react@12.1.5(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@types/express@4.17.21)(@types/node@18.19.8)(@types/react@17.0.75)(@typescript-eslint/parser@5.35.1(eslint@7.32.0)(typescript@5.1.3))(babel-plugin-macros@3.1.0)(eslint@7.32.0)(graphql@16.8.1)(html-webpack-plugin@5.5.0(webpack@5.84.1))(less@4.2.2)(puppeteer@24.3.0(typescript@5.1.3))(type-fest@0.21.3)(typescript@5.1.3)(webpack-dev-server@4.15.0(webpack@5.89.0))':
+  '@teambit/node.node@1.0.37(@babel/core@7.20.2)(@babel/traverse@7.23.7)(@testing-library/react@12.1.5(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@types/express@4.17.21)(@types/node@18.19.8)(@types/react@17.0.75)(@typescript-eslint/parser@5.35.1(eslint@7.32.0)(typescript@5.1.3))(babel-plugin-macros@3.1.0)(eslint@7.32.0)(graphql@16.8.1)(html-webpack-plugin@5.5.0(webpack@5.84.1))(less@4.2.2)(puppeteer@24.3.0(typescript@5.1.3))(type-fest@0.21.3)(typescript@5.1.3)(webpack-dev-server@4.15.0(webpack@5.84.1))':
     dependencies:
       '@babel/plugin-proposal-decorators': 7.20.2(@babel/core@7.20.2)
       '@babel/plugin-transform-class-properties': 7.22.5(@babel/core@7.20.2)
@@ -15627,7 +15632,7 @@ snapshots:
       '@teambit/node.generator.node-templates': 1.0.15
       '@teambit/preview.react-preview': 1.0.23(@babel/core@7.20.2)(@testing-library/react@12.1.5(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@types/react@17.0.75)(eslint@7.32.0)(graphql@16.8.1)(less@4.2.2)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)(type-fest@0.21.3)(typescript@5.1.3)
       '@teambit/react.mounter': 1.0.3
-      '@teambit/react.react-env': 1.0.38(@babel/core@7.20.2)(@babel/traverse@7.23.7)(@testing-library/react@12.1.5(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@types/express@4.17.21)(@types/node@18.19.8)(@typescript-eslint/parser@5.35.1(eslint@7.32.0)(typescript@5.1.3))(babel-plugin-macros@3.1.0)(html-webpack-plugin@5.5.0(webpack@5.84.1))(less@4.2.2)(puppeteer@24.3.0(typescript@5.1.3))(type-fest@0.21.3)(webpack-dev-server@4.15.0(webpack@5.89.0))
+      '@teambit/react.react-env': 1.0.38(@babel/core@7.20.2)(@babel/traverse@7.23.7)(@testing-library/react@12.1.5(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@types/express@4.17.21)(@types/node@18.19.8)(@typescript-eslint/parser@5.35.1(eslint@7.32.0)(typescript@5.1.3))(babel-plugin-macros@3.1.0)(html-webpack-plugin@5.5.0(webpack@5.84.1))(less@4.2.2)(puppeteer@24.3.0(typescript@5.1.3))(type-fest@0.21.3)(webpack-dev-server@4.15.0(webpack@5.84.1))
       '@teambit/typescript.typescript-compiler': 2.0.16
       babel-plugin-transform-typescript-metadata: 0.3.2(@babel/core@7.20.2)(@babel/traverse@7.23.7)
       core-js: 3.35.0
@@ -15690,7 +15695,7 @@ snapshots:
       '@babel/core': 7.19.6
       '@teambit/docs.docs-template': 1.0.3(@testing-library/react@12.1.5(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@types/react@18.2.48)(graphql@15.8.0)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)(typescript@5.1.3)
       '@teambit/react.mounter': 1.0.3
-      '@teambit/react.webpack.react-webpack': 1.0.15(@babel/core@7.19.6)(eslint@7.32.0)(less@4.2.2)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)(type-fest@0.21.3)(typescript@5.1.3)(webpack-dev-server@4.15.0(webpack@5.89.0))
+      '@teambit/react.webpack.react-webpack': 1.0.15(@babel/core@7.19.6)(eslint@7.32.0)(less@4.2.2)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)(type-fest@0.21.3)(typescript@5.1.3)(webpack-dev-server@4.15.0(webpack@5.84.1))
       '@teambit/webpack.webpack-bundler': 1.0.5
       '@teambit/webpack.webpack-dev-server': 1.0.6(eslint@7.32.0)(typescript@5.1.3)(webpack@5.84.1)
       object-hash: 3.0.0
@@ -15821,7 +15826,7 @@ snapshots:
     dependencies:
       '@teambit/docs.docs-template': 1.0.4(@testing-library/react@12.1.5(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@types/react@18.2.48)(graphql@15.8.0)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)(typescript@5.3.3)
       '@teambit/react.mounter': 1.0.3
-      '@teambit/react.webpack.react-webpack': 1.0.23(@babel/core@7.20.2)(eslint@7.32.0)(less@4.2.2)(react@18.2.0)(type-fest@0.21.3)(typescript@5.3.3)(webpack-dev-server@4.15.0(webpack@5.89.0))
+      '@teambit/react.webpack.react-webpack': 1.0.23(@babel/core@7.20.2)(eslint@7.32.0)(less@4.2.2)(react@18.2.0)(type-fest@0.21.3)(typescript@5.3.3)(webpack-dev-server@4.15.0(webpack@5.84.1))
       '@teambit/webpack.webpack-bundler': 1.0.7(esbuild@0.14.29)
       '@teambit/webpack.webpack-dev-server': 1.0.7(esbuild@0.14.29)(eslint@7.32.0)(typescript@5.3.3)(webpack@5.89.0)
       object-hash: 3.0.0
@@ -15861,14 +15866,14 @@ snapshots:
       - webpack-hot-middleware
       - webpack-plugin-serve
 
-  '@teambit/react.apps.react-app-types@1.0.14(@babel/core@7.20.2)(@testing-library/react@12.1.5(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@types/express@4.17.21)(@types/react@18.2.48)(eslint@7.32.0)(html-webpack-plugin@5.5.0(webpack@5.84.1))(less@4.2.2)(puppeteer@24.3.0(typescript@5.1.3))(react-dom@18.2.0(react@18.2.0))(react@18.2.0)(type-fest@0.21.3)(typescript@5.1.3)(webpack-dev-server@4.15.0(webpack@5.89.0))':
+  '@teambit/react.apps.react-app-types@1.0.14(@babel/core@7.20.2)(@testing-library/react@12.1.5(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@types/express@4.17.21)(@types/react@18.2.48)(eslint@7.32.0)(html-webpack-plugin@5.5.0(webpack@5.84.1))(less@4.2.2)(puppeteer@24.3.0(typescript@5.1.3))(react-dom@18.2.0(react@18.2.0))(react@18.2.0)(type-fest@0.21.3)(typescript@5.1.3)(webpack-dev-server@4.15.0(webpack@5.84.1))':
     dependencies:
       '@prerenderer/prerenderer': 1.2.4(@types/express@4.17.21)
       '@prerenderer/renderer-jsdom': 1.1.8
       '@prerenderer/webpack-plugin': 5.3.9(@types/express@4.17.21)(html-webpack-plugin@5.5.0(webpack@5.84.1))(puppeteer@24.3.0(typescript@5.1.3))(webpack@5.84.1)
       '@teambit/bit-error': 0.0.402
       '@teambit/react.rendering.ssr': 1.0.1(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
-      '@teambit/react.webpack.react-webpack': 1.0.15(@babel/core@7.20.2)(eslint@7.32.0)(less@4.2.2)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)(type-fest@0.21.3)(typescript@5.1.3)(webpack-dev-server@4.15.0(webpack@5.89.0))
+      '@teambit/react.webpack.react-webpack': 1.0.15(@babel/core@7.20.2)(eslint@7.32.0)(less@4.2.2)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)(type-fest@0.21.3)(typescript@5.1.3)(webpack-dev-server@4.15.0(webpack@5.84.1))
       '@teambit/toolbox.network.get-port': 1.0.0
       '@teambit/ui-foundation.ui.pages.static-error': 0.0.88(@testing-library/react@12.1.5(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@types/react@18.2.48)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
       '@teambit/webpack.transformers.favicon-reload': 1.0.0
@@ -15917,14 +15922,14 @@ snapshots:
       - webpack-hot-middleware
       - webpack-plugin-serve
 
-  '@teambit/react.apps.react-app-types@1.0.19(@babel/core@7.20.2)(@testing-library/react@12.1.5(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@types/express@4.17.21)(@types/react@18.2.48)(eslint@7.32.0)(html-webpack-plugin@5.5.0(webpack@5.84.1))(less@4.2.2)(puppeteer@24.3.0(typescript@5.1.3))(react-dom@18.2.0(react@18.2.0))(react@18.2.0)(type-fest@0.21.3)(typescript@5.3.3)(webpack-dev-server@4.15.0(webpack@5.89.0))':
+  '@teambit/react.apps.react-app-types@1.0.19(@babel/core@7.20.2)(@testing-library/react@12.1.5(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@types/express@4.17.21)(@types/react@18.2.48)(eslint@7.32.0)(html-webpack-plugin@5.5.0(webpack@5.84.1))(less@4.2.2)(puppeteer@24.3.0(typescript@5.1.3))(react-dom@18.2.0(react@18.2.0))(react@18.2.0)(type-fest@0.21.3)(typescript@5.3.3)(webpack-dev-server@4.15.0(webpack@5.84.1))':
     dependencies:
       '@prerenderer/prerenderer': 1.2.4(@types/express@4.17.21)
       '@prerenderer/renderer-jsdom': 1.1.8
       '@prerenderer/webpack-plugin': 5.3.9(@types/express@4.17.21)(html-webpack-plugin@5.5.0(webpack@5.84.1))(puppeteer@24.3.0(typescript@5.1.3))(webpack@5.89.0)
       '@teambit/bit-error': 0.0.402
       '@teambit/react.rendering.ssr': 1.0.1(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
-      '@teambit/react.webpack.react-webpack': 1.0.23(@babel/core@7.20.2)(eslint@7.32.0)(less@4.2.2)(react@18.2.0)(type-fest@0.21.3)(typescript@5.3.3)(webpack-dev-server@4.15.0(webpack@5.89.0))
+      '@teambit/react.webpack.react-webpack': 1.0.23(@babel/core@7.20.2)(eslint@7.32.0)(less@4.2.2)(react@18.2.0)(type-fest@0.21.3)(typescript@5.3.3)(webpack-dev-server@4.15.0(webpack@5.84.1))
       '@teambit/toolbox.network.get-port': 1.0.0
       '@teambit/ui-foundation.ui.pages.static-error': 0.0.88(@testing-library/react@12.1.5(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@types/react@18.2.48)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
       '@teambit/webpack.transformers.favicon-reload': 1.0.0
@@ -16161,7 +16166,7 @@ snapshots:
       react-dom: 18.2.0(react@18.2.0)
       react-error-boundary: 3.1.4(react@18.2.0)
 
-  '@teambit/react.react-env@1.0.26(@babel/core@7.20.2)(@babel/traverse@7.23.7)(@testing-library/react@12.1.5(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@types/express@4.17.21)(@types/node@18.19.8)(@typescript-eslint/parser@5.35.1(eslint@7.32.0)(typescript@5.1.3))(babel-plugin-macros@3.1.0)(html-webpack-plugin@5.5.0(webpack@5.84.1))(less@4.2.2)(puppeteer@24.3.0(typescript@5.1.3))(type-fest@0.21.3)(webpack-dev-server@4.15.0(webpack@5.89.0))':
+  '@teambit/react.react-env@1.0.26(@babel/core@7.20.2)(@babel/traverse@7.23.7)(@testing-library/react@12.1.5(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@types/express@4.17.21)(@types/node@18.19.8)(@typescript-eslint/parser@5.35.1(eslint@7.32.0)(typescript@5.1.3))(babel-plugin-macros@3.1.0)(html-webpack-plugin@5.5.0(webpack@5.84.1))(less@4.2.2)(puppeteer@24.3.0(typescript@5.1.3))(type-fest@0.21.3)(webpack-dev-server@4.15.0(webpack@5.84.1))':
     dependencies:
       '@babel/runtime': 7.20.0
       '@mdx-js/react': 1.6.22(react@18.2.0)
@@ -16172,7 +16177,7 @@ snapshots:
       '@teambit/docs.docs-template': 1.0.3(@testing-library/react@12.1.5(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@types/react@18.2.48)(graphql@15.8.0)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)(typescript@5.1.3)
       '@teambit/mdx.ui.mdx-scope-context': 1.0.0(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
       '@teambit/preview.react-preview': 1.0.14(@testing-library/react@12.1.5(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@types/react@18.2.48)(eslint@7.32.0)(graphql@15.8.0)(less@4.2.2)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)(type-fest@0.21.3)(typescript@5.1.3)
-      '@teambit/react.apps.react-app-types': 1.0.14(@babel/core@7.20.2)(@testing-library/react@12.1.5(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@types/express@4.17.21)(@types/react@18.2.48)(eslint@7.32.0)(html-webpack-plugin@5.5.0(webpack@5.84.1))(less@4.2.2)(puppeteer@24.3.0(typescript@5.1.3))(react-dom@18.2.0(react@18.2.0))(react@18.2.0)(type-fest@0.21.3)(typescript@5.1.3)(webpack-dev-server@4.15.0(webpack@5.89.0))
+      '@teambit/react.apps.react-app-types': 1.0.14(@babel/core@7.20.2)(@testing-library/react@12.1.5(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@types/express@4.17.21)(@types/react@18.2.48)(eslint@7.32.0)(html-webpack-plugin@5.5.0(webpack@5.84.1))(less@4.2.2)(puppeteer@24.3.0(typescript@5.1.3))(react-dom@18.2.0(react@18.2.0))(react@18.2.0)(type-fest@0.21.3)(typescript@5.1.3)(webpack-dev-server@4.15.0(webpack@5.84.1))
       '@teambit/react.eslint-config-bit-react': 1.0.46(eslint-plugin-import@2.22.1(@typescript-eslint/parser@5.35.1(eslint@7.32.0)(typescript@5.1.3))(eslint@7.32.0))(eslint-plugin-jsx-a11y@6.4.1(eslint@7.32.0))(eslint-plugin-react-hooks@4.2.0(eslint@7.32.0))(eslint-plugin-react@7.22.0(eslint@7.32.0))(eslint@7.32.0)(typescript@5.1.3)
       '@teambit/react.generator.react-starters': 1.0.4
       '@teambit/react.generator.react-templates': 1.0.9
@@ -16238,7 +16243,7 @@ snapshots:
       - webpack-hot-middleware
       - webpack-plugin-serve
 
-  '@teambit/react.react-env@1.0.34(@babel/core@7.20.2)(@babel/traverse@7.23.7)(@testing-library/react@12.1.5(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@types/express@4.17.21)(@types/node@18.19.8)(@typescript-eslint/parser@5.35.1(eslint@7.32.0)(typescript@5.1.3))(babel-plugin-macros@3.1.0)(html-webpack-plugin@5.5.0(webpack@5.84.1))(less@4.2.2)(puppeteer@24.3.0(typescript@5.1.3))(type-fest@0.21.3)(webpack-dev-server@4.15.0(webpack@5.89.0))':
+  '@teambit/react.react-env@1.0.34(@babel/core@7.20.2)(@babel/traverse@7.23.7)(@testing-library/react@12.1.5(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@types/express@4.17.21)(@types/node@18.19.8)(@typescript-eslint/parser@5.35.1(eslint@7.32.0)(typescript@5.1.3))(babel-plugin-macros@3.1.0)(html-webpack-plugin@5.5.0(webpack@5.84.1))(less@4.2.2)(puppeteer@24.3.0(typescript@5.1.3))(type-fest@0.21.3)(webpack-dev-server@4.15.0(webpack@5.84.1))':
     dependencies:
       '@babel/runtime': 7.20.0
       '@mdx-js/react': 1.6.22(react@18.2.0)
@@ -16249,7 +16254,7 @@ snapshots:
       '@teambit/docs.docs-template': 1.0.4(@testing-library/react@12.1.5(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@types/react@18.2.48)(graphql@15.8.0)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)(typescript@5.3.3)
       '@teambit/mdx.ui.mdx-scope-context': 1.0.0(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
       '@teambit/preview.react-preview': 1.0.23(@babel/core@7.20.2)(@testing-library/react@12.1.5(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@types/react@18.2.48)(eslint@7.32.0)(graphql@15.8.0)(less@4.2.2)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)(type-fest@0.21.3)(typescript@5.3.3)
-      '@teambit/react.apps.react-app-types': 1.0.19(@babel/core@7.20.2)(@testing-library/react@12.1.5(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@types/express@4.17.21)(@types/react@18.2.48)(eslint@7.32.0)(html-webpack-plugin@5.5.0(webpack@5.84.1))(less@4.2.2)(puppeteer@24.3.0(typescript@5.1.3))(react-dom@18.2.0(react@18.2.0))(react@18.2.0)(type-fest@0.21.3)(typescript@5.3.3)(webpack-dev-server@4.15.0(webpack@5.89.0))
+      '@teambit/react.apps.react-app-types': 1.0.19(@babel/core@7.20.2)(@testing-library/react@12.1.5(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@types/express@4.17.21)(@types/react@18.2.48)(eslint@7.32.0)(html-webpack-plugin@5.5.0(webpack@5.84.1))(less@4.2.2)(puppeteer@24.3.0(typescript@5.1.3))(react-dom@18.2.0(react@18.2.0))(react@18.2.0)(type-fest@0.21.3)(typescript@5.3.3)(webpack-dev-server@4.15.0(webpack@5.84.1))
       '@teambit/react.eslint-config-bit-react': 1.0.46(eslint-plugin-import@2.22.1(@typescript-eslint/parser@5.35.1(eslint@7.32.0)(typescript@5.1.3))(eslint@7.32.0))(eslint-plugin-jsx-a11y@6.4.1(eslint@7.32.0))(eslint-plugin-react-hooks@4.2.0(eslint@7.32.0))(eslint-plugin-react@7.22.0(eslint@7.32.0))(eslint@7.32.0)(typescript@5.3.3)
       '@teambit/react.generator.react-starters': 1.0.8
       '@teambit/react.generator.react-templates': 1.0.10
@@ -16315,7 +16320,7 @@ snapshots:
       - webpack-hot-middleware
       - webpack-plugin-serve
 
-  '@teambit/react.react-env@1.0.38(@babel/core@7.20.2)(@babel/traverse@7.23.7)(@testing-library/react@12.1.5(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@types/express@4.17.21)(@types/node@18.19.8)(@typescript-eslint/parser@5.35.1(eslint@7.32.0)(typescript@5.1.3))(babel-plugin-macros@3.1.0)(html-webpack-plugin@5.5.0(webpack@5.84.1))(less@4.2.2)(puppeteer@24.3.0(typescript@5.1.3))(type-fest@0.21.3)(webpack-dev-server@4.15.0(webpack@5.89.0))':
+  '@teambit/react.react-env@1.0.38(@babel/core@7.20.2)(@babel/traverse@7.23.7)(@testing-library/react@12.1.5(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@types/express@4.17.21)(@types/node@18.19.8)(@typescript-eslint/parser@5.35.1(eslint@7.32.0)(typescript@5.1.3))(babel-plugin-macros@3.1.0)(html-webpack-plugin@5.5.0(webpack@5.84.1))(less@4.2.2)(puppeteer@24.3.0(typescript@5.1.3))(type-fest@0.21.3)(webpack-dev-server@4.15.0(webpack@5.84.1))':
     dependencies:
       '@babel/runtime': 7.20.0
       '@mdx-js/react': 1.6.22(react@18.2.0)
@@ -16326,7 +16331,7 @@ snapshots:
       '@teambit/docs.docs-template': 1.0.4(@testing-library/react@12.1.5(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@types/react@18.2.48)(graphql@15.8.0)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)(typescript@5.3.3)
       '@teambit/mdx.ui.mdx-scope-context': 1.0.0(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
       '@teambit/preview.react-preview': 1.0.23(@babel/core@7.20.2)(@testing-library/react@12.1.5(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@types/react@18.2.48)(eslint@7.32.0)(graphql@15.8.0)(less@4.2.2)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)(type-fest@0.21.3)(typescript@5.3.3)
-      '@teambit/react.apps.react-app-types': 1.0.19(@babel/core@7.20.2)(@testing-library/react@12.1.5(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@types/express@4.17.21)(@types/react@18.2.48)(eslint@7.32.0)(html-webpack-plugin@5.5.0(webpack@5.84.1))(less@4.2.2)(puppeteer@24.3.0(typescript@5.1.3))(react-dom@18.2.0(react@18.2.0))(react@18.2.0)(type-fest@0.21.3)(typescript@5.3.3)(webpack-dev-server@4.15.0(webpack@5.89.0))
+      '@teambit/react.apps.react-app-types': 1.0.19(@babel/core@7.20.2)(@testing-library/react@12.1.5(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@types/express@4.17.21)(@types/react@18.2.48)(eslint@7.32.0)(html-webpack-plugin@5.5.0(webpack@5.84.1))(less@4.2.2)(puppeteer@24.3.0(typescript@5.1.3))(react-dom@18.2.0(react@18.2.0))(react@18.2.0)(type-fest@0.21.3)(typescript@5.3.3)(webpack-dev-server@4.15.0(webpack@5.84.1))
       '@teambit/react.eslint-config-bit-react': 1.0.105(eslint-plugin-import@2.22.1(@typescript-eslint/parser@5.35.1(eslint@7.32.0)(typescript@5.1.3))(eslint@7.32.0))(eslint-plugin-jsx-a11y@6.4.1(eslint@7.32.0))(eslint-plugin-react-hooks@4.2.0(eslint@7.32.0))(eslint-plugin-react@7.22.0(eslint@7.32.0))(eslint@7.32.0)(typescript@5.3.3)
       '@teambit/react.generator.react-starters': 1.0.8
       '@teambit/react.generator.react-templates': 1.0.10
@@ -16719,11 +16724,11 @@ snapshots:
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
 
-  '@teambit/react.webpack.react-webpack@1.0.15(@babel/core@7.19.6)(eslint@7.32.0)(less@4.2.2)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)(type-fest@0.21.3)(typescript@5.1.3)(webpack-dev-server@4.15.0(webpack@5.89.0))':
+  '@teambit/react.webpack.react-webpack@1.0.15(@babel/core@7.19.6)(eslint@7.32.0)(less@4.2.2)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)(type-fest@0.21.3)(typescript@5.1.3)(webpack-dev-server@4.15.0(webpack@5.84.1))':
     dependencies:
       '@babel/preset-env': 7.22.15(@babel/core@7.19.6)
       '@babel/preset-react': 7.22.15(@babel/core@7.19.6)
-      '@pmmmwh/react-refresh-webpack-plugin': 0.5.9(react-refresh@0.14.0)(type-fest@0.21.3)(webpack-dev-server@4.15.0(webpack@5.89.0))(webpack@5.84.1)
+      '@pmmmwh/react-refresh-webpack-plugin': 0.5.9(react-refresh@0.14.0)(type-fest@0.21.3)(webpack-dev-server@4.15.0(webpack@5.84.1))(webpack@5.84.1)
       '@svgr/webpack': 8.1.0(typescript@5.1.3)
       '@teambit/component-id': 1.0.0
       '@teambit/mdx.modules.mdx-loader': 1.0.7(esbuild@0.14.29)(react@18.2.0)
@@ -16787,11 +16792,11 @@ snapshots:
       - webpack-hot-middleware
       - webpack-plugin-serve
 
-  '@teambit/react.webpack.react-webpack@1.0.15(@babel/core@7.20.2)(eslint@7.32.0)(less@4.2.2)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)(type-fest@0.21.3)(typescript@5.1.3)(webpack-dev-server@4.15.0(webpack@5.89.0))':
+  '@teambit/react.webpack.react-webpack@1.0.15(@babel/core@7.20.2)(eslint@7.32.0)(less@4.2.2)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)(type-fest@0.21.3)(typescript@5.1.3)(webpack-dev-server@4.15.0(webpack@5.84.1))':
     dependencies:
       '@babel/preset-env': 7.22.15(@babel/core@7.20.2)
       '@babel/preset-react': 7.22.15(@babel/core@7.20.2)
-      '@pmmmwh/react-refresh-webpack-plugin': 0.5.9(react-refresh@0.14.0)(type-fest@0.21.3)(webpack-dev-server@4.15.0(webpack@5.89.0))(webpack@5.84.1)
+      '@pmmmwh/react-refresh-webpack-plugin': 0.5.9(react-refresh@0.14.0)(type-fest@0.21.3)(webpack-dev-server@4.15.0(webpack@5.84.1))(webpack@5.84.1)
       '@svgr/webpack': 8.1.0(typescript@5.1.3)
       '@teambit/component-id': 1.0.0
       '@teambit/mdx.modules.mdx-loader': 1.0.7(esbuild@0.14.29)(react@18.2.0)
@@ -16922,7 +16927,7 @@ snapshots:
       - webpack-hot-middleware
       - webpack-plugin-serve
 
-  '@teambit/react.webpack.react-webpack@1.0.23(@babel/core@7.20.2)(eslint@7.32.0)(less@4.2.2)(react@18.2.0)(type-fest@0.21.3)(typescript@5.3.3)(webpack-dev-server@4.15.0(webpack@5.89.0))':
+  '@teambit/react.webpack.react-webpack@1.0.23(@babel/core@7.20.2)(eslint@7.32.0)(less@4.2.2)(react@18.2.0)(type-fest@0.21.3)(typescript@5.3.3)(webpack-dev-server@4.15.0(webpack@5.84.1))':
     dependencies:
       '@babel/preset-env': 7.22.15(@babel/core@7.20.2)
       '@babel/preset-react': 7.22.15(@babel/core@7.20.2)
@@ -17086,6 +17091,18 @@ snapshots:
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
 
+  '@teambit/vite.esm-packages.vite@0.0.0-3bfb6c5bebd1e8874d943480987554d0adb5854b(@types/node@18.19.8)(less@4.2.2)(sass@1.63.6)(terser@5.27.0)':
+    dependencies:
+      vite: 5.0.11(@types/node@18.19.8)(less@4.2.2)(sass@1.63.6)(terser@5.27.0)
+    transitivePeerDependencies:
+      - '@types/node'
+      - less
+      - lightningcss
+      - sass
+      - stylus
+      - sugarss
+      - terser
+
   '@teambit/vite.esm-packages.vite@0.0.0-3bfb6c5bebd1e8874d943480987554d0adb5854b(@types/node@18.19.8)(less@4.2.2)(sass@1.70.0)(terser@5.27.0)':
     dependencies:
       vite: 5.0.11(@types/node@18.19.8)(less@4.2.2)(sass@1.70.0)(terser@5.27.0)
@@ -17100,7 +17117,7 @@ snapshots:
 
   '@teambit/vite.esm-packages.vitest@0.0.1(vitest@1.1.0(@types/node@18.19.8)(jsdom@23.2.0)(less@4.2.2)(sass@1.70.0)(terser@5.27.0))':
     dependencies:
-      vitest: 1.1.0(@types/node@18.19.8)(jsdom@23.2.0)(less@4.2.2)(sass@1.70.0)(terser@5.27.0)
+      vitest: 1.1.0(@types/node@18.19.8)(jsdom@23.2.0)(less@4.2.2)(sass@1.63.6)(terser@5.27.0)
 
   '@teambit/vite.vitest-tester@0.0.12(@types/node@18.19.8)(less@4.2.2)(sass@1.70.0)(terser@5.27.0)':
     dependencies:
@@ -17115,7 +17132,7 @@ snapshots:
       lodash: 4.17.21
       minimatch: 5.1.0
       vite: 5.0.11(@types/node@18.19.8)(less@4.2.2)(sass@1.70.0)(terser@5.27.0)
-      vitest: 1.1.0(@types/node@18.19.8)(jsdom@23.2.0)(less@4.2.2)(sass@1.70.0)(terser@5.27.0)
+      vitest: 1.1.0(@types/node@18.19.8)(jsdom@23.2.0)(less@4.2.2)(sass@1.63.6)(terser@5.27.0)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@types/node'
@@ -17133,11 +17150,11 @@ snapshots:
       - terser
       - utf-8-validate
 
-  '@teambit/vite.vitest-tester@0.0.18(@types/node@18.19.8)(less@4.2.2)(sass@1.70.0)(terser@5.27.0)':
+  '@teambit/vite.vitest-tester@0.0.18(@types/node@18.19.8)(less@4.2.2)(sass@1.63.6)(terser@5.27.0)':
     dependencies:
       '@teambit/defender.tester-task': 1.0.6
       '@teambit/tests-results': 1.0.4
-      '@teambit/vite.esm-packages.vite': 0.0.0-3bfb6c5bebd1e8874d943480987554d0adb5854b(@types/node@18.19.8)(less@4.2.2)(sass@1.70.0)(terser@5.27.0)
+      '@teambit/vite.esm-packages.vite': 0.0.0-3bfb6c5bebd1e8874d943480987554d0adb5854b(@types/node@18.19.8)(less@4.2.2)(sass@1.63.6)(terser@5.27.0)
       '@teambit/vite.esm-packages.vitest': 0.0.1(vitest@1.1.0(@types/node@18.19.8)(jsdom@23.2.0)(less@4.2.2)(sass@1.70.0)(terser@5.27.0))
       '@vitest/coverage-v8': 1.2.1(vitest@1.1.0(@types/node@18.19.8)(jsdom@23.2.0)(less@4.2.2)(sass@1.70.0)(terser@5.27.0))
       comlink: 4.3.1
@@ -17145,8 +17162,8 @@ snapshots:
       jsdom: 23.2.0
       lodash: 4.17.21
       minimatch: 5.1.0
-      vite: 5.0.11(@types/node@18.19.8)(less@4.2.2)(sass@1.70.0)(terser@5.27.0)
-      vitest: 1.1.0(@types/node@18.19.8)(jsdom@23.2.0)(less@4.2.2)(sass@1.70.0)(terser@5.27.0)
+      vite: 5.0.11(@types/node@18.19.8)(less@4.2.2)(sass@1.63.6)(terser@5.27.0)
+      vitest: 1.1.0(@types/node@18.19.8)(jsdom@23.2.0)(less@4.2.2)(sass@1.63.6)(terser@5.27.0)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@types/node'
@@ -18229,7 +18246,7 @@ snapshots:
       std-env: 3.7.0
       test-exclude: 6.0.0
       v8-to-istanbul: 9.2.0
-      vitest: 1.1.0(@types/node@18.19.8)(jsdom@23.2.0)(less@4.2.2)(sass@1.70.0)(terser@5.27.0)
+      vitest: 1.1.0(@types/node@18.19.8)(jsdom@23.2.0)(less@4.2.2)(sass@1.63.6)(terser@5.27.0)
     transitivePeerDependencies:
       - supports-color
 
@@ -23590,8 +23607,6 @@ snapshots:
 
   neo-async@2.6.2: {}
 
-  nerf-dart@1.0.0: {}
-
   netmask@2.0.2:
     optional: true
 
@@ -26633,6 +26648,23 @@ snapshots:
       unist-util-stringify-position: 4.0.0
       vfile-message: 4.0.2
 
+  vite-node@1.1.0(@types/node@18.19.8)(less@4.2.2)(sass@1.63.6)(terser@5.27.0):
+    dependencies:
+      cac: 6.7.14
+      debug: 4.4.0
+      pathe: 1.1.2
+      picocolors: 1.0.0
+      vite: 5.0.11(@types/node@18.19.8)(less@4.2.2)(sass@1.63.6)(terser@5.27.0)
+    transitivePeerDependencies:
+      - '@types/node'
+      - less
+      - lightningcss
+      - sass
+      - stylus
+      - sugarss
+      - supports-color
+      - terser
+
   vite-node@1.1.0(@types/node@18.19.8)(less@4.2.2)(sass@1.70.0)(terser@5.27.0):
     dependencies:
       cac: 6.7.14
@@ -26650,6 +26682,18 @@ snapshots:
       - supports-color
       - terser
 
+  vite@5.0.11(@types/node@18.19.8)(less@4.2.2)(sass@1.63.6)(terser@5.27.0):
+    dependencies:
+      esbuild: 0.19.11
+      postcss: 8.4.33
+      rollup: 4.9.5
+    optionalDependencies:
+      '@types/node': 18.19.8
+      fsevents: 2.3.3
+      less: 4.2.2
+      sass: 1.63.6
+      terser: 5.27.0
+
   vite@5.0.11(@types/node@18.19.8)(less@4.2.2)(sass@1.70.0)(terser@5.27.0):
     dependencies:
       esbuild: 0.19.11
@@ -26661,6 +26705,41 @@ snapshots:
       less: 4.2.2
       sass: 1.70.0
       terser: 5.27.0
+
+  vitest@1.1.0(@types/node@18.19.8)(jsdom@23.2.0)(less@4.2.2)(sass@1.63.6)(terser@5.27.0):
+    dependencies:
+      '@vitest/expect': 1.1.0
+      '@vitest/runner': 1.1.0
+      '@vitest/snapshot': 1.1.0
+      '@vitest/spy': 1.1.0
+      '@vitest/utils': 1.1.0
+      acorn-walk: 8.3.2
+      cac: 6.7.14
+      chai: 4.4.1
+      debug: 4.3.4
+      execa: 8.0.1
+      local-pkg: 0.5.0
+      magic-string: 0.30.5
+      pathe: 1.1.2
+      picocolors: 1.0.0
+      std-env: 3.7.0
+      strip-literal: 1.3.0
+      tinybench: 2.6.0
+      tinypool: 0.8.1
+      vite: 5.0.11(@types/node@18.19.8)(less@4.2.2)(sass@1.63.6)(terser@5.27.0)
+      vite-node: 1.1.0(@types/node@18.19.8)(less@4.2.2)(sass@1.63.6)(terser@5.27.0)
+      why-is-node-running: 2.2.2
+    optionalDependencies:
+      '@types/node': 18.19.8
+      jsdom: 23.2.0
+    transitivePeerDependencies:
+      - less
+      - lightningcss
+      - sass
+      - stylus
+      - sugarss
+      - supports-color
+      - terser
 
   vitest@1.1.0(@types/node@18.19.8)(jsdom@23.2.0)(less@4.2.2)(sass@1.70.0)(terser@5.27.0):
     dependencies:
@@ -26749,6 +26828,15 @@ snapshots:
       tapable: 2.2.1
       webpack: 5.84.1
 
+  webpack-dev-middleware@5.3.3(webpack@5.84.1):
+    dependencies:
+      colorette: 2.0.20
+      memfs: 3.5.3
+      mime-types: 2.1.35
+      range-parser: 1.2.1
+      schema-utils: 4.2.0
+      webpack: 5.84.1
+
   webpack-dev-middleware@5.3.3(webpack@5.89.0):
     dependencies:
       colorette: 2.0.20
@@ -26788,7 +26876,7 @@ snapshots:
       serve-index: 1.9.1
       sockjs: 0.3.24
       spdy: 4.0.2
-      webpack-dev-middleware: 5.3.3(webpack@5.89.0)
+      webpack-dev-middleware: 5.3.3(webpack@5.84.1)
       ws: 8.16.0
     optionalDependencies:
       webpack: 5.84.1

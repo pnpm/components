@@ -79,6 +79,20 @@
         "mainFile": "index.ts",
         "rootDir": "util/lex-comparator"
     },
+    "nerf-dart": {
+        "name": "nerf-dart",
+        "scope": "",
+        "version": "",
+        "defaultScope": "pnpm.config",
+        "mainFile": "index.ts",
+        "rootDir": "config/nerf-dart",
+        "config": {
+            "pnpm.env/envs/pnpm-env": {},
+            "teambit.envs/envs": {
+                "env": "pnpm.env/envs/pnpm-env"
+            }
+        }
+    },
     "policy": {
         "name": "policy",
         "scope": "pnpm.builder",
