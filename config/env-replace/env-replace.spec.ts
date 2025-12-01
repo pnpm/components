@@ -1,4 +1,4 @@
-import { envReplace } from './env-replace';
+import { envReplace, stripEnvFallback } from './env-replace';
 
 const ENV = {
   foo: 'foo_value',
@@ -23,5 +23,17 @@ test('fail when the env variable is not found', () => {
   expect(() => envReplace('${baz}', ENV)).toThrow(`Failed to replace env in config: \${baz}`);
   expect(() => envReplace('${foo-}', ENV)).toThrow(`Failed to replace env in config: \${foo-}`);
   expect(() => envReplace('${foo:-}', ENV)).toThrow(`Failed to replace env in config: \${foo:-}`);
+})
+
+test.each([
+  ['-${foo}-${bar}', '-${foo}-${bar}'],
+  ['-${foo-fallback-value}-${bar:-fallback-value}', '-${foo}-${bar}'],
+  ['-${qar-fallback-value}-${zoo:-fallback-for-empty-value}', '-${qar}-${zoo}'],
+  ['\\${foo}', '${foo}'],
+  ['\\\\${foo}', '\\${foo}'],
+  ['${foo}', '${foo}'],
+])('stripEnvFallback %s => %s', (settingValue, expected) => {
+  const actual = stripEnvFallback(settingValue);
+  expect(actual).toEqual(expected);
 })
 

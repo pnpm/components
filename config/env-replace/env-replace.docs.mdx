@@ -16,3 +16,23 @@ import { envReplace } from '@pnpm/config.env-replace'
 
 envReplace('${foo}', process.env)
 ```
+
+## `stripEnvFallback`
+
+```ts
+function stripEnvFallback(settingValue: string): string;
+```
+
+Strips fallback values from environment variable placeholders, leaving only the variable name.
+
+Usage:
+
+```ts
+import { stripEnvFallback } from '@pnpm/config.env-replace'
+
+stripEnvFallback('${HOME-/default}/config')
+// Returns: '${HOME}/config'
+
+stripEnvFallback('${FOO:-fallback}')
+// Returns: '${FOO}'
+```
