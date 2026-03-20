@@ -88,7 +88,7 @@
           "private": false,
           "license": "MIT",
           "engines": {
-            "node": ">=18.12"
+            "node": ">=22.13"
           },
           "repository": {
             "type": "git",
