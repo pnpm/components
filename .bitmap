@@ -86,14 +86,7 @@
         "mainFile": "index.ts",
         "rootDir": "config/nerf-dart"
     },
-    "policy": {
-        "name": "policy",
-        "scope": "pnpm.builder",
-        "version": "3.0.2",
-        "mainFile": "index.ts",
-        "rootDir": "builder/policy"
-    },
-    "proxy-agent": {
+"proxy-agent": {
         "name": "proxy-agent",
         "scope": "pnpm.network",
         "version": "2.0.3",
