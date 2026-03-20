@@ -1010,6 +1010,35 @@ end
 # pnpm end
 `)
   })
+  it('should append to shell script with proxyVarSubDir', async () => {
+    fs.mkdirSync('.config/fish', { recursive: true })
+    fs.writeFileSync(configFile, '', 'utf8')
+    const report = await addDirToPosixEnvPath(pnpmHomeDir, {
+      proxyVarName: 'PNPM_HOME',
+      proxyVarSubDir: 'bin',
+      configSectionName: 'pnpm',
+    })
+    expect(report).toStrictEqual({
+      configFile: {
+        path: configFile,
+        changeType: 'appended',
+      },
+      oldSettings: ``,
+      newSettings: `set -gx PNPM_HOME "${pnpmHomeDir}"
+if not string match -q -- "$PNPM_HOME/bin" $PATH
+  set -gx PATH "$PNPM_HOME/bin" $PATH
+end`,
+    })
+    const configContent = fs.readFileSync(configFile, 'utf8')
+    expect(configContent).toEqual(`
+# pnpm
+set -gx PNPM_HOME "${pnpmHomeDir}"
+if not string match -q -- "$PNPM_HOME/bin" $PATH
+  set -gx PATH "$PNPM_HOME/bin" $PATH
+end
+# pnpm end
+`)
+  })
   it('should append to empty shell script without using a proxy varialbe', async () => {
     fs.mkdirSync('.config/fish', { recursive: true })
     fs.writeFileSync(configFile, '', 'utf8')
@@ -1207,6 +1236,31 @@ $env.PATH = ($env.PATH | split row (char esep) | prepend $env.PNPM_HOME )`,
 # pnpm
 $env.PNPM_HOME = "${pnpmHomeDir}"
 $env.PATH = ($env.PATH | split row (char esep) | prepend $env.PNPM_HOME )
+# pnpm end
+`)
+  })
+  it('should append to shell script with proxyVarSubDir', async () => {
+    fs.mkdirSync('.config/nushell', { recursive: true })
+    fs.writeFileSync(configFile, '', 'utf8')
+    const report = await addDirToPosixEnvPath(pnpmHomeDir, {
+      proxyVarName: 'PNPM_HOME',
+      proxyVarSubDir: 'bin',
+      configSectionName: 'pnpm',
+    })
+    expect(report).toStrictEqual({
+      configFile: {
+        path: configFile,
+        changeType: 'appended',
+      },
+      oldSettings: ``,
+      newSettings: `$env.PNPM_HOME = "${pnpmHomeDir}"
+$env.PATH = ($env.PATH | split row (char esep) | prepend ($env.PNPM_HOME | path join "bin") )`,
+    })
+    const configContent = fs.readFileSync(configFile, 'utf8')
+    expect(configContent).toEqual(`
+# pnpm
+$env.PNPM_HOME = "${pnpmHomeDir}"
+$env.PATH = ($env.PATH | split row (char esep) | prepend ($env.PNPM_HOME | path join "bin") )
 # pnpm end
 `)
   })

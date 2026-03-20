@@ -61,7 +61,21 @@ export async function addDirToWindowsEnvPath (dir: string, opts?: AddDirToWindow
 
 export type EnvVariableChangeAction = 'skipped' | 'updated'
 
+function validateSubDir (subDir: string): void {
+  if (
+    subDir.startsWith('/') ||
+    subDir.startsWith('\\') ||
+    subDir.includes('..') ||
+    /[;%"'`<>&]/.test(subDir)
+  ) {
+    throw new PnpmError('INVALID_SUBDIR', `Invalid proxyVarSubDir: "${subDir}"`)
+  }
+}
+
 async function _addDirToWindowsEnvPath (dir: string, opts: AddDirToWindowsEnvPathOpts = {}): Promise<PathExtenderWindowsReport> {
+  if (opts.proxyVarSubDir) {
+    validateSubDir(opts.proxyVarSubDir)
+  }
   const addedDir = path.normalize(dir)
   const registryOutput = await getRegistryOutput()
   const changes: PathExtenderWindowsReport = []
