@@ -43,22 +43,8 @@ export async function addDirToPosixEnvPath (
   dir: string,
   opts: AddDirToPosixEnvPathOpts
 ): Promise<PathExtenderPosixReport> {
-  if (opts.proxyVarSubDir) {
-    validateSubDir(opts.proxyVarSubDir)
-  }
   const currentShell = detectCurrentShell()
   return await updateShell(currentShell, dir, opts)
-}
-
-function validateSubDir (subDir: string): void {
-  if (
-    subDir.startsWith('/') ||
-    subDir.startsWith('\\') ||
-    subDir.includes('..') ||
-    /[;\n\r"'`$%|<>&]/.test(subDir)
-  ) {
-    throw new PnpmError('INVALID_SUBDIR', `Invalid proxyVarSubDir: "${subDir}"`)
-  }
 }
 
 function detectCurrentShell () {

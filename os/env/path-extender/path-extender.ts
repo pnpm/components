@@ -1,3 +1,4 @@
+import { PnpmError } from '@pnpm/error'
 import {
   addDirToPosixEnvPath,
   AddDirToPosixEnvPathOpts,
@@ -14,6 +15,16 @@ export type PathExtenderReport = Pick<PathExtenderPosixReport, 'oldSettings' | '
 export type AddDirToEnvPathOpts = AddDirToPosixEnvPathOpts
 
 export async function addDirToEnvPath(dir: string, opts: AddDirToEnvPathOpts): Promise<PathExtenderReport> {
+  if (opts.proxyVarSubDir) {
+    if (
+      opts.proxyVarSubDir.startsWith('/') ||
+      opts.proxyVarSubDir.startsWith('\\') ||
+      opts.proxyVarSubDir.includes('..') ||
+      /[;%"'`$<>&|\n\r]/.test(opts.proxyVarSubDir)
+    ) {
+      throw new PnpmError('INVALID_SUBDIR', `Invalid proxyVarSubDir: "${opts.proxyVarSubDir}"`)
+    }
+  }
   if (process.platform === 'win32') {
     return renderWindowsReport(await addDirToWindowsEnvPath(dir, {
         position: opts.position,
