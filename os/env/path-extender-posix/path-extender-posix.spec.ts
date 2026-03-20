@@ -85,6 +85,36 @@ esac
 # pnpm end
 `)
   })
+  it('should append to shell script with proxyVarSubDir', async () => {
+    fs.writeFileSync(configFile, '', 'utf8')
+    const report = await addDirToPosixEnvPath(pnpmHomeDir, {
+      proxyVarName: 'PNPM_HOME',
+      proxyVarSubDir: 'bin',
+      configSectionName: 'pnpm',
+    })
+    expect(report).toStrictEqual({
+      configFile: {
+        path: configFile,
+        changeType: 'appended',
+      },
+      oldSettings: '',
+      newSettings: `export PNPM_HOME="${pnpmHomeDir}"
+case ":$PATH:" in
+  *":$PNPM_HOME/bin:"*) ;;
+  *) export PATH="$PNPM_HOME/bin:$PATH" ;;
+esac`,
+    })
+    const configContent = fs.readFileSync(configFile, 'utf8')
+    expect(configContent).toEqual(`
+# pnpm
+export PNPM_HOME="${pnpmHomeDir}"
+case ":$PATH:" in
+  *":$PNPM_HOME/bin:"*) ;;
+  *) export PATH="$PNPM_HOME/bin:$PATH" ;;
+esac
+# pnpm end
+`)
+  })
   it('should put the new directory to the end of the PATH', async () => {
     fs.writeFileSync(configFile, '', 'utf8')
     const report = await addDirToPosixEnvPath(pnpmHomeDir, {

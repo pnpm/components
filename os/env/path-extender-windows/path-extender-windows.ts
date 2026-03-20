@@ -23,6 +23,7 @@ export type AddingPosition = 'start' | 'end'
 
 export interface AddDirToWindowsEnvPathOpts {
   proxyVarName?: string
+  proxyVarSubDir?: string
   overwriteProxyVar?: boolean
   position?: AddingPosition
 }
@@ -69,7 +70,10 @@ async function _addDirToWindowsEnvPath (dir: string, opts: AddDirToWindowsEnvPat
       expandableString: false,
       overwrite: opts.overwriteProxyVar ?? false
     }))
-    changes.push(await addToPath(registryOutput, `%${opts.proxyVarName}%`, opts.position))
+    const pathEntry = opts.proxyVarSubDir
+      ? `%${opts.proxyVarName}%${path.sep}${opts.proxyVarSubDir}`
+      : `%${opts.proxyVarName}%`
+    changes.push(await addToPath(registryOutput, pathEntry, opts.position))
   } else {
     changes.push(await addToPath(registryOutput, addedDir, opts.position))
   }

@@ -17,6 +17,7 @@ export type AddingPosition = 'start' | 'end'
 
 export interface AddDirToPosixEnvPathOpts {
   proxyVarName?: string
+  proxyVarSubDir?: string
   overwrite?: boolean
   position?: AddingPosition
   configSectionName: string
@@ -93,10 +94,11 @@ async function setupShell (
   let newSettings!: string
   const _createPathValue = createPathValue.bind(null, opts.position ?? 'start')
   if (opts.proxyVarName) {
+    const pathRef = opts.proxyVarSubDir ? `$${opts.proxyVarName}/${opts.proxyVarSubDir}` : `$${opts.proxyVarName}`
     newSettings = `export ${opts.proxyVarName}="${dir}"
 case ":$PATH:" in
-  *":$${opts.proxyVarName}:"*) ;;
-  *) export PATH="${_createPathValue(`$${opts.proxyVarName}`)}" ;;
+  *":${pathRef}:"*) ;;
+  *) export PATH="${_createPathValue(pathRef)}" ;;
 esac`
   } else {
     newSettings = `case ":$PATH:" in
@@ -141,9 +143,10 @@ async function setupFishShell (dir: string, opts: AddDirToPosixEnvPathOpts): Pro
   let newSettings!: string
   const _createPathValue = createFishPathValue.bind(null, opts.position ?? 'start')
   if (opts.proxyVarName) {
+    const pathRef = opts.proxyVarSubDir ? `$${opts.proxyVarName}/${opts.proxyVarSubDir}` : `$${opts.proxyVarName}`
     newSettings = `set -gx ${opts.proxyVarName} "${dir}"
-if not string match -q -- $${opts.proxyVarName} $PATH
-  set -gx PATH ${_createPathValue(`$${opts.proxyVarName}`)}
+if not string match -q -- ${pathRef} $PATH
+  set -gx PATH ${_createPathValue(pathRef)}
 end`
   } else {
     newSettings = `if not string match -q -- "${dir}" $PATH
@@ -167,8 +170,11 @@ async function setupNuShell (dir: string, opts: AddDirToPosixEnvPathOpts): Promi
   let newSettings!: string
   const addingCommand = (opts.position ?? "start") === "start" ? "prepend" : "append"
   if (opts.proxyVarName) {
+    const pathRef = opts.proxyVarSubDir
+      ? `($env.${opts.proxyVarName} | path join "${opts.proxyVarSubDir}")`
+      : `$env.${opts.proxyVarName}`
     newSettings = `$env.${opts.proxyVarName} = "${dir}"
-$env.PATH = ($env.PATH | split row (char esep) | ${addingCommand} $env.${opts.proxyVarName} )`
+$env.PATH = ($env.PATH | split row (char esep) | ${addingCommand} ${pathRef} )`
   } else {
     newSettings = `$env.PATH = ($env.PATH | split row (char esep) | ${addingCommand} ${dir} )`
   }

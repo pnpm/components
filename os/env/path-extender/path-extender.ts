@@ -18,6 +18,7 @@ export async function addDirToEnvPath(dir: string, opts: AddDirToEnvPathOpts): P
     return renderWindowsReport(await addDirToWindowsEnvPath(dir, {
         position: opts.position,
         proxyVarName: opts.proxyVarName,
+        proxyVarSubDir: opts.proxyVarSubDir,
         overwriteProxyVar: opts.overwrite,
       })
     )
