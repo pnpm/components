@@ -1,1 +1,1 @@
-export { envReplace } from './env-replace';
+export { envReplace, stripEnvFallback } from './env-replace';

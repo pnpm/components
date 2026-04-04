@@ -26,3 +26,22 @@ function getEnvValue (env: NodeJS.ProcessEnv, name: string): string | undefined 
   }
   return fallback
 }
+
+export function stripEnvFallback (settingValue: string): string {
+  return settingValue.replace(ENV_EXPR, replaceEnvMatchForStrip)
+}
+
+function replaceEnvMatchForStrip (orig: string, escape: string, name: string): string {
+  if (escape.length % 2) {
+    return orig.slice((escape.length + 1) / 2)
+  }
+  const strippedName = getStrippedEnvName(name)
+  return `${escape.slice(escape.length / 2)}\${${strippedName}}`
+}
+
+function getStrippedEnvName (name: string): string {
+  const matched = name.match(ENV_VALUE)
+  if (!matched) return name
+  const [, variableName] = matched
+  return variableName
+}
