@@ -1,1 +1,1 @@
-export { envReplace } from './env-replace';
+export { envReplace, envReplaceLossy, type EnvReplaceLossyResult } from './env-replace';
