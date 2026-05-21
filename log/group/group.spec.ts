@@ -42,10 +42,10 @@ test('groups for GitLab', () => {
   const timestamp = Math.floor(DATE_NOW_MOCK / 1000)
   jest.spyOn(Date, 'now').mockImplementation(() => DATE_NOW_MOCK);
   const groupEnd = groupStart('foo')!
-  expect(process.stdout.write).toHaveBeenCalledWith(`section_start:${timestamp}:1\\r\\e[0Kfoo\r\n`);
+  expect(process.stdout.write).toHaveBeenCalledWith(`\x1b[0Ksection_start:${timestamp}:1\r\x1b[0Kfoo\n`);
   expect(process.stdout.write).toHaveBeenCalledTimes(1)
   groupEnd()
-  expect(process.stdout.write).toHaveBeenCalledWith(`section_end:${timestamp}:1\\r\\e[0K`)
+  expect(process.stdout.write).toHaveBeenCalledWith(`\x1b[0Ksection_end:${timestamp}:1\r\x1b[0K\n`)
   expect(process.stdout.write).toHaveBeenCalledTimes(2)
 })
 
