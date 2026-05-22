@@ -139,7 +139,7 @@ function createPathValue (position: AddingPosition, dir: string) {
 }
 
 async function setupFishShell (dir: string, opts: AddDirToPosixEnvPathOpts): Promise<PathExtenderPosixReport> {
-  const configFile = path.join(os.homedir(), '.config/fish/config.fish')
+  const configFile = path.join(os.homedir(), '.config/fish/conf.d/pnpm.fish')
   let newSettings!: string
   const _createPathValue = createFishPathValue.bind(null, opts.position ?? 'start')
   if (opts.proxyVarName) {
