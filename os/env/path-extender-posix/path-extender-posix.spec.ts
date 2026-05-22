@@ -980,10 +980,10 @@ describe('Fish', () => {
     process.env.SHELL = '/bin/fish'
   })
   beforeEach(() => {
-    configFile = path.join(homeDir, '.config/fish/config.fish')
+    configFile = path.join(homeDir, '.config/fish/conf.d/pnpm.fish')
   })
   it('should append to empty shell script', async () => {
-    fs.mkdirSync('.config/fish', { recursive: true })
+    fs.mkdirSync('.config/fish/conf.d', { recursive: true })
     fs.writeFileSync(configFile, '', 'utf8')
     const report = await addDirToPosixEnvPath(pnpmHomeDir, {
       proxyVarName: 'PNPM_HOME',
@@ -1011,7 +1011,7 @@ end
 `)
   })
   it('should append to shell script with proxyVarSubDir', async () => {
-    fs.mkdirSync('.config/fish', { recursive: true })
+    fs.mkdirSync('.config/fish/conf.d', { recursive: true })
     fs.writeFileSync(configFile, '', 'utf8')
     const report = await addDirToPosixEnvPath(pnpmHomeDir, {
       proxyVarName: 'PNPM_HOME',
@@ -1040,7 +1040,7 @@ end
 `)
   })
   it('should append to empty shell script without using a proxy varialbe', async () => {
-    fs.mkdirSync('.config/fish', { recursive: true })
+    fs.mkdirSync('.config/fish/conf.d', { recursive: true })
     fs.writeFileSync(configFile, '', 'utf8')
     const report = await addDirToPosixEnvPath(pnpmHomeDir, {
       configSectionName: 'pnpm',
@@ -1065,7 +1065,7 @@ end
 `)
   })
   it('should add the new dir to the end of PATH', async () => {
-    fs.mkdirSync('.config/fish', { recursive: true })
+    fs.mkdirSync('.config/fish/conf.d', { recursive: true })
     fs.writeFileSync(configFile, '', 'utf8')
     const report = await addDirToPosixEnvPath(pnpmHomeDir, {
       proxyVarName: 'PNPM_HOME',
@@ -1119,7 +1119,7 @@ end
 `)
   })
   it('should make no changes to a shell script that already has the necessary configurations', async () => {
-    fs.mkdirSync('.config/fish', { recursive: true })
+    fs.mkdirSync('.config/fish/conf.d', { recursive: true })
     fs.writeFileSync(configFile, `
 # pnpm
 set -gx PNPM_HOME "${pnpmHomeDir}"
@@ -1155,7 +1155,7 @@ end
 # pnpm end`)
   })
   it('should fail if the shell already has PNPM_HOME set to a different directory', async () => {
-    fs.mkdirSync('.config/fish', { recursive: true })
+    fs.mkdirSync('.config/fish/conf.d', { recursive: true })
     fs.writeFileSync(configFile, `
 # pnpm
 set -gx PNPM_HOME "pnpm_home"
@@ -1169,7 +1169,7 @@ set -gx PATH "$PNPM_HOME" $PATH
     ).rejects.toThrowError(/The config file at/)
   })
   it('should not fail if setup is forced', async () => {
-    fs.mkdirSync('.config/fish', { recursive: true })
+    fs.mkdirSync('.config/fish/conf.d', { recursive: true })
     fs.writeFileSync(configFile, `
 # pnpm
 set -gx PNPM_HOME "pnpm_home"
