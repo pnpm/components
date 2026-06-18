@@ -267,6 +267,51 @@ case ":$PATH:" in
 esac
 # pnpm end`)
   })
+  it('should update first pnpm block and remove duplicate blocks, preserving content between them', async () => {
+    fs.writeFileSync(configFile, `# user config
+# pnpm
+export PNPM_HOME="old_home"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+# pnpm end
+# content between blocks that must not be deleted
+# pnpm
+export PNPM_HOME="duplicate_block"
+# pnpm end
+# after blocks`, 'utf8')
+    const report = await addDirToPosixEnvPath(pnpmHomeDir, {
+      proxyVarName: 'PNPM_HOME',
+      overwrite: true,
+      configSectionName: 'pnpm',
+    })
+    expect(report.configFile.changeType).toBe('modified')
+    const configContent = fs.readFileSync(configFile, 'utf8')
+    expect(configContent).toContain('# content between blocks that must not be deleted')
+    expect(configContent).toContain(`export PNPM_HOME="${pnpmHomeDir}"`)
+    expect(configContent).not.toContain('duplicate_block')
+  })
+  it('should detect settings from the first block only when duplicate blocks exist', async () => {
+    const firstBlockSettings = `export PNPM_HOME="${pnpmHomeDir}"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac`
+    fs.writeFileSync(configFile, `# pnpm
+${firstBlockSettings}
+# pnpm end
+# unrelated content
+# pnpm
+export PNPM_HOME="duplicate"
+# pnpm end`, 'utf8')
+    const report = await addDirToPosixEnvPath(pnpmHomeDir, {
+      proxyVarName: 'PNPM_HOME',
+      configSectionName: 'pnpm',
+    })
+    expect(report.configFile.changeType).toBe('skipped')
+    expect(report.oldSettings).toBe(firstBlockSettings)
+  })
 })
 
 describe('Zsh', () => {
