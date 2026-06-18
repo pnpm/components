@@ -291,6 +291,8 @@ export PNPM_HOME="duplicate_block"
     expect(configContent).toContain('# content between blocks that must not be deleted')
     expect(configContent).toContain(`export PNPM_HOME="${pnpmHomeDir}"`)
     expect(configContent).not.toContain('duplicate_block')
+    expect(configContent.match(/^# pnpm$/gm) ?? []).toHaveLength(1)
+    expect(configContent.match(/^# pnpm end$/gm) ?? []).toHaveLength(1)
   })
   it('should detect settings from the first block only when duplicate blocks exist', async () => {
     const firstBlockSettings = `export PNPM_HOME="${pnpmHomeDir}"
