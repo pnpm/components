@@ -90,16 +90,19 @@ async function updateEnvVariable (
     overwrite: boolean
   }
 ): Promise<EnvVariableChange> {
-  const currentValue = await getEnvValueFromRegistry(registryOutput, name)
+  const current = await getEnvValueFromRegistryWithType(registryOutput, name)
+  const currentValue = current?.data
   if (currentValue && !opts.overwrite) {
     if (currentValue !== value) {
       throw new BadEnvVariableError({ envName: name, currentValue, wantedValue: value })
     }
-    return { variable: name, action: 'skipped', oldValue: currentValue, newValue: value }
-  } else {
-    await setEnvVarInRegistry(name, value, { expandableString: opts.expandableString })
-    return { variable: name, action: 'updated', oldValue: currentValue as string, newValue: value }
+    const wantedType = opts.expandableString ? 'REG_EXPAND_SZ' : 'REG_SZ'
+    if (current.type === wantedType) {
+      return { variable: name, action: 'skipped', oldValue: currentValue, newValue: value }
+    }
   }
+  await setEnvVarInRegistry(name, value, { expandableString: opts.expandableString })
+  return { variable: name, action: 'updated', oldValue: currentValue as string, newValue: value }
 }
 
 async function addToPath (registryOutput: string, addedDir: string, position: AddingPosition = 'start'): Promise<EnvVariableChange> {
@@ -136,9 +139,16 @@ async function getRegistryOutput (): Promise<string> {
 }
 
 async function getEnvValueFromRegistry (registryOutput: string, envVarName: string): Promise<string | undefined> {
+  return (await getEnvValueFromRegistryWithType(registryOutput, envVarName))?.data
+}
+
+async function getEnvValueFromRegistryWithType (
+  registryOutput: string,
+  envVarName: string
+): Promise<IEnvironmentValueMatch['groups'] | undefined> {
   const regexp = new RegExp(`^ {4}(?<name>${envVarName}) {4}(?<type>\\w+) {4}(?<data>.*)$`, 'gim')
   const match = Array.from(matchAll(registryOutput, regexp))[0] as IEnvironmentValueMatch
-  return match?.groups.data
+  return match?.groups
 }
 
 async function setEnvVarInRegistry (
