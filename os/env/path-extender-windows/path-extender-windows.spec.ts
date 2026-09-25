@@ -306,7 +306,7 @@ test('PNPM_HOME is already set, but Path is updated', async () => {
     failed: false,
     stdout: `
 HKEY_CURRENT_USER\\Environment
-    PNPM_HOME    REG_EXPAND_SZ    ${pnpmHomeDirNormalized}
+    PNPM_HOME    REG_SZ    ${pnpmHomeDirNormalized}
     Path    REG_EXPAND_SZ    ${currentPathInRegistry}
 `,
   }).mockResolvedValueOnce({

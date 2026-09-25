@@ -90,21 +90,26 @@ async function updateEnvVariable (
     overwrite: boolean
   }
 ): Promise<EnvVariableChange> {
-  const currentValue = await getEnvValueFromRegistry(registryOutput, name)
+  const current = await getEnvVariableFromRegistry(registryOutput, name)
+  const currentValue = current?.data
   if (currentValue && !opts.overwrite) {
     if (currentValue !== value) {
       throw new BadEnvVariableError({ envName: name, currentValue, wantedValue: value })
     }
-    return { variable: name, action: 'skipped', oldValue: currentValue, newValue: value }
-  } else {
-    await setEnvVarInRegistry(name, value, { expandableString: opts.expandableString })
-    return { variable: name, action: 'updated', oldValue: currentValue as string, newValue: value }
+    const wantedType = opts.expandableString ? 'REG_EXPAND_SZ' : 'REG_SZ'
+    // Older pnpm versions stored PNPM_HOME as REG_EXPAND_SZ. Repair its type
+    // even when the path is unchanged, without requiring an overwrite.
+    if (current?.type === wantedType) {
+      return { variable: name, action: 'skipped', oldValue: currentValue, newValue: value }
+    }
   }
+  await setEnvVarInRegistry(name, value, { expandableString: opts.expandableString })
+  return { variable: name, action: 'updated', oldValue: currentValue, newValue: value }
 }
 
 async function addToPath (registryOutput: string, addedDir: string, position: AddingPosition = 'start'): Promise<EnvVariableChange> {
   const variable = 'Path'
-  const pathData = await getEnvValueFromRegistry(registryOutput, variable)
+  const pathData = (await getEnvVariableFromRegistry(registryOutput, variable))?.data
   if (pathData === undefined || pathData == null || pathData.trim() === '') {
     throw new PnpmError('NO_PATH', '"Path" environment variable is not found in the registry')
   } else if (pathData.split(path.delimiter).includes(addedDir)) {
@@ -135,10 +140,10 @@ async function getRegistryOutput (): Promise<string> {
   }
 }
 
-async function getEnvValueFromRegistry (registryOutput: string, envVarName: string): Promise<string | undefined> {
+async function getEnvVariableFromRegistry (registryOutput: string, envVarName: string): Promise<IEnvironmentValueMatch['groups'] | undefined> {
   const regexp = new RegExp(`^ {4}(?<name>${envVarName}) {4}(?<type>\\w+) {4}(?<data>.*)$`, 'gim')
   const match = Array.from(matchAll(registryOutput, regexp))[0] as IEnvironmentValueMatch
-  return match?.groups.data
+  return match?.groups
 }
 
 async function setEnvVarInRegistry (
