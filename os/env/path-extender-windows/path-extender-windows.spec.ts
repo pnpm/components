@@ -138,12 +138,12 @@ HKEY_CURRENT_USER\\Environment
       action: 'updated',
       variable: 'Path',
       oldValue: currentPathInRegistry,
-      newValue: `%PNPM_HOME%;${currentPathInRegistry}`,
+      newValue: `${pnpmHomeDirNormalized};${currentPathInRegistry}`,
     },
   ])
   expect(execa).toHaveBeenNthCalledWith(3, 'reg', ['query', regKey], { windowsHide: false })
   expect(execa).toHaveBeenNthCalledWith(4, 'reg', ['add', regKey, '/v', 'PNPM_HOME', '/t', 'REG_SZ', '/d', pnpmHomeDirNormalized, '/f'], { windowsHide: false })
-  expect(execa).toHaveBeenNthCalledWith(5, 'reg', ['add', regKey, '/v', 'Path', '/t', 'REG_EXPAND_SZ', '/d', `%PNPM_HOME%;${currentPathInRegistry}`, '/f'], { windowsHide: false })
+  expect(execa).toHaveBeenNthCalledWith(5, 'reg', ['add', regKey, '/v', 'Path', '/t', 'REG_EXPAND_SZ', '/d', `${pnpmHomeDirNormalized};${currentPathInRegistry}`, '/f'], { windowsHide: false })
   expect(execa).toHaveBeenNthCalledWith(6, 'setx', ['REFRESH_ENV_VARS', '1'], { windowsHide: false })
   expect(execa).toHaveBeenNthCalledWith(7, 'reg', ['delete' ,regKey, '/v', 'REFRESH_ENV_VARS', '/f'], { windowsHide: false })
 })
@@ -192,10 +192,10 @@ HKEY_CURRENT_USER\\Environment
       action: 'updated',
       variable: 'Path',
       oldValue: currentPathInRegistry,
-      newValue: `%PNPM_HOME%\\bin;${currentPathInRegistry}`,
+      newValue: `${path.join(pnpmHomeDirNormalized, 'bin')};${currentPathInRegistry}`,
     },
   ])
-  expect(execa).toHaveBeenNthCalledWith(5, 'reg', ['add', regKey, '/v', 'Path', '/t', 'REG_EXPAND_SZ', '/d', `%PNPM_HOME%\\bin;${currentPathInRegistry}`, '/f'], { windowsHide: false })
+  expect(execa).toHaveBeenNthCalledWith(5, 'reg', ['add', regKey, '/v', 'Path', '/t', 'REG_EXPAND_SZ', '/d', `${path.join(pnpmHomeDirNormalized, 'bin')};${currentPathInRegistry}`, '/f'], { windowsHide: false })
 })
 
 test('successful first time installation when no additional env variable is used', async () => {
@@ -333,11 +333,11 @@ HKEY_CURRENT_USER\\Environment
       variable: 'Path',
       action: 'updated',
       oldValue: currentPathInRegistry,
-      newValue: `%PNPM_HOME%;${currentPathInRegistry}`,
+      newValue: `${pnpmHomeDirNormalized};${currentPathInRegistry}`,
     },
   ])
   expect(execa).toHaveBeenNthCalledWith(3, 'reg', ['query', regKey], { windowsHide: false })
-  expect(execa).toHaveBeenNthCalledWith(4, 'reg', ['add', regKey, '/v', 'Path', '/t', 'REG_EXPAND_SZ', '/d', `%PNPM_HOME%;${currentPathInRegistry}`, '/f'], { windowsHide: false })
+  expect(execa).toHaveBeenNthCalledWith(4, 'reg', ['add', regKey, '/v', 'Path', '/t', 'REG_EXPAND_SZ', '/d', `${pnpmHomeDirNormalized};${currentPathInRegistry}`, '/f'], { windowsHide: false })
   expect(execa).toHaveBeenNthCalledWith(5, 'setx', ['REFRESH_ENV_VARS', '1'], { windowsHide: false })
   expect(execa).toHaveBeenNthCalledWith(6, 'reg', ['delete' ,regKey, '/v', 'REFRESH_ENV_VARS', '/f'], { windowsHide: false })
 })
@@ -418,7 +418,7 @@ HKEY_CURRENT_USER\\Environment
       variable: 'Path',
       action: 'updated',
       oldValue: '%USERPROFILE%\\AppData\\Local\\Microsoft\\WindowsApps;%USERPROFILE%\\.config\\etc;.pnpm\\home;C:\\Windows;',
-      newValue: '%PNPM_HOME%;%USERPROFILE%\\AppData\\Local\\Microsoft\\WindowsApps;%USERPROFILE%\\.config\\etc;.pnpm\\home;C:\\Windows;',
+      newValue: `${pnpmHomeDirNormalized};%USERPROFILE%\\AppData\\Local\\Microsoft\\WindowsApps;%USERPROFILE%\\.config\\etc;.pnpm\\home;C:\\Windows;`,
     },
   ])
   expect(execa).toHaveBeenNthCalledWith(3, 'reg', ['query', regKey], { windowsHide: false })

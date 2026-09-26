@@ -71,8 +71,8 @@ async function _addDirToWindowsEnvPath (dir: string, opts: AddDirToWindowsEnvPat
       overwrite: opts.overwriteProxyVar ?? false
     }))
     const pathEntry = opts.proxyVarSubDir
-      ? `%${opts.proxyVarName}%${path.sep}${opts.proxyVarSubDir}`
-      : `%${opts.proxyVarName}%`
+      ? path.join(addedDir, opts.proxyVarSubDir)
+      : addedDir
     changes.push(await addToPath(registryOutput, pathEntry, opts.position))
   } else {
     changes.push(await addToPath(registryOutput, addedDir, opts.position))

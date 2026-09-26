@@ -5,7 +5,7 @@ description: 'A module for adding a new directory to the Path environment variab
 
 ## Usage
 
-This adds a `PNPM_HOME` environment variable with the specified directory. And prepends the value of `PNPM_HOME` to the `Path`:
+This adds a `PNPM_HOME` environment variable with the specified directory and prepends the resolved directory to `Path`:
 
 ```ts
 import { addDirToWindowsEnvPath } from '@pnpm/os.env.path-extender-windows'
@@ -21,7 +21,7 @@ await addDirToWindowsEnvPath('C:\\pnpm', {
   overwriteProxyVar: true,
 })
 //> PNPM_HOME=C:\pnpm
-//  Path=%PNPM_HOME%;C:\foo;C:\bar
+//  Path=C:\pnpm;C:\foo;C:\bar
 ```
 
 This prepends `C:\pnpm` to the `Path` (no additional environment variable is created:
