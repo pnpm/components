@@ -221,7 +221,7 @@ async function updateShellConfig (
     }
   }
   const configContent = await fs.promises.readFile(configFile, 'utf8')
-  const match = new RegExp(`# ${opts.configSectionName}\n([\\s\\S]*)\n# ${opts.configSectionName} end`, 'g').exec(configContent)
+  const match = new RegExp(`# ${opts.configSectionName}\n([\\s\\S]*?)\n# ${opts.configSectionName} end`).exec(configContent)
   if (!match) {
     await fs.promises.appendFile(configFile, `\n${newContent}\n`, 'utf8')
     return {
@@ -253,5 +253,10 @@ async function updateShellConfig (
 }
 
 function replaceSection (originalContent: string, newSection: string, sectionName: string): string {
-  return originalContent.replace(new RegExp(`# ${sectionName}[\\s\\S]*# ${sectionName} end`, 'g'), newSection)
+  const pattern = new RegExp(`# ${sectionName}[\\s\\S]*?# ${sectionName} end`, 'g')
+  let replaced = false
+  return originalContent.replace(pattern, () => {
+    if (!replaced) { replaced = true; return newSection }
+    return ''
+  })
 }
