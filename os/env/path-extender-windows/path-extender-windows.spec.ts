@@ -325,7 +325,7 @@ HKEY_CURRENT_USER\\Environment
   expect(report).toStrictEqual([
     {
       variable: 'PNPM_HOME',
-      action: 'skipped',
+      action: 'updated',
       oldValue: pnpmHomeDirNormalized,
       newValue: pnpmHomeDirNormalized,
     },
@@ -337,9 +337,53 @@ HKEY_CURRENT_USER\\Environment
     },
   ])
   expect(execa).toHaveBeenNthCalledWith(3, 'reg', ['query', regKey], { windowsHide: false })
-  expect(execa).toHaveBeenNthCalledWith(4, 'reg', ['add', regKey, '/v', 'Path', '/t', 'REG_EXPAND_SZ', '/d', `%PNPM_HOME%;${currentPathInRegistry}`, '/f'], { windowsHide: false })
-  expect(execa).toHaveBeenNthCalledWith(5, 'setx', ['REFRESH_ENV_VARS', '1'], { windowsHide: false })
-  expect(execa).toHaveBeenNthCalledWith(6, 'reg', ['delete' ,regKey, '/v', 'REFRESH_ENV_VARS', '/f'], { windowsHide: false })
+  expect(execa).toHaveBeenNthCalledWith(4, 'reg', ['add', regKey, '/v', 'PNPM_HOME', '/t', 'REG_SZ', '/d', pnpmHomeDirNormalized, '/f'], { windowsHide: false })
+  expect(execa).toHaveBeenNthCalledWith(5, 'reg', ['add', regKey, '/v', 'Path', '/t', 'REG_EXPAND_SZ', '/d', `%PNPM_HOME%;${currentPathInRegistry}`, '/f'], { windowsHide: false })
+  expect(execa).toHaveBeenNthCalledWith(6, 'setx', ['REFRESH_ENV_VARS', '1'], { windowsHide: false })
+  expect(execa).toHaveBeenNthCalledWith(7, 'reg', ['delete' ,regKey, '/v', 'REFRESH_ENV_VARS', '/f'], { windowsHide: false })
+})
+
+test('PNPM_HOME with the correct registry type is left unchanged', async () => {
+  const pnpmHomeDir = tempDir(false)
+  const pnpmHomeDirNormalized = path.normalize(pnpmHomeDir)
+  const currentPathInRegistry = '%PNPM_HOME%;C:\Windows'
+  execa['mockResolvedValueOnce']({
+    failed: false,
+    stdout: 'Active code page: 437',
+  }).mockResolvedValueOnce({
+    failed: false,
+    stdout: '',
+  }).mockResolvedValueOnce({
+    failed: false,
+    stdout: '\nHKEY_CURRENT_USER\\Environment\n    PNPM_HOME    REG_SZ    ' + pnpmHomeDirNormalized + '\n    Path    REG_EXPAND_SZ    ' + currentPathInRegistry + '\n',
+  }).mockResolvedValueOnce({
+    failed: false,
+    stdout: '',
+  }).mockResolvedValueOnce({
+    failed: false,
+    stdout: '',
+  }).mockResolvedValueOnce({
+    failed: false,
+    stdout: '',
+  })
+
+  const report = await addDirToWindowsEnvPath(pnpmHomeDir, { proxyVarName: 'PNPM_HOME' })
+
+  expect(report).toStrictEqual([
+    {
+      variable: 'PNPM_HOME',
+      action: 'skipped',
+      oldValue: pnpmHomeDirNormalized,
+      newValue: pnpmHomeDirNormalized,
+    },
+    {
+      variable: 'Path',
+      action: 'skipped',
+      oldValue: currentPathInRegistry,
+      newValue: currentPathInRegistry,
+    },
+  ])
+  expect(execa).not.toHaveBeenCalledWith('reg', expect.arrayContaining(['add']), { windowsHide: false })
 })
 
 test('setup throws an error if PNPM_HOME is already set to a different directory', async () => {
