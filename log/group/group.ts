@@ -23,8 +23,8 @@ function getLabels (groupName: string) {
   } else if (CI.GITLAB) {
     id++
     return {
-      start: `section_start:${Math.floor(Date.now() / 1000)}:${id}\\r\\e[0K${groupName}\r\n`,
-      end: `section_end:${Math.floor(Date.now() / 1000)}:${id}\\r\\e[0K`,
+      start: `\x1b[0Ksection_start:${Math.floor(Date.now() / 1000)}:${id}\r\x1b[0K${groupName}\n`,
+      end: `\x1b[0Ksection_end:${Math.floor(Date.now() / 1000)}:${id}\r\x1b[0K\n`,
     }
   } else if (CI.TRAVIS) {
     return {
